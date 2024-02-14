@@ -19,4 +19,8 @@ public class CarService {
     public List<Car> findAll() {
         return carRepository.findAll();
     }
+
+    public Car addCar(Car car) throws CarServiceException {
+        return carRepository.save(car);
+    } 
 }
