@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
+import be.ucll.se.groep02backend.greeting.model.domain.Greeting;
 
 
 @CrossOrigin(origins = "http://127.0.0.1:5501")
@@ -30,13 +31,18 @@ public class CarRestController {
     @Autowired
     private CarService carService;
 
+     @GetMapping
+    public List<Car> getCars() {
+        return carService.findAll();
+    }
+
     @PostMapping("/add")
     public Car addCar(@RequestBody @Valid Car car) throws CarServiceException {
         return carService.addCar(car);
     }
 
 
-    
+
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ CarServiceException.class})
