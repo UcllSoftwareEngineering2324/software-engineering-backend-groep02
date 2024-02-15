@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
-import be.ucll.se.groep02backend.greeting.model.domain.Greeting;
 
 
 @CrossOrigin(origins = "http://127.0.0.1:5501")
