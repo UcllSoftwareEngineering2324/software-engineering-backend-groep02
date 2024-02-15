@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name= "rental")
