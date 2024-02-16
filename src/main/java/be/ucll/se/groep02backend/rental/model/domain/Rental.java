@@ -2,6 +2,7 @@ package be.ucll.se.groep02backend.rental.model.domain;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
 // JPA imports
 import jakarta.persistence.Entity;
@@ -25,10 +26,14 @@ public class Rental {
     
     @NotNull(message="Start date is required")
     @Future(message="Start date is invalid, it has to be in the future")
+    // Date format change because spring wont allow POST 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     
     @NotNull(message="End date is required")
     @Future(message = "End date must be after the start date")
+    // Date format change because spring wont allow POST
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     
     private String street;
@@ -46,7 +51,7 @@ public class Rental {
     private String email;
     public Rental() {}
 
-    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber) {
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
@@ -54,6 +59,7 @@ public class Rental {
         setPostal(postal);
         setCity(city);
         setPhoneNumber(phoneNumber);
+        setEmail(email);
     }
 
     // Getters 
@@ -117,6 +123,10 @@ public class Rental {
 
     public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }
