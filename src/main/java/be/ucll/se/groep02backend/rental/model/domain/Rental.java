@@ -1,6 +1,7 @@
 package be.ucll.se.groep02backend.rental.model.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 // JPA imports
 import jakarta.persistence.Entity;
@@ -8,9 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Future;
+
 
 @Entity
 @Table(name= "rental")
@@ -19,24 +23,30 @@ public class Rental {
     @Id
     public long id;
     
-    @NotNull()
-    private Date startDate;
+    @NotNull(message="Start date is required")
+    @Future(message="Start date is invalid, it has to be in the future")
+    private LocalDate startDate;
     
-    @NotBlank(message="")
-    private Date endDate;
+    @NotNull(message="End date is required")
+    @Future(message = "End date must be after the start date")
+    private LocalDate endDate;
     
     private String street;
-
     private int streetNumber;
     private int postal;
+
+    @NotBlank(message = "City is required")
     private String city;
+
+    @NotBlank(message = "Phone number is required")
     private String phoneNumber;
     
-    @Email
+    @NotBlank(message = "Email is required")
+    @Pattern(regexp = "^\\w+@\\w+\\.\\w+$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
     public Rental() {}
 
-    public Rental(Date startDate, Date endDate, String street, int streetNumber, int postal, String city, String phoneNumber) {
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
@@ -47,11 +57,11 @@ public class Rental {
     }
 
     // Getters 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public Date getEnDate() {
+    public LocalDate getEndDate() {
         return this.endDate;
     }
     
@@ -81,11 +91,11 @@ public class Rental {
    
 
     // Setters
-    public void setStartDate(Date starDate){
+    public void setStartDate(LocalDate starDate){
         this.startDate = starDate;
     }
 
-    public void setEndDate(Date endDate){
+    public void setEndDate(LocalDate endDate){
         this.endDate = endDate;
     }
     
