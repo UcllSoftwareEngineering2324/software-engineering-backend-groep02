@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import be.ucll.se.groep02backend.greeting.model.domain.Greeting;
 import be.ucll.se.groep02backend.greeting.service.GreetingService;
 
-@CrossOrigin(origins = "http://127.0.0.1:5501")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/hello")
 public class GreetingRestController {

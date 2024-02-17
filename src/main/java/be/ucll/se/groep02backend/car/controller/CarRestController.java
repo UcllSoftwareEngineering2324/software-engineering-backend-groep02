@@ -17,21 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
-import be.ucll.se.groep02backend.greeting.model.domain.Greeting;
 
-
-@CrossOrigin(origins = "http://127.0.0.1:5501")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/car")
 public class CarRestController {
     @Autowired
     private CarService carService;
 
-     @GetMapping
+    @GetMapping
     public List<Car> getCars() {
         return carService.findAll();
     }
@@ -41,13 +38,9 @@ public class CarRestController {
         return carService.addCar(car);
     }
 
-
-
-    
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ CarServiceException.class})
-    public Map<String, String>
-    handleUserServiceExceptions(CarServiceException ex) {
+    @ExceptionHandler({ CarServiceException.class })
+    public Map<String, String> handleUserServiceExceptions(CarServiceException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put(ex.getField(), ex.getMessage());
         return errors;
@@ -55,14 +48,14 @@ public class CarRestController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
-        MethodArgumentNotValidException.class})
-        public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-            Map<String, String> errors = new HashMap<>();
-            ex.getFieldErrors().forEach((error) -> {
-                String fieldName = error.getField();
-                String errorMessage = error.getDefaultMessage();
-                errors.put(fieldName, errorMessage);
-            });
-            return errors;
-        }
+            MethodArgumentNotValidException.class })
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getFieldErrors().forEach((error) -> {
+            String fieldName = error.getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+    }
 }

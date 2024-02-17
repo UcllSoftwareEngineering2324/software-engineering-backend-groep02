@@ -26,9 +26,9 @@ import jakarta.validation.constraints.Future;
 
 
 @Entity
-@Table(name= "rental")
+@Table(name = "rental")
 public class Rental {
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     public long id;
 
@@ -62,7 +62,6 @@ public class Rental {
     // @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
-    public Rental() {}
 
     public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email) {
         setStartDate(startDate);
@@ -83,11 +82,11 @@ public class Rental {
     public LocalDate getEndDate() {
         return this.endDate;
     }
-    
+
     public String getStreet() {
         return this.street;
     }
-    
+
     public int getStreetNumber() {
         return this.streetNumber;
     }
@@ -95,11 +94,11 @@ public class Rental {
     public int getPostal() {
         return this.postal;
     }
-    
+
     public String getCity() {
         return this.city;
     }
-    
+
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
@@ -107,7 +106,6 @@ public class Rental {
     public String getEmail() {
         return this.email;
     }
-   
 
     // Setters
     public void setStartDate(LocalDate starDate){
@@ -117,24 +115,24 @@ public class Rental {
     public void setEndDate(LocalDate endDate){
         this.endDate = endDate;
     }
-    
-    public void setStreet(String street){
+
+    public void setStreet(String street) {
         this.street = street;
     }
 
-    public void setStreetNumber(int streetNumber){
+    public void setStreetNumber(int streetNumber) {
         this.streetNumber = streetNumber;
     }
 
-    public void setPostal(int postal){
+    public void setPostal(int postal) {
         this.postal = postal;
     }
-    
-    public void setCity(String city){
+
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public void setPhoneNumber(String phoneNumber){
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
