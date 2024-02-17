@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CarRepository extends JpaRepository<Car, Long>{
     public List<Car> findAll();
+    public Car findCarById(Long carId);
 }

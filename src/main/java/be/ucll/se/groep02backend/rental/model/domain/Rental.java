@@ -1,19 +1,27 @@
 package be.ucll.se.groep02backend.rental.model.domain;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import be.ucll.se.groep02backend.car.model.domain.Car;
 // JPA imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+// import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
 
 
@@ -23,6 +31,10 @@ public class Rental {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Id
     public long id;
+
+    @OneToMany(mappedBy = "rental")
+    @JsonManagedReference
+    private Set<Car> cars;
     
     @NotNull(message="Start date is required")
     @Future(message="Start date is invalid, it has to be in the future")
@@ -47,7 +59,8 @@ public class Rental {
     private String phoneNumber;
     
     @NotBlank(message = "Email is required")
-    @Pattern(regexp = "^\\w+@\\w+\\.\\w+$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
+    // @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
+    @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
     public Rental() {}
 
@@ -127,6 +140,22 @@ public class Rental {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    // For adding car to list
+    public Set<Car> getCars() {
+        if (cars == null) {
+            cars = new HashSet<>();
+        }
+        return cars;
+    }
+
+    public void addCar(Car car) {
+        this.getCars().add(car);
+    }
+
+    public void removeCar(Car car) {
+        this.cars.remove(car);
     }
 
 }

@@ -1,12 +1,16 @@
 package be.ucll.se.groep02backend.car.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import be.ucll.se.groep02backend.rental.model.domain.Rental;
 // JPA imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
 
@@ -16,6 +20,11 @@ public class Car {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Id
     public long id;
+
+    @ManyToOne
+    @JoinColumn(name = "rental_id")
+    @JsonBackReference
+    private Rental rental;
     
     @NotBlank(message="Brand is required")
     private String brand;
@@ -96,6 +105,21 @@ public class Car {
     }
     public void setTowBar(boolean towBar) {
         this.towBar = towBar;
+    }
+
+    // For relation
+    public Rental getRental() {
+        return rental;
+    }
+
+    public void setRental(Rental rental) {
+        this.rental = rental;
+        rental.addCar(this);
+    }
+
+    public void removeRental() {
+        this.rental = null;
+        rental.removeCar(this);
     }
 
 }
