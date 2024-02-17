@@ -11,32 +11,36 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name= "rental")
+@Table(name = "rental")
 public class Rental {
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     public long id;
-    
-    @NotNull()
+
+    @NotNull(message = "Start date is required")
     private Date startDate;
-    
-    @NotBlank(message="")
+
+    @NotBlank(message = "")
     private Date endDate;
-    
+
     private String street;
 
     private int streetNumber;
     private int postal;
     private String city;
     private String phoneNumber;
-    
+
     @Email
     private String email;
-    public Rental() {}
 
-    public Rental(Date startDate, Date endDate, String street, int streetNumber, int postal, String city, String phoneNumber) {
+    public Rental() {
+    }
+
+    public Rental(Date startDate, Date endDate, String street, int streetNumber, int postal, String city,
+            String phoneNumber) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
@@ -46,7 +50,7 @@ public class Rental {
         setPhoneNumber(phoneNumber);
     }
 
-    // Getters 
+    // Getters
     public Date getStartDate() {
         return this.startDate;
     }
@@ -54,11 +58,11 @@ public class Rental {
     public Date getEnDate() {
         return this.endDate;
     }
-    
+
     public String getStreet() {
         return this.street;
     }
-    
+
     public int getStreetNumber() {
         return this.streetNumber;
     }
@@ -66,11 +70,11 @@ public class Rental {
     public int getPostal() {
         return this.postal;
     }
-    
+
     public String getCity() {
         return this.city;
     }
-    
+
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
@@ -78,34 +82,33 @@ public class Rental {
     public String getEmail() {
         return this.email;
     }
-   
 
     // Setters
-    public void setStartDate(Date starDate){
+    public void setStartDate(Date starDate) {
         this.startDate = starDate;
     }
 
-    public void setEndDate(Date endDate){
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    
-    public void setStreet(String street){
+
+    public void setStreet(String street) {
         this.street = street;
     }
 
-    public void setStreetNumber(int streetNumber){
+    public void setStreetNumber(int streetNumber) {
         this.streetNumber = streetNumber;
     }
 
-    public void setPostal(int postal){
+    public void setPostal(int postal) {
         this.postal = postal;
     }
-    
-    public void setCity(String city){
+
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public void setPhoneNumber(String phoneNumber){
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
