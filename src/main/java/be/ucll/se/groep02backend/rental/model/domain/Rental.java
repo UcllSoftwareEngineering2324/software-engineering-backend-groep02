@@ -63,6 +63,9 @@ public class Rental {
     @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
 
+    public Rental() {
+    }
+
     public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email) {
         setStartDate(startDate);
         setEndDate(endDate);
