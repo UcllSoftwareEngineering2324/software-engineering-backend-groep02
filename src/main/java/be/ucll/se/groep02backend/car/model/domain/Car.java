@@ -1,6 +1,9 @@
 package be.ucll.se.groep02backend.car.model.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 // JPA imports
@@ -9,8 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
 
@@ -20,11 +22,16 @@ public class Car {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Id
     public long id;
+    
+    @OneToMany(mappedBy = "car")
+    @JsonManagedReference
+    private Set<Rental> rentals;
+    
+    // @ManyToOne
+    // @JoinColumn(name = "rental_id")
+    // @JsonBackReference
+    // private Rental rental;
 
-    @ManyToOne
-    @JoinColumn(name = "rental_id")
-    @JsonBackReference
-    private Rental rental;
     
     @NotBlank(message="Brand is required")
     private String brand;
@@ -107,19 +114,20 @@ public class Car {
         this.towBar = towBar;
     }
 
-    // For relation
-    public Rental getRental() {
-        return rental;
+
+    public Set<Rental> getRentals() {
+        if (rentals == null) {
+            rentals = new HashSet<>();
+        }
+        return rentals;
     }
 
-    public void setRental(Rental rental) {
-        this.rental = rental;
-        rental.addCar(this);
+    public void addRental(Rental rental) {
+        this.getRentals().add(rental);
     }
 
-    public void removeRental() {
-        this.rental = null;
-        rental.removeCar(this);
+    public void removeRental(Rental rental) {
+        this.rentals.remove(rental);
     }
 
 }

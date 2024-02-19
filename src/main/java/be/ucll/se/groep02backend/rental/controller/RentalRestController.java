@@ -40,10 +40,20 @@ public class RentalRestController {
         return rentalService.addRental(rental, carId);
     }
 
+    // RentalServiceException
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ RentalServiceException.class})
     public Map<String, String>
     handleUserServiceExceptions(RentalServiceException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(ex.getField(), ex.getMessage());
+        return errors;
+    }
+
+    // CarServiceException
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ CarServiceException.class })
+    public Map<String, String> handleUserServiceExceptions(CarServiceException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put(ex.getField(), ex.getMessage());
         return errors;

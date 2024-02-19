@@ -1,7 +1,6 @@
 package be.ucll.se.groep02backend.rental.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,9 +35,9 @@ public class RentalService {
         if (car == null) {
             throw new CarServiceException("car", "Car with id: " + carId + " does not exist");
         }
+
+        rental.setCar(car);
         rentalRepository.save(rental);
-        car.setRental(rental);
-        carRepository.save(car);
         return rental;
     }
 }
