@@ -23,14 +23,14 @@ import be.ucll.se.groep02backend.rental.service.RentalService;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "http://127.0.0.1:5501")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/rental")
 public class RentalRestController {
     @Autowired
     private RentalService rentalService;
 
-     @GetMapping
+    @GetMapping
     public List<Rental> getRentals() {
         return rentalService.findAll();
     }
@@ -42,9 +42,8 @@ public class RentalRestController {
 
     // RentalServiceException
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ RentalServiceException.class})
-    public Map<String, String>
-    handleUserServiceExceptions(RentalServiceException ex) {
+    @ExceptionHandler({ RentalServiceException.class })
+    public Map<String, String> handleUserServiceExceptions(RentalServiceException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put(ex.getField(), ex.getMessage());
         return errors;
@@ -61,7 +60,7 @@ public class RentalRestController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
-    MethodArgumentNotValidException.class})
+            MethodArgumentNotValidException.class })
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getFieldErrors().forEach((error) -> {
