@@ -21,6 +21,7 @@ import jakarta.validation.constraints.NotNull;
 // import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 
 
 @Entity
@@ -40,13 +41,13 @@ public class Rental {
     private Car car;
     
     @NotNull(message="Start date is required")
-    @Future(message="Start date is invalid, it has to be in the future")
+    @FutureOrPresent(message="Start date is invalid, it has to be in the future")
     // Date format change because spring wont allow POST 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
     
     @NotNull(message="End date is required")
-    @Future(message = "End date must be after the start date")
+    @Future(message = "End date is invalid, it has to be in the future")
     // Date format change because spring wont allow POST
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
