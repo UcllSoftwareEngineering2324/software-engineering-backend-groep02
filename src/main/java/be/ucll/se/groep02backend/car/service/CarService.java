@@ -23,4 +23,8 @@ public class CarService {
     public Car addCar(Car car) throws CarServiceException {
         return carRepository.save(car);
     } 
+
+    public Car findCarByRentalId(Long rentalId) {
+        return carRepository.findCarByRentalsId(rentalId);
+    }
 }

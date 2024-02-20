@@ -10,12 +10,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import be.ucll.se.groep02backend.car.model.domain.Car;
+import be.ucll.se.groep02backend.car.service.CarService;
+import be.ucll.se.groep02backend.car.service.CarServiceException;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.service.RentalService;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
@@ -24,23 +29,43 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/rental")
-public class rentalRestController {
+public class RentalRestController {
     @Autowired
     private RentalService rentalService;
+
+    @Autowired
+    private CarService carService;
 
     @GetMapping
     public List<Rental> getRentals() {
         return rentalService.findAll();
     }
 
-    @PostMapping("/add")
-    public Rental addRental(@RequestBody @Valid Rental rental) throws RentalServiceException {
-        return rentalService.addRental(rental);
+    @GetMapping("/get/")
+    public Car getMethodName(@RequestParam("rentalId") Long rentalId) {
+        Rental rental = rentalService.findRental(rentalId);
+        return carService.findCarByRentalId(rental.id);
+    }
+    
+    @PostMapping("/add/{carId}")
+    public Rental addRental(@RequestBody @Valid Rental rental, @PathVariable("carId") Long carId)
+            throws RentalServiceException, CarServiceException {
+        return rentalService.addRental(rental, carId);
     }
 
+    // RentalServiceException
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ RentalServiceException.class })
     public Map<String, String> handleUserServiceExceptions(RentalServiceException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(ex.getField(), ex.getMessage());
+        return errors;
+    }
+
+    // CarServiceException
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ CarServiceException.class })
+    public Map<String, String> handleUserServiceExceptions(CarServiceException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put(ex.getField(), ex.getMessage());
         return errors;

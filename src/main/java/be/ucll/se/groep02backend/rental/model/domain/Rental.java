@@ -1,17 +1,28 @@
 package be.ucll.se.groep02backend.rental.model.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import be.ucll.se.groep02backend.car.model.domain.Car;
 // JPA imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+// import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+
 
 @Entity
 @Table(name = "rental")
@@ -20,27 +31,46 @@ public class Rental {
     @Id
     public long id;
 
-    @NotNull(message = "Start date is required")
-    private Date startDate;
+    // @OneToMany(mappedBy = "rental")
+    // @JsonManagedReference
+    // private Set<Car> cars;
 
-    @NotBlank(message = "")
-    private Date endDate;
-
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    @JsonBackReference
+    private Car car;
+    
+    @NotNull(message="Start date is required")
+    @FutureOrPresent(message="Start date is invalid, it has to be in the future")
+    // Date format change because spring wont allow POST 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+    
+    @NotNull(message="End date is required")
+    @Future(message = "End date is invalid, it has to be in the future")
+    // Date format change because spring wont allow POST
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
+    
     private String street;
-
     private int streetNumber;
     private int postal;
-    private String city;
-    private String phoneNumber;
 
-    @Email
+    @NotBlank(message = "City is required")
+    private String city;
+
+    @NotBlank(message = "Phone number is required")
+    private String phoneNumber;
+    
+    @NotBlank(message = "Email is required")
+    // @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
+    @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
 
     public Rental() {
     }
 
-    public Rental(Date startDate, Date endDate, String street, int streetNumber, int postal, String city,
-            String phoneNumber) {
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
@@ -48,14 +78,15 @@ public class Rental {
         setPostal(postal);
         setCity(city);
         setPhoneNumber(phoneNumber);
+        setEmail(email);
     }
 
-    // Getters
-    public Date getStartDate() {
+    // Getters 
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public Date getEnDate() {
+    public LocalDate getEndDate() {
         return this.endDate;
     }
 
@@ -84,11 +115,11 @@ public class Rental {
     }
 
     // Setters
-    public void setStartDate(Date starDate) {
+    public void setStartDate(LocalDate starDate){
         this.startDate = starDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate){
         this.endDate = endDate;
     }
 
@@ -110,6 +141,25 @@ public class Rental {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+        car.addRental(this);
+    }
+
+    public void removeCar() {
+        this.car = null;
+        car.removeRental(this);
     }
 
 }
