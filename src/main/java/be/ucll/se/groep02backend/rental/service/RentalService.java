@@ -1,5 +1,6 @@
 package be.ucll.se.groep02backend.rental.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,14 @@ public class RentalService {
     }
 
     public Rental addRental(Rental rental, Long carId) throws RentalServiceException, CarServiceException {
-        if(!rental.getStartDate().isBefore(rental.getEndDate())){
+        LocalDate startDate = rental.getStartDate();
+        LocalDate endDate = rental.getEndDate();
+        if(startDate.isAfter(endDate)){
             throw new RentalServiceException("rental", "Start date must be before the end date");
-        }
+        } else if (endDate.isBefore(startDate)) {
+            throw new RentalServiceException("rental", "End date must be after the start date");
+        } 
+
         Car car = carRepository.findCarById(carId);
         if (car == null) {
             throw new CarServiceException("car", "Car with id: " + carId + " does not exist");
