@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +47,8 @@ public class RentalRestController {
         return carService.findCarByRentalId(rental.id);
     }
     
-    @PostMapping("/add/")
-    public Rental addRental(@RequestBody @Valid Rental rental, @RequestParam("carId") Long carId)
+    @PostMapping("/add/{carId}")
+    public Rental addRental(@RequestBody @Valid Rental rental, @PathVariable("carId") Long carId)
             throws RentalServiceException, CarServiceException {
         return rentalService.addRental(rental, carId);
     }
