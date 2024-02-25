@@ -50,12 +50,7 @@ public class RentalService {
     }
 
     public List<Rental> searchRentals(SearchRentals search) {
-        String searchEmail = search.getEmail();
-        LocalDate searchStarDate = search.getStartDate();
-        LocalDate searchEndDate = search.getEnddate();
-        // String searchBrand = search.getBrand();
-        String searchCity = search.getCity();
-        List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(searchEmail, searchStarDate, searchEndDate, searchCity);
+        List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getEmail(), search.getStartDate(), search.getEnddate(), search.getCity());
         List<Rental> finalRentals = new ArrayList<>();
 
         if (search.getBrand() != null) {
