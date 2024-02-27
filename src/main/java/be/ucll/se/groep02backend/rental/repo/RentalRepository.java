@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RentalRepository extends JpaRepository<Rental, Long>{
     public List<Rental> findAll();
+    public Rental findRentalById(Long id);
 }
