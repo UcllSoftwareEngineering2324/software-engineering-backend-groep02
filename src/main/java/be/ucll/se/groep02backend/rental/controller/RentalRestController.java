@@ -45,7 +45,7 @@ public class RentalRestController {
         Rental rental = rentalService.findRental(rentalId);
         return carService.findCarByRentalId(rental.id);
     }
-    
+
     @PostMapping("/add/")
     public Rental addRental(@RequestBody @Valid Rental rental, @RequestParam("carId") Long carId)
             throws RentalServiceException, CarServiceException {
