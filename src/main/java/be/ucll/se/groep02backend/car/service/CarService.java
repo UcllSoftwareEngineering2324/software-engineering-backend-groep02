@@ -38,7 +38,7 @@ public class CarService {
     public Car deleteCar(Long id) throws CarServiceException{
         Car car = carRepository.findCarById(id);
         if(Objects.isNull(car)){
-            throw new CarServiceException("id", "Book with given id does not exist.");
+            throw new CarServiceException("id", "Car with given id does not exist.");
         }
         Set<Rental> rentals = car.getRentals();
         for(Rental rental : rentals){
