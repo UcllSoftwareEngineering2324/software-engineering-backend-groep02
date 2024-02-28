@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 // JPA imports
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -23,7 +24,7 @@ public class Car {
     @Id
     public long id;
     
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<Rental> rentals;
     
