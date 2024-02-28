@@ -1,16 +1,11 @@
-package be.ucll.se.groep02backend.rental.model.domain;
+package be.ucll.se.groep02backend.rent.model.domain;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import be.ucll.se.groep02backend.car.model.domain.Car;
-import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.rental.model.domain.Rental;
 // JPA imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,10 +14,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 // import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
@@ -30,21 +25,16 @@ import jakarta.validation.constraints.FutureOrPresent;
 
 
 @Entity
-@Table(name = "rental")
-public class Rental {
+@Table(name = "rent")
+public class Rent {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     public long id;
 
-
     @ManyToOne
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "rental_id")
     @JsonBackReference
-    private Car car;
-    
-    @OneToMany(mappedBy = "rental")
-    @JsonManagedReference
-    private Set<Rent> rents;
+    private Rental rental;
 
     @NotNull(message="Start date is required")
     @FutureOrPresent(message="Start date is invalid, it has to be in the future")
@@ -57,13 +47,6 @@ public class Rental {
     // Date format change because spring wont allow POST
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
-    
-    private String street;
-    private int streetNumber;
-    private int postal;
-
-    @NotBlank(message = "City is required")
-    private String city;
 
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
@@ -73,18 +56,29 @@ public class Rental {
     @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
 
-    public Rental() {
+    @NotBlank(message = "Identification number of national register is required")
+    @Pattern(regexp = "\\d{4}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}", message = "Identification number is not in the right format!")
+    private String nationalRegisterNumber;
+
+    @NotNull(message = "Birth date is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
+
+    @NotBlank(message = "Driving license number is required")
+    @Pattern(regexp = "\\d{10}", message = "Driving license number is not in the right format!")
+    private String licenseNumber;
+
+    public Rent() {
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email) {
+    public Rent(LocalDate startDate, LocalDate endDate, String phoneNumber, String email, String nationalRegisterNumber, LocalDate birthDate, String licenseNumber) {
         setStartDate(startDate);
         setEndDate(endDate);
-        setStreet(street);
-        setStreetNumber(streetNumber);
-        setPostal(postal);
-        setCity(city);
         setPhoneNumber(phoneNumber);
         setEmail(email);
+        setNationalRegisterNumber(nationalRegisterNumber);
+        setBirthDate(birthDate);
+        setLicenseNumber(licenseNumber);
     }
 
     // Getters 
@@ -96,28 +90,24 @@ public class Rental {
         return this.endDate;
     }
 
-    public String getStreet() {
-        return this.street;
-    }
-
-    public int getStreetNumber() {
-        return this.streetNumber;
-    }
-
-    public int getPostal() {
-        return this.postal;
-    }
-
-    public String getCity() {
-        return this.city;
-    }
-
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getNationalRegisterNumber() {
+        return this.nationalRegisterNumber;
+    }
+
+    public LocalDate getBirthDate() {
+        return this.birthDate;
+    }
+
+    public String getLicenseNumber() {
+        return this.licenseNumber;
     }
 
     // Setters
@@ -129,22 +119,6 @@ public class Rental {
         this.endDate = endDate;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setStreetNumber(int streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public void setPostal(int postal) {
-        this.postal = postal;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -153,34 +127,29 @@ public class Rental {
         this.email = email;
     }
 
-
-    public Car getCar() {
-        return car;
+    public void setNationalRegisterNumber(String nationalRegisterNumber) {
+        this.nationalRegisterNumber = nationalRegisterNumber;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
-        car.addRental(this);
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public void removeCar() {
-        this.car = null;
-        car.removeRental(this);
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 
-    public Set<Rent> getRents(){
-        if(rents == null){
-            rents = new HashSet<>();
-        }
-        return rents;
+    public Rental getRental(){
+        return rental;
     }
 
-    public void addRent(Rent rent){
-        this.getRents().add(rent);
+    public void setRental(Rental rental){
+        this.rental = rental;
+        rental.addRent(this);
     }
 
-    public void removeRent(Rent rent){
-        this.rents.remove(rent);
+    public void removeRental(){
+        this.rental = null;
+        rental.removeRent(this);
     }
-
 }

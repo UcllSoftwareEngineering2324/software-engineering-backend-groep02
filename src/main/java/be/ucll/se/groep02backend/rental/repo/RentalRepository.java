@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface RentalRepository extends JpaRepository<Rental, Long>{
     public List<Rental> findAll();
+    public Rental findRentalById(Long id);
 
     @Query("SELECT r FROM Rental r WHERE " +
        "(:searchEmail IS NULL OR r.email = :searchEmail) " +
