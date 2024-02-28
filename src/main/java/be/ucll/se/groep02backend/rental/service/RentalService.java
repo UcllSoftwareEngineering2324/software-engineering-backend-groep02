@@ -1,6 +1,7 @@
 package be.ucll.se.groep02backend.rental.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
+import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 
 @Service
@@ -45,5 +47,26 @@ public class RentalService {
         rental.setCar(car);
         rentalRepository.save(rental);
         return rental;
+    }
+
+    public List<Rental> searchRentals(SearchRentals search) {
+        List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getEmail(), search.getStartDate(), search.getEnddate(), search.getCity());
+        List<Rental> finalRentals = new ArrayList<>();
+
+        if (search.getBrand() != null) {
+            List<Car> cars = carRepository.findAllCarsByBrand(search.getBrand());
+
+            for (Rental rental: foundRentals) {
+                for (Car car: cars) {
+                    if (car.getRentals().contains(rental)) {
+                        finalRentals.add(rental);
+                    }
+                }
+            }
+        } else {
+            finalRentals.addAll(foundRentals);
+        }
+
+        return finalRentals;
     }
 }
