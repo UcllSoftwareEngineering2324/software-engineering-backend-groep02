@@ -22,13 +22,12 @@ public class RentService {
         if(rental == null){
             throw new RentalServiceException("rent", "Rental does not exist with given id");
         }
+
         if(rent.getStartDate().isBefore(rental.getStartDate()) || rent.getEndDate().isAfter(rental.getEndDate())){
             throw new RentServiceException("startDate", "Rent date is not in rental pêriod");
         }
+
         for(Rent checkedRent : rental.getRents()){
-            // if((checkedRent.getStartDate().isEqual(rent.getStartDate()) || checkedRent.getEndDate().isEqual(rent.getEndDate())) || (!(checkedRent.getStartDate().isBefore(rent.getStartDate()) && checkedRent.getEndDate().isAfter(rent.getEndDate())))){
-            //     throw new RentServiceException("rent", "Cannot rent car");
-            // }
             if(rent.getStartDate().isEqual(checkedRent.getStartDate()) 
             || 
             rent.getEndDate().isEqual(checkedRent.getEndDate()) 
@@ -39,6 +38,7 @@ public class RentService {
                 throw new RentServiceException("rent", "Cannot rent car");
             }
         }
+        
         rent.setRental(rental);
         rentRepository.save(rent);
         return rent;

@@ -2,12 +2,9 @@ package be.ucll.se.groep02backend.rent.model.domain;
 
 import java.time.LocalDate;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 // JPA imports
 import jakarta.persistence.Entity;
@@ -60,13 +57,15 @@ public class Rent {
     private String email;
 
     @NotBlank(message = "Identification number of national register is required")
+    @Pattern(regexp = "\\d{4}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}", message = "Identification number is not in the right format!")
     private String nationalRegisterNumber;
 
-    @NotNull(message = "Birthdate is required")
+    @NotNull(message = "Birth date is required")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @NotBlank(message = "Driving license number is required")
+    @Pattern(regexp = "\\d{10}", message = "Driving license number is not in the right format!")
     private String licenseNumber;
 
     public Rent() {
