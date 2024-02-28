@@ -49,10 +49,10 @@ public class RentalService {
         return rental;
     }
 
-    public List<Rental> searchRentals(SearchRentals search) {
+    public List<Rental> searchRentals(SearchRentals search) throws RentalServiceException {
         List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getEmail(), search.getStartDate(), search.getEnddate(), search.getCity());
         List<Rental> finalRentals = new ArrayList<>();
-
+ 
         if (search.getBrand() != null) {
             List<Car> cars = carRepository.findAllCarsByBrand(search.getBrand());
 
@@ -67,6 +67,10 @@ public class RentalService {
             finalRentals.addAll(foundRentals);
         }
 
-        return finalRentals;
+        if (finalRentals.size() == 0) {
+            throw new RentalServiceException("rental", "There are no rentals for given specifications!");
+        } else {
+            return finalRentals;
+        }
     }
 }
