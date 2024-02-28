@@ -19,6 +19,10 @@ public class RentService {
     @Autowired
     private RentalRepository rentalRepository;
 
+    public List<Rent> getAllRents() {
+        return rentRepository.findAll();
+    }
+
     public List<Rent> getRentsByEmail(String email) throws RentServiceException {
         List<Rent> foundRents = rentRepository.findRentByEmail(email);
         if (foundRents.size() == 0) {

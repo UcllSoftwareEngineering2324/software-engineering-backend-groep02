@@ -24,6 +24,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/rent")
@@ -31,6 +32,11 @@ public class RentRestController {
     @Autowired
     private RentService rentService;
 
+    @GetMapping("/")
+    public List<Rent> getMethodName() {
+        return rentService.getAllRents();
+    }
+    
     @GetMapping("/get/{email}")
     public List<Rent> getMethodName(@PathVariable String email) throws RentServiceException {
         return rentService.getRentsByEmail(email);
