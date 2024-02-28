@@ -33,7 +33,7 @@ public class RentRestController {
     private RentService rentService;
 
     @GetMapping("/")
-    public List<Rent> getMethodName() {
+    public List<Rent> getMethodName() throws RentServiceException {
         return rentService.getAllRents();
     }
     
