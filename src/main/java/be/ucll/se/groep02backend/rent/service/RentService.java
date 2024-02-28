@@ -1,5 +1,7 @@
 package be.ucll.se.groep02backend.rent.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,14 @@ public class RentService {
 
     @Autowired
     private RentalRepository rentalRepository;
+
+    public List<Rent> getRentsByEmail(String email) throws RentServiceException {
+        List<Rent> foundRents = rentRepository.findRentByEmail(email);
+        if (foundRents.size() == 0) {
+            throw new RentServiceException("rent", "There are no rents for this email");
+        }
+        return foundRents;
+    }
 
     public Rent addRent(Rent rent, Long rentalId) throws RentServiceException, RentalServiceException{
         Rental rental = rentalRepository.findRentalById(rentalId);
