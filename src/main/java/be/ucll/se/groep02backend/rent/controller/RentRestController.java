@@ -33,6 +33,7 @@ public class RentRestController {
     @Autowired
     private RentService rentService;
 
+    // Returns a dict with car as string and a rent object
     @GetMapping("/")
     public Dictionary<String, Rent> getMethodName() throws RentServiceException {
         return rentService.getAllRents();
