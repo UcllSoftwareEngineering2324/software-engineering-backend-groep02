@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,7 @@ import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.service.RentalService;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -48,9 +50,12 @@ public class RentalRestController {
         return carService.findCarByRentalId(rental.id);
     }
     
-    @PostMapping("/add/{carId}")
-    public Rental addRental(@RequestBody @Valid Rental rental, @PathVariable("carId") Long carId)
-            throws RentalServiceException, CarServiceException {
+    @PostMapping("/add/")
+    public Rental addRental(@RequestBody @Valid Rental rental, @RequestParam(value = "carId", required = false) Long carId) throws RentalServiceException, CarServiceException {
+        if (carId == null) {
+        throw new RentalServiceException("rental", "carId must be provided in the URL");
+        }
+
         return rentalService.addRental(rental, carId);
     }
 
