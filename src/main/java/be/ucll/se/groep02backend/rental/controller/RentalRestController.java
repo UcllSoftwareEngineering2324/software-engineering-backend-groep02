@@ -4,14 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +25,6 @@ import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.service.RentalService;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
