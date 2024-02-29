@@ -1,8 +1,14 @@
 package be.ucll.se.groep02backend.rent.service;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import be.ucll.se.groep02backend.car.model.domain.Car;
+import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.repo.RentRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
@@ -16,6 +22,36 @@ public class RentService {
 
     @Autowired
     private RentalRepository rentalRepository;
+
+    @Autowired
+    private CarRepository carRepository;
+
+    public Dictionary<String, Rent> getAllRents() throws RentServiceException {
+        List<Rent> foundRents = rentRepository.findAll();
+        Dictionary<String, Rent> result = new Hashtable<>();
+
+        if (foundRents.isEmpty()) {
+            throw new RentServiceException("rent", "There are no rents");
+        }
+
+        for (Rent rent: foundRents) {
+            Rental rental = rentalRepository.findRentalByRentsId(rent.id);
+            Car car = carRepository.findCarByRentalsId(rental.id);
+
+            result.put(car.getBrand() + " " + car.getModel() + " " + car.getLicensePlate(), rent);
+        }
+
+        return result;
+    }
+
+
+    public List<Rent> getRentsByEmail(String email) throws RentServiceException {
+        List<Rent> foundRents = rentRepository.findRentByEmail(email);
+        if (foundRents.size() == 0) {
+            throw new RentServiceException("rent", "There are no rents for this email");
+        }
+        return foundRents;
+    }
 
     public Rent addRent(Rent rent, Long rentalId) throws RentServiceException, RentalServiceException{
         Rental rental = rentalRepository.findRentalById(rentalId);

@@ -1,6 +1,8 @@
 package be.ucll.se.groep02backend.rent.controller;
 
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -27,6 +32,18 @@ import jakarta.validation.Valid;
 public class RentRestController {
     @Autowired
     private RentService rentService;
+
+    // Returns a dict with car as string and a rent object
+    @GetMapping("/")
+    public Dictionary<String, Rent> getMethodName() throws RentServiceException {
+        return rentService.getAllRents();
+    }
+    
+    @GetMapping("/get/{email}")
+    public List<Rent> getMethodName(@PathVariable String email) throws RentServiceException {
+        return rentService.getRentsByEmail(email);
+    }
+    
     
     @PostMapping("/add/{rentalId}")
     public Rent addRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)
