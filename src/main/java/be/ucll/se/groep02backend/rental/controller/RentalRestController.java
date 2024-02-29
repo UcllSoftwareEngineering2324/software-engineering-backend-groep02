@@ -22,6 +22,7 @@ import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
+import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.service.RentalService;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import jakarta.validation.Valid;
@@ -51,6 +52,11 @@ public class RentalRestController {
     public Rental addRental(@RequestBody @Valid Rental rental, @PathVariable("carId") Long carId)
             throws RentalServiceException, CarServiceException {
         return rentalService.addRental(rental, carId);
+    }
+
+    @GetMapping("/search/")
+    public List<Rental> searchForRentals(@RequestBody SearchRentals search) throws RentalServiceException {
+        return rentalService.searchRentals(search);
     }
 
     // RentalServiceException
