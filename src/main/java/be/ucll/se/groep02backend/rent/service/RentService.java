@@ -1,8 +1,9 @@
 package be.ucll.se.groep02backend.rent.service;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,9 @@ public class RentService {
     @Autowired
     private CarRepository carRepository;
 
-    public Dictionary<String, Rent> getAllRents() throws RentServiceException {
+    public Map<String, List<Rent>> getAllRents() throws RentServiceException {
         List<Rent> foundRents = rentRepository.findAll();
-        Dictionary<String, Rent> result = new Hashtable<>();
+        Map<String, List<Rent>> result = new HashMap<>();
 
         if (foundRents.isEmpty()) {
             throw new RentServiceException("rent", "There are no rents");
@@ -38,7 +39,11 @@ public class RentService {
             Rental rental = rentalRepository.findRentalByRentsId(rent.id);
             Car car = carRepository.findCarByRentalsId(rental.id);
 
-            result.put(car.getBrand() + " " + car.getModel() + " " + car.getLicensePlate(), rent);
+            String carKey = car.getBrand() + " " + car.getModel() + " " + car.getLicensePlate();
+
+            result.putIfAbsent(carKey, new ArrayList<>());
+
+            result.get(carKey).add(rent);
         }
 
         return result;

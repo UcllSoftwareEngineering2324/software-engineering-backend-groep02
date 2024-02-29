@@ -1,6 +1,5 @@
 package be.ucll.se.groep02backend.rent.controller;
 
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,12 +35,12 @@ public class RentRestController {
 
     // Returns a dict with car as string and a rent object
     @GetMapping("/")
-    public Dictionary<String, Rent> getMethodName() throws RentServiceException {
+    public Map<String, List<Rent>> getMethodName() throws RentServiceException {
         return rentService.getAllRents();
     }
     
-    @GetMapping("/get/{email}")
-    public List<Rent> getMethodName(@PathVariable String email) throws RentServiceException {
+    @GetMapping("/get/")
+    public List<Rent> getMethodName(@RequestParam String email) throws RentServiceException {
         return rentService.getRentsByEmail(email);
     }
     
