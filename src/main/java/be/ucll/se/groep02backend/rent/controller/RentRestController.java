@@ -1,5 +1,6 @@
 package be.ucll.se.groep02backend.rent.controller;
 
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class RentRestController {
     private RentService rentService;
 
     @GetMapping("/")
-    public List<Rent> getMethodName() throws RentServiceException {
+    public Dictionary<String, Rent> getMethodName() throws RentServiceException {
         return rentService.getAllRents();
     }
     
