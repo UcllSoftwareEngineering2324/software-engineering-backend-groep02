@@ -8,4 +8,5 @@ import be.ucll.se.groep02backend.rent.model.domain.Rent;
 public interface RentRepository extends JpaRepository<Rent, Long>{
     public List<Rent> findAll();
     public List<Rent> findRentByEmail(String email);
+    public Rent findRentById(Long id);
 }
