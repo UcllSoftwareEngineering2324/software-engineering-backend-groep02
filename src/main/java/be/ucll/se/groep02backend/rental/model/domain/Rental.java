@@ -13,6 +13,7 @@ import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 // JPA imports
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -42,7 +43,7 @@ public class Rental {
     @JsonBackReference
     private Car car;
     
-    @OneToMany(mappedBy = "rental")
+    @OneToMany(mappedBy = "rental", fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<Rent> rents;
 
@@ -181,6 +182,10 @@ public class Rental {
 
     public void removeRent(Rent rent){
         this.rents.remove(rent);
+    }
+
+    public void removeAllRents(){
+        this.rents = new HashSet<>();
     }
 
 }
