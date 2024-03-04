@@ -52,9 +52,9 @@ public class RentRestController {
         return rentService.addRent(rent, rentalId);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public Rent deleteRent(@PathVariable("id") Long id) throws RentServiceException{
-        return rentService.deleteRent(id);
+    @DeleteMapping("/delete/")
+    public Rent deleteRent(@RequestParam("rentId") Long rentId) throws RentServiceException{
+        return rentService.deleteRent(rentId);
     }
     
     // RentalServiceException
