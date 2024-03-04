@@ -91,6 +91,7 @@ public class RentalService {
         for(Rent rent: rents){
             rentRepository.delete(rent);
         }
+        rentalRepository.delete(rental);
         return rental;
     }
 }

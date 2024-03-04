@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,9 +62,9 @@ public class RentalRestController {
         return rentalService.searchRentals(search);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public Rental deleteRental(@PathVariable("id") Long id) throws RentalServiceException{
-        return rentalService.deleteRental(id);
+    @DeleteMapping("/delete/")
+    public Rental deleteRental(@RequestParam("rentalId") Long rentalId) throws RentalServiceException{
+        return rentalService.deleteRental(rentalId);
     }
 
     // RentalServiceException
