@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,11 @@ public class RentalRestController {
     @GetMapping("/search/")
     public List<Rental> searchForRentals(@RequestBody SearchRentals search) throws RentalServiceException {
         return rentalService.searchRentals(search);
+    }
+
+    @DeleteMapping("/delete/")
+    public Rental deleteRental(@RequestParam("rentalId") Long rentalId) throws RentalServiceException{
+        return rentalService.deleteRental(rentalId);
     }
 
     // RentalServiceException

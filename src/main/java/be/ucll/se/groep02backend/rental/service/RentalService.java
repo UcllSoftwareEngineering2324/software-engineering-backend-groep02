@@ -3,6 +3,7 @@ package be.ucll.se.groep02backend.rental.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
+import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.rent.repo.RentRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
@@ -18,6 +21,9 @@ import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 public class RentalService {
     @Autowired
     private RentalRepository rentalRepository;
+
+    @Autowired
+    private RentRepository rentRepository;
 
     @Autowired
     private CarRepository carRepository;
@@ -72,5 +78,20 @@ public class RentalService {
         } else {
             return finalRentals;
         }
+    }
+
+    public Rental deleteRental(Long id) throws RentalServiceException{
+        Rental rental = rentalRepository.findRentalById(id);
+        if(rental == null){
+            throw new RentalServiceException("id", "Rental with given id does not exist");
+        }
+        Set<Rent> rents = rental.getRents();
+        rental.removeAllRents();
+        rentalRepository.save(rental);
+        for(Rent rent: rents){
+            rentRepository.delete(rent);
+        }
+        rentalRepository.delete(rental);
+        return rental;
     }
 }
