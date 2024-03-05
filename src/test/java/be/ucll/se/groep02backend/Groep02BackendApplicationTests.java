@@ -15,7 +15,8 @@ import jakarta.validation.ValidatorFactory;
 class Groep02BackendApplicationTests {
 
 	private static ValidatorFactory validatorFactory;
-    private static Validator validator;
+    @SuppressWarnings("unused")
+	private static Validator validator;
 
     @BeforeAll
     public static void createValidator() {
