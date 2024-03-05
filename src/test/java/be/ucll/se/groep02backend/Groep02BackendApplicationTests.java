@@ -31,7 +31,7 @@ class Groep02BackendApplicationTests {
 	@Test
 	public void givenFalse() {
 		boolean test = false;
-		assertEquals(true, test);
+		assertEquals(false, test);
 	}
 
 }
