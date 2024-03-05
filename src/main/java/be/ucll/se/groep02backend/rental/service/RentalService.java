@@ -55,9 +55,12 @@ public class RentalService {
         return rental;
     }
 
-    public List<Rental> searchRentals(SearchRentals search) throws RentalServiceException {
+    public List<Rental> searchRentals(SearchRentals search) throws RentalServiceException, CarServiceException {
         List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getEmail(), search.getStartDate(), search.getEnddate(), search.getCity());
         List<Rental> finalRentals = new ArrayList<>();
+        if (carRepository.existsByBrand(search.getBrand()) == false && search.getBrand() != null) {
+            throw new CarServiceException("car", "the given brand does not exist");
+        }
  
         if (search.getBrand() != null) {
             List<Car> cars = carRepository.findAllCarsByBrand(search.getBrand());

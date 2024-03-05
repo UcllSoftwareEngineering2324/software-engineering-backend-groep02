@@ -58,7 +58,7 @@ public class RentalRestController {
     }
 
     @GetMapping("/search/")
-    public List<Rental> searchForRentals(@RequestBody SearchRentals search) throws RentalServiceException {
+    public List<Rental> searchForRentals(@RequestBody SearchRentals search) throws RentalServiceException, CarServiceException {
         return rentalService.searchRentals(search);
     }
 
