@@ -84,4 +84,16 @@ public class RentService {
         rentRepository.save(rent);
         return rent;
     }
+
+    public Rent deleteRent(Long id) throws RentServiceException{
+        Rent rent = rentRepository.findRentById(id);
+        if(rent == null){
+            throw new RentServiceException("id", "Rent with given id does not exist");
+        }
+        Rental rental = rent.getRental();
+        rental.removeRent(rent);
+        rentalRepository.save(rental);
+        rentRepository.delete(rent);
+        return rent;
+    }
 }
