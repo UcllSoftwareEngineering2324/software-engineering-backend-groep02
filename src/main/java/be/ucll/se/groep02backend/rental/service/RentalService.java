@@ -58,11 +58,11 @@ public class RentalService {
     public List<Rental> searchRentals(SearchRentals search) throws RentalServiceException, CarServiceException {
         List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getEmail(), search.getStartDate(), search.getEnddate(), search.getCity());
         List<Rental> finalRentals = new ArrayList<>();
-        if (carRepository.existsByBrand(search.getBrand()) == false && search.getBrand() != null) {
-            throw new CarServiceException("car", "the given brand does not exist");
-        }
  
         if (search.getBrand() != null) {
+            if (!carRepository.existsByBrand(search.getBrand())) {
+                return finalRentals;
+            }
             List<Car> cars = carRepository.findAllCarsByBrand(search.getBrand());
 
             for (Rental rental: foundRentals) {
@@ -76,11 +76,12 @@ public class RentalService {
             finalRentals.addAll(foundRentals);
         }
 
-        if (finalRentals.size() == 0) {
+        if (finalRentals.isEmpty()) {
             throw new RentalServiceException("rental", "There are no rentals for given specifications!");
-        } else {
-            return finalRentals;
-        }
+        } 
+
+        return finalRentals;
+        
     }
 
     public Rental deleteRental(Long id) throws RentalServiceException{
