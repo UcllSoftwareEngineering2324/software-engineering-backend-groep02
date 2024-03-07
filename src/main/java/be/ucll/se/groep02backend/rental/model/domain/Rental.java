@@ -45,7 +45,6 @@ public class Rental {
     private Car car;
     
     @OneToMany(mappedBy = "rental", fetch = FetchType.EAGER)
-    @JsonManagedReference
     private Set<Rent> rents;
 
     @NotNull(message="Start date is required")

@@ -35,8 +35,8 @@ public class RentRestController {
     private RentService rentService;
 
     // Returns a dict with car as string and a rent object
-    @GetMapping("/")
-    public Map<String, List<Rent>> getMethodName() throws RentServiceException {
+    @GetMapping
+    public List<Rent> getAllRents() throws RentServiceException {
         return rentService.getAllRents();
     }
     
