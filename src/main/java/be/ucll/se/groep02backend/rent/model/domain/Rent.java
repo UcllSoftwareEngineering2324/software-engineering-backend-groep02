@@ -57,7 +57,7 @@ public class Rent {
     private String email;
 
     @NotBlank(message = "Identification number of national register is required")
-    @Pattern(regexp = "\\d{4}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}", message = "Identification number is not in the right format!")
+    @Pattern(regexp = "\\d{2}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}", message = "Identification number is not in the right format!")
     private String nationalRegisterNumber;
 
     @NotNull(message = "Birth date is required")
