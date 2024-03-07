@@ -38,7 +38,7 @@ public class RentalRestController {
     private CarService carService;
 
     @GetMapping
-    public Map<String, List<Rental>> getRentals() {
+    public List<Car> getRentals() {
         return rentalService.findAll();
     }
 
