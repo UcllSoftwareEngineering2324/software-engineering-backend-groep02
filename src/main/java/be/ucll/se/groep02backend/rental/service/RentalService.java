@@ -2,9 +2,7 @@ package be.ucll.se.groep02backend.rental.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,21 +28,8 @@ public class RentalService {
     @Autowired
     private CarRepository carRepository;
 
-    public Map<String, List<Rental>> findAll() {
-        List<Rental> rentals = rentalRepository.findAll();
-        Map<String, List<Rental>> result = new HashMap<>();
-
-        for (Rental rental: rentals) {
-            Car car = carRepository.findCarByRentalsId(rental.id);
-
-            String carKey = car.getBrand() + " " + car.getModel() + " " + car.getLicensePlate();
-
-            result.putIfAbsent(carKey, new ArrayList<>());
-
-            result.get(carKey).add(rental);
-        }
-
-        return result;
+    public List<Rental> findAll() {
+        return rentalRepository.findAll();
     }
 
     public Rental findRental(Long id) {
