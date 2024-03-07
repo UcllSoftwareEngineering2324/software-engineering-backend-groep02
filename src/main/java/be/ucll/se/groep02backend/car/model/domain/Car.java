@@ -3,8 +3,6 @@ package be.ucll.se.groep02backend.car.model.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 // JPA imports
 import jakarta.persistence.Entity;
@@ -17,6 +15,11 @@ import jakarta.persistence.OneToMany;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
 
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity
 @Table(name= "car")
 public class Car {
@@ -25,7 +28,6 @@ public class Car {
     public long id;
     
     @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
-    @JsonManagedReference
     private Set<Rental> rentals;
     
     // @ManyToOne
