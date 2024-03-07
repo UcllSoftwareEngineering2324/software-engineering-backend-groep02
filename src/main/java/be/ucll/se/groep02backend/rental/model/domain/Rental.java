@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import be.ucll.se.groep02backend.car.model.domain.Car;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;

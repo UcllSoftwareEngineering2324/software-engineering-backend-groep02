@@ -1,9 +1,6 @@
 package be.ucll.se.groep02backend.rent.service;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

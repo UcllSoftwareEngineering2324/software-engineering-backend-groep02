@@ -56,3 +56,11 @@ Wrong user name or password [28000-224]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:522)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 50 more
+2024-03-07 22:24:15.775056+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Erreur de syntaxe dans l'instruction SQL "([*]TRUE, 3, 7, FALSE, 6, 'BMW', '2-ABC-234', '320i', 'Sedan'), (FALSE, 2, 5, TRUE, 7, 'Audi', '2-DEF-567', 'A4', 'Sedan'), (TRUE, 4, 9, FALSE, 8, 'Mercedes', '2-GHI-890', 'GLE', 'SUV'), (FALSE, 2, 6, FALSE, 9, 'Volkswagen', '2-JKL-345', 'Golf', 'Hatchback'), (TRUE, 2, 5, TRUE, 10, 'Nissan', '2-MNO-678', 'Altima', 'Sedan')"; attendu "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]TRUE, 3, 7, FALSE, 6, 'BMW', '2-ABC-234', '320i', 'Sedan'), (FALSE, 2, 5, TRUE, 7, 'Audi', '2-DEF-567', 'A4', 'Sedan'), (TRUE, 4, 9, FALSE, 8, 'Mercedes', '2-GHI-890', 'GLE', 'SUV'), (FALSE, 2, 6, FALSE, 9, 'Volkswagen', '2-JKL-345', 'Golf', 'Hatchback'), (TRUE, 2, 5, TRUE, 10, 'Nissan', '2-MNO-678', 'Altima', 'Sedan')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(TRUE, 3, 7, FALSE, 6, 'BMW', '2-ABC-234', '320i', 'Sedan'), (FALSE, 2, 5, TRUE, 7, 'Audi', '2-DEF-567', 'A4', 'Sedan'), (TRUE, 4, 9, FALSE, 8, 'Mercedes', '2-GHI-890', 'GLE', 'SUV'), (FALSE, 2, 6, FALSE, 9, 'Volkswagen', '2-JKL-345', 'Golf', 'Hatchback'), (TRUE, 2, 5, TRUE, 10, 'Nissan', '2-MNO-678', 'Altima', 'Sedan') [42001-224]
+2024-03-07 22:38:33.366092+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Erreur de syntaxe dans l'instruction SQL "([*]DATE '1999-01-21', DATE '2024-04-26', DATE '2024-04-15', 2, 2, 'renter2@example.com', '9876543210', '22.22.22-222.22', '0497754654')"; attendu "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]DATE '1999-01-21', DATE '2024-04-26', DATE '2024-04-15', 2, 2, 'renter2@example.com', '9876543210', '22.22.22-222.22', '0497754654')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(DATE '1999-01-21', DATE '2024-04-26', DATE '2024-04-15', 2, 2, 'renter2@example.com', '9876543210', '22.22.22-222.22', '0497754654') [42001-224]
