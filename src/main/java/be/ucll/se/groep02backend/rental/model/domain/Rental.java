@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import be.ucll.se.groep02backend.car.model.domain.Car;
@@ -29,7 +28,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity
 @Table(name = "rental")
 public class Rental {
@@ -40,7 +42,6 @@ public class Rental {
 
     @ManyToOne
     @JoinColumn(name = "car_id")
-    @JsonBackReference
     private Car car;
     
     @OneToMany(mappedBy = "rental", fetch = FetchType.EAGER)
