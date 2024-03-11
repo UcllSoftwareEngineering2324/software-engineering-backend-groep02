@@ -14,6 +14,7 @@ jobs:
           curl -sL -o group2se-backend-0.0.1.jar \
           -H "Authorization: Bearer ${{secrets.GITHUB_TOKEN}}" \
           "https://maven.pkg.github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/be/ucll/se/groep02-backend/0.0.1/groep02-backend-0.0.1.jar"
+          ls -la
               
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
