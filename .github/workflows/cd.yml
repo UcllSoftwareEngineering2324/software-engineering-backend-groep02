@@ -21,7 +21,7 @@ jobs:
         with:
           app-name: 'groep02-backend'
           slot-name: 'Production'
-          package: 
+          package: 'groep02-backend-0.0.1.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E56A1D302B5F4A9FB53EDB3A90AC43D7 }}
 
 
