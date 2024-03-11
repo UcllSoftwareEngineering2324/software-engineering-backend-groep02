@@ -23,3 +23,5 @@ jobs:
         run: |
           mvn clean install
           mvn deploy
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
