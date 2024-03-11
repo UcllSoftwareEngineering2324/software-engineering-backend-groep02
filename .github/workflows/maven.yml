@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,14 +19,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-
-      - name: Build and deploy
-        run: |
-          mvn clean install
-          mvn deploy
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
+        
       - name: Delete previous package
         run: |
           curl -L \
@@ -36,3 +30,12 @@ jobs:
           https://api.github.com/orgs/ucllsoftwareengineering2324/packages/maven/be.ucll.se.groep02-backend
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Build and deploy
+        run: |
+          mvn clean install
+          mvn deploy
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+
