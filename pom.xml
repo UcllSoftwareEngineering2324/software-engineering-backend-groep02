@@ -6,12 +6,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.2</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> 
 	</parent>
 	<packaging>jar</packaging>
 	<groupId>be.ucll.se</groupId>
 	<artifactId>groep02-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>groep02-backend</name>
 	<description>groep02-backend</description>
 	<properties>

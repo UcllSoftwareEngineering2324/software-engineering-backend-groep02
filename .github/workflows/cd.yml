@@ -13,7 +13,7 @@ jobs:
         run: |
           curl -sL -o group2se-backend-0.0.1.jar \
           -H "Authorization: Bearer ${{secrets.GITHUB_TOKEN}}" \
-          "https://maven.pkg.github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/be/ucll/se/groep02-backend/0.0.1-SNAPSHOT/groep02-backend-0.0.1-20240311.150103-1.jar"
+          "https://maven.pkg.github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/be/ucll/se/groep02-backend/0.0.1/groep02-backend-0.0.1.jar"
               
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -21,7 +21,7 @@ jobs:
         with:
           app-name: 'groep02-backend'
           slot-name: 'Production'
-          package: 'group2se-backend-0.0.1.jar'
+          package: 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E56A1D302B5F4A9FB53EDB3A90AC43D7 }}
 
 
