@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Download package from GitHub Packages
         run: |
-          PACKAGE_URL="https://maven.pkg.github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/be/ucll/se/groep02-backend/0.0.1/groep2-backend-0.0.1.jar"
+          PACKAGE_URL="https://maven.pkg.github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/be/ucll/se/groep02-backend/0.0.1/groep02-backend-0.0.1.jar"
           wget --header="Authorization: token ${{ secrets.GITHUB_TOKEN }}" $PACKAGE_URL -O software-engineering-backend-groep02.jar
               
       - name: Deploy to Azure Web App
