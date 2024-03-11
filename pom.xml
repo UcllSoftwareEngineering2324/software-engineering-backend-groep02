@@ -16,6 +16,8 @@
 	<description>groep02-backend</description>
 	<properties>
 		<java.version>17</java.version>
+        <maven.deploy.skip>false</maven.deploy.skip>
+        <maven.deploy.uniqueVersion>false</maven.deploy.uniqueVersion>
 	</properties>
 <dependencies>
     <dependency>
