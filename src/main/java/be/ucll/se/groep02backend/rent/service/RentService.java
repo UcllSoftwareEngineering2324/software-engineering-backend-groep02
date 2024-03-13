@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.rent.model.domain.Rent.RentStatus;
 import be.ucll.se.groep02backend.rent.repo.RentRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
@@ -18,6 +20,8 @@ public class RentService {
 
     @Autowired
     private RentalRepository rentalRepository;
+    @Autowired
+    private NotificationService notificationService;
 
     public List<Rent> getAllRents() throws RentServiceException {
         List<Rent> foundRents = rentRepository.findAll();
@@ -56,9 +60,10 @@ public class RentService {
                 throw new RentServiceException("rent", "Cannot rent car");
             }
         }
-        
+        rent.setStatus(RentStatus.PENDING);
         rent.setRental(rental);
         rentRepository.save(rent);
+        notificationService.addNotification(rent);
         return rent;
     }
 
@@ -71,6 +76,24 @@ public class RentService {
         rental.removeRent(rent);
         rentalRepository.save(rental);
         rentRepository.delete(rent);
+        return rent;
+    }
+
+    public Rent updateRentStatus(Long id, String status) throws RentServiceException{
+        Rent rent = rentRepository.findRentById(id);
+        if(rent == null){
+            throw new RentServiceException("id", "Rent with given id does not exist");
+        }
+        if (status.equals("confirm")){
+            rent.setStatus(RentStatus.CONFIRMED);
+        }
+        else if (status.equals("reject")){
+            rent.setStatus(RentStatus.REJECTED);
+        }
+        else{
+            throw new RentServiceException("status", "Status is not valid");
+        }
+        rentRepository.save(rent);
         return rent;
     }
 }

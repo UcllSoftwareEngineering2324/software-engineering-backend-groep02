@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.Valid;
 // import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
@@ -71,10 +72,13 @@ public class Rent {
     @Pattern(regexp = "\\d{10}", message = "Driving license number is not in the right format!")
     private String licenseNumber;
 
+    
+    private RentStatus status;
+
     public Rent() {
     }
 
-    public Rent(LocalDate startDate, LocalDate endDate, String phoneNumber, String email, String nationalRegisterNumber, LocalDate birthDate, String licenseNumber) {
+    public Rent(LocalDate startDate, LocalDate endDate, String phoneNumber, String email, String nationalRegisterNumber, LocalDate birthDate, String licenseNumber, RentStatus status) {
         setStartDate(startDate);
         setEndDate(endDate);
         setPhoneNumber(phoneNumber);
@@ -82,6 +86,7 @@ public class Rent {
         setNationalRegisterNumber(nationalRegisterNumber);
         setBirthDate(birthDate);
         setLicenseNumber(licenseNumber);
+        setStatus(status);
     }
 
     // Getters 
@@ -113,6 +118,10 @@ public class Rent {
         return this.licenseNumber;
     }
 
+    public RentStatus getStatus() {
+        return this.status;
+    }
+
     // Setters
     public void setStartDate(LocalDate starDate){
         this.startDate = starDate;
@@ -142,6 +151,10 @@ public class Rent {
         this.licenseNumber = licenseNumber;
     }
 
+    public void setStatus(RentStatus status) {
+        this.status = status;
+    }
+
     public Rental getRental(){
         return rental;
     }
@@ -154,5 +167,9 @@ public class Rent {
     public void removeRental(){
         this.rental = null;
         rental.removeRent(this);
+    }
+
+    public enum RentStatus {
+        CONFIRMED, PENDING, REJECTED;
     }
 }
