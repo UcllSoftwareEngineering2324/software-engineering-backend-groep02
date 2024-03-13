@@ -24,6 +24,8 @@ import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -55,6 +57,11 @@ public class RentRestController {
     @DeleteMapping("/delete/")
     public Rent deleteRent(@RequestParam("rentId") Long rentId) throws RentServiceException{
         return rentService.deleteRent(rentId);
+    }
+
+    @PutMapping("/status/{status}/{id}")
+    public Rent updateRentStatus(@PathVariable Long id, @PathVariable String status) throws RentServiceException{
+        return rentService.updateRentStatus(id, status);
     }
     
     // RentalServiceException

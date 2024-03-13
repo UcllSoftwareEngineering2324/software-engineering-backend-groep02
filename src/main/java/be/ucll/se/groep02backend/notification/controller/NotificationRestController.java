@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,10 +32,7 @@ public class NotificationRestController {
     @Autowired
     private NotificationService notificationService;
 
-    @DeleteMapping("/delete/{id}")
-    public Notification deleteNotification(@PathVariable("id") Long id) throws NotificationServiceException {
-        return notificationService.deleteNotification(id);
-    }
+    
     
     @GetMapping()
     public List<Notification> getMethodName() {
@@ -42,16 +40,14 @@ public class NotificationRestController {
     }
     
 
-    @PostMapping("/add")
-    public Notification addNotification(@RequestBody @Valid Notification notification) throws NotificationServiceException {
-        return notificationService.addNotification(notification);
+    @PutMapping("/viewed/")
+    public Notification viewedNotification(@PathVariable("notificationId") Long notificationId) throws NotificationServiceException {
+        return notificationService.viewedNotification(notificationId);
     }
 
-    @PostMapping("/complete/{id}")
-    public Notification completeNotification(@PathVariable("id") Long id) throws NotificationServiceException {
-        return notificationService.completeNotification(id);
-    }
-
+    
+    
+    
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ NotificationServiceException.class })
     public Map<String, String> handleUserServiceExceptions(NotificationServiceException ex) {

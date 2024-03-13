@@ -1,12 +1,12 @@
 package be.ucll.se.groep02backend.notification.model;
 
+import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Table(name = "notification")
@@ -15,64 +15,51 @@ public class Notification {
     @Id
     public long id;
 
-    @NotBlank(message = "Title is required")
-    private String title;
+    private boolean receiverViewed;
+    private boolean ownerViewed;
 
-    @NotBlank(message = "content is required")
-    private String content;
-
-    @Valid
-    private Boolean isActive;
-
-    @Valid
-    private ActionType action;
+    @OneToOne(optional = true)
+    private Rent rent;
 
     public Notification() {
     }
 
-    public Notification(String title, String content, Boolean isActive, ActionType action) {
-        setTitle(title);
-        setContent(content);
-        setActive(isActive);
-        setAction(action);
+    public Notification(boolean receiverViewed, boolean ownerViewed, Rent rent) {
+        setOwnerViewed(ownerViewed);
+        setReceiverViewed(receiverViewed);
+        setrent(rent);
     }
 
-    public String getTitle() {
-        return this.title;
+    public long getId() {
+        return this.id;
+    }
+    
+    public boolean getReceiverViewed() {
+        return this.receiverViewed;
     }
 
-    public String getContent() {
-        return this.content;
+    public boolean getOwnerViewed() {
+        return this.ownerViewed;
     }
 
-    public Boolean getActive() {
-        return this.isActive;
+    public Rent getRent() {
+        return this.rent;
     }
 
-    public ActionType getAction() {
-        return this.action;
+    public void setReceiverViewed(boolean receiverViewed) {
+        this.receiverViewed = receiverViewed;
     }
 
-    public void setTitle(String newtitle) {
-        this.title = newtitle;
+    public void setOwnerViewed(boolean ownerViewed) {
+        this.ownerViewed = ownerViewed;
     }
 
-    public void setContent(String newContent) {
-        this.content = newContent;
-    }
-
-    public void setActive(Boolean newIsActive) {
-        this.isActive = newIsActive;
-    }
-
-    public void setAction(ActionType newAction) {
-        this.action = newAction;
+    public void setrent(Rent rent) {
+        this.rent = rent;
     }
 
 
-    public enum ActionType {
-        None, Confirm_rent;
-    }
+
 
 
     
