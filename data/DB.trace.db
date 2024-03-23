@@ -1003,3 +1003,15 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-03-23 21:03:15.362345+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "drop table if exists [*]user cascade "; expected "identifier"; SQL statement:
+drop table if exists user cascade  [42001-224]
+2024-03-23 21:03:15.397761+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, email varchar(255), first_name varchar(255), last_name varchar(255), password varchar(255), primary key (id))"; expected "identifier"; SQL statement:
+create table user (id bigint not null, email varchar(255), first_name varchar(255), last_name varchar(255), password varchar(255), primary key (id)) [42001-224]
+2024-03-23 21:18:09.176479+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "drop table if exists [*]user cascade "; expected "identifier"; SQL statement:
+drop table if exists user cascade  [42001-224]
+2024-03-23 21:18:09.210738+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, email varchar(255), first_name varchar(255), last_name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN','ACCOUNTANT','OWNER','RENTER')), primary key (id))"; expected "identifier"; SQL statement:
+create table user (id bigint not null, email varchar(255), first_name varchar(255), last_name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN','ACCOUNTANT','OWNER','RENTER')), primary key (id)) [42001-224]
