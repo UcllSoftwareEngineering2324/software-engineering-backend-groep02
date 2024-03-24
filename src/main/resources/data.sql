@@ -13,21 +13,21 @@ INSERT INTO "PUBLIC"."CAR" VALUES
 
 
 
-INSERT INTO "PUBLIC"."RENTAL" VALUES
-(DATE '2024-04-07', 0, DATE '2024-04-01', 0, 1, 1, 'New York', 'nyrental@example.com', '123-456-7890', NULL),
-(DATE '2024-04-26', 0, DATE '2024-04-15', 0, 2, 2, 'Los Angeles', 'larental@example.com', '987-654-3210', NULL),
-(DATE '2024-05-31', 0, DATE '2024-04-24', 0, 3, 3, 'Chicago', 'chirental@example.com', '555-123-4567', NULL),      
-(DATE '2024-06-15', 0, DATE '2024-06-01', 0, 4, 4, 'Houston', 'hourental@example.com', '321-654-9870', NULL),
-(DATE '2024-07-20', 0, DATE '2024-07-05', 0, 5, 5, 'Miami', 'miamirental@example.com', '456-789-1234', NULL);
+-- INSERT INTO "PUBLIC"."RENTAL" VALUES
+-- (DATE '2024-04-07', 0, DATE '2024-04-01', 0, 1, 1, 'New York', 'nyrental@example.com', '123-456-7890', NULL),
+-- (DATE '2024-04-26', 0, DATE '2024-04-15', 0, 2, 2, 'Los Angeles', 'larental@example.com', '987-654-3210', NULL),
+-- (DATE '2024-05-31', 0, DATE '2024-04-24', 0, 3, 3, 'Chicago', 'chirental@example.com', '555-123-4567', NULL),      
+-- (DATE '2024-06-15', 0, DATE '2024-06-01', 0, 4, 4, 'Houston', 'hourental@example.com', '321-654-9870', NULL),
+-- (DATE '2024-07-20', 0, DATE '2024-07-05', 0, 5, 5, 'Miami', 'miamirental@example.com', '456-789-1234', NULL);
 
 
 
-INSERT INTO "PUBLIC"."RENT" VALUES
-(DATE '2001-06-01', DATE '2024-04-07', DATE '2024-04-01', 1 , 1, 1, 'renter1@email.com', '0123456789', '11.11.11-111.11', '0465544532'), 
-(DATE '1999-01-21', DATE '2024-04-26', DATE '2024-04-15', 2, 2, 2, 'renter2@example.com', '9876543210', '22.22.22-222.22', '0497754654'),      
-(DATE '1988-02-19', DATE '2024-05-31', DATE '2024-04-24', 0, 3, 3, 'renter3@outlook.com', '0000000000', '33.33.33-333.33', '0454429856');      
+-- INSERT INTO "PUBLIC"."RENT" VALUES
+-- (DATE '2001-06-01', DATE '2024-04-07', DATE '2024-04-01', 1 , 1, 1, 'renter1@email.com', '0123456789', '11.11.11-111.11', '0465544532'), 
+-- (DATE '1999-01-21', DATE '2024-04-26', DATE '2024-04-15', 2, 2, 2, 'renter2@example.com', '9876543210', '22.22.22-222.22', '0497754654'),      
+-- (DATE '1988-02-19', DATE '2024-05-31', DATE '2024-04-24', 0, 3, 3, 'renter3@outlook.com', '0000000000', '33.33.33-333.33', '0454429856');      
 
-INSERT INTO "PUBLIC"."NOTIFICATION" VALUES
-(FALSE, FALSE, 1, 1),
-(TRUE, FALSE, 2, 2),
-(FALSE, FALSE, 3, 3);
+-- INSERT INTO "PUBLIC"."NOTIFICATION" VALUES
+-- (FALSE, FALSE, 1, 1),
+-- (TRUE, FALSE, 2, 2),
+-- (FALSE, FALSE, 3, 3);
