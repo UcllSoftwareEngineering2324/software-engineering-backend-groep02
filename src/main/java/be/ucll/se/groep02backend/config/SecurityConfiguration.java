@@ -14,11 +14,15 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import jakarta.annotation.PostConstruct;
+
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
+import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 @EnableWebSecurity
@@ -28,13 +32,28 @@ public class SecurityConfiguration {
         private final JwtAuthenticationFilter jwtAuthFilter;
         private final AuthenticationProvider authenticationProvider;
 
+        @Value("${auth.whitelist.paths}")
+        private String authWhitelistPaths;
+
+        private String[] authWhitelist;
+
+        @PostConstruct
+        private void init() {
+                authWhitelist = authWhitelistPaths.split(",");
+        }
+
+        // Getter for authWhitelist
+        public String[] getAuthWhitelist() {
+                return authWhitelist;
+        }
+
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(csrf -> csrf
                                                 .disable())
                                 .authorizeHttpRequests(requests -> requests
-                                                .requestMatchers("/api/auth/**", "/rental/**")
+                                                .requestMatchers(getAuthWhitelist())
                                                 .permitAll()
                                                 .anyRequest()
                                                 .authenticated())
