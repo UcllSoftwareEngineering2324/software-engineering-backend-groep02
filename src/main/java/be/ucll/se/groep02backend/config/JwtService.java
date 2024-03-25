@@ -2,6 +2,7 @@ package be.ucll.se.groep02backend.config;
 
 import java.security.Key;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
@@ -11,13 +12,18 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class JwtService {
+    
+    @Value("${jwt.secretKey}")
+    private String secretKey;
 
-    private static final String SECRET_KEY = "pFD3ofxirK/6rGeSMgLryPT5cZx2FPi8l3pPJxoA9sjsUiFSISVKUAsPd7/nO/Cte0eQ3pToF5PToYF3EaBORH+AG+CH4L06MMHC3dHusk+LWvMDj1lGoEGS/9fYCSIUfvxw3OLLl+ki5VP1jUwc5YwOACHSnilerC+XRJTRWJ3uB5gpRExHJalD2niuwYoBI4II0h0e22vJohZi/758G5pWxsQJ0OoEEWtV830T/zv5kwXVE6U0Y35auQWfZlbjv1rAWD5OoUEgIeMZYXXlqLeZm3l0AZsdgyu45kUc7Bo7nFxABIS5EhShRqvbzcIvWlnxWdvieBF9shy5FooeNQ==";
 
     public String extractUsername(String jWTtoken) {
         return extractClaim(jWTtoken, Claims::getSubject);
@@ -33,13 +39,15 @@ public class JwtService {
     }
 
     public String generateToken(
-
             Map<String, Object> extraClaims,
-
             UserDetails userDetails) {
-        extraClaims = new HashMap<>();
-        extraClaims.put("role", userDetails.getAuthorities().toArray()[0].toString());
-        // extraClaims.put("email", userDetails.getEmail());
+                
+            List<String> roles = userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        extraClaims.put("roles", roles.toArray(new String[0]));
+
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -74,7 +82,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

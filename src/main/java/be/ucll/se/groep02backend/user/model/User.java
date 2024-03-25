@@ -42,6 +42,11 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    
+    public Collection<? extends GrantedAuthority> addAuthorities(Role roleToAdd) {
+        return List.of(new SimpleGrantedAuthority(roleToAdd.name()));
+    }
+
     @Override
     public String getUsername() {
         return email;
