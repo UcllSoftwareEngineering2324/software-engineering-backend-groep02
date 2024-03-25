@@ -14,6 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +33,9 @@ public class User implements UserDetails {
     private long id;
     private String firstName;
     private String lastName;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
     private String password;
 
