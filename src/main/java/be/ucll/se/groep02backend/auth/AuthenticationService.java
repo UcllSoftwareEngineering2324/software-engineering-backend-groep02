@@ -2,16 +2,12 @@ package be.ucll.se.groep02backend.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import be.ucll.se.groep02backend.user.repo.UserRepository;
 import be.ucll.se.groep02backend.user.service.UserService;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import be.ucll.se.groep02backend.config.JwtService;
 import lombok.RequiredArgsConstructor;
-import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
 @Service
 @RequiredArgsConstructor
@@ -23,6 +19,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(User user) throws UserServiceException{
         userService.createUser(user);
+        
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }

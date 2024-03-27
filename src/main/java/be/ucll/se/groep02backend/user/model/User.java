@@ -3,6 +3,7 @@ package be.ucll.se.groep02backend.user.model;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,6 +41,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -62,6 +65,8 @@ public class User implements UserDetails {
         return password;
     }
 
+
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -80,5 +85,11 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    public User(String username, String password2, Collection<? extends GrantedAuthority> authorities,
+            String firstName2, String lastName2, String email2, Role role2) {
+        //TODO Auto-generated constructor stub
     }
 }

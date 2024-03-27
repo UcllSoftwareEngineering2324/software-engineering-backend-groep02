@@ -46,11 +46,13 @@ public class SecurityConfiguration {
                 http
                                 .csrf(csrf -> csrf
                                                 .disable())
-                                .authorizeHttpRequests(requests -> requests
-                                                .requestMatchers(getAuthWhitelist())
-                                                .permitAll()
-                                                .anyRequest()
-                                                .authenticated())
+                                .authorizeHttpRequests(req ->
+                                req.requestMatchers(getAuthWhitelist())
+                                        .permitAll()
+                                        .requestMatchers("/accounting/**").hasAnyAuthority("ACCOUNTANT", "ADMIN")
+                                        .anyRequest()
+                                        .authenticated()
+                        )
                                 .sessionManagement(management -> management
                                                 .sessionCreationPolicy(STATELESS))
                                 .authenticationProvider(authenticationProvider)
