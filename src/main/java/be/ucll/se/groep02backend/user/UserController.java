@@ -22,7 +22,10 @@ public class UserController {
     
     @GetMapping()
     public List<User> getUsers() throws UserServiceException {
+        
         return userService.getAllUsers(ApplicationConfig.getAuthenticatedUser());
         
     }
+
+    
 }

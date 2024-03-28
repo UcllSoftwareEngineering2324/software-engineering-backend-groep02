@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.repo.UserRepository;
+import be.ucll.se.groep02backend.user.service.UserServiceException;
 
 @Configuration
 @RequiredArgsConstructor
@@ -47,8 +48,13 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
-    public static User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (User) authentication.getPrincipal();
+    public static User getAuthenticatedUser() throws UserServiceException {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            var user  = (User) authentication.getPrincipal();
+            return user;
+        } catch (Exception e) {
+            throw new UserServiceException("User", "Authentication required");
+        }
     }
 }

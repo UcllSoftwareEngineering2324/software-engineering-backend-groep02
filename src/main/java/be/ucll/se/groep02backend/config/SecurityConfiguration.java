@@ -46,6 +46,9 @@ public class SecurityConfiguration {
                 http
                                 .csrf(csrf -> csrf
                                                 .disable())
+                                .headers(headers -> headers
+                                                .frameOptions(frameOptions -> frameOptions
+                                                                .disable()))
                                 .authorizeHttpRequests(req ->
                                 req.requestMatchers(getAuthWhitelist())
                                         .permitAll()
