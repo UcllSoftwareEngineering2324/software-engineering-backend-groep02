@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.model.UserInput;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

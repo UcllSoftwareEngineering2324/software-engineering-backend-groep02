@@ -1,6 +1,5 @@
 package be.ucll.se.groep02backend.config;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +11,9 @@ import be.ucll.se.groep02backend.notification.service.NotificationServiceExcepti
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
+import io.jsonwebtoken.io.IOException;
+import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.ServletException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,47 +22,47 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({RentalServiceException.class})
+    @ExceptionHandler({ RentalServiceException.class })
     public Map<String, String> handleRentalServiceException(RentalServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
+        return createErrorResponse(ex.getField(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ RentServiceException.class })
-    public Map<String, String> handleUserServiceExceptions(RentServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
+    public Map<String, String> handleRentServiceException(RentServiceException ex) {
+        return createErrorResponse(ex.getField(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({CarServiceException.class})
+    @ExceptionHandler({ CarServiceException.class })
     public Map<String, String> handleCarServiceException(CarServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
+        return createErrorResponse(ex.getField(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ NotificationServiceException.class })
-    public Map<String, String> handleUserServiceExceptions(NotificationServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
+    public Map<String, String> handleNotificationServiceException(NotificationServiceException ex) {
+        return createErrorResponse(ex.getField(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ UserServiceException.class })
-    public Map<String, String> handleUserServiceExceptions(UserServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
+    public Map<String, String> handleUserServiceException(UserServiceException ex) {
+        return createErrorResponse(ex.getField(), ex.getMessage());
     }
+    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    // @ExceptionHandler({ UserServiceException.class })
+    // public Map<String, String> handleUserServiceException(IOException ex) {
+    //     return createErrorResponse("eeee", ex.getMessage());
+    // }
+    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    // @ExceptionHandler({ UserServiceException.class })
+    // public Map<String, String> handleUserServiceException(ServletException ex) {
+    //     return createErrorResponse("eeee", ex.getMessage());
+    // }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler({ MethodArgumentNotValidException.class })
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getFieldErrors().forEach((error) -> {
@@ -68,6 +70,14 @@ public class GlobalExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+        return errors;
+    }
+
+    
+
+    private Map<String, String> createErrorResponse(String field, String message) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(field, message);
         return errors;
     }
 }

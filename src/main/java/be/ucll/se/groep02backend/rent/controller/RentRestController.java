@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import be.ucll.se.groep02backend.config.ApplicationConfig;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
+import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,8 +54,8 @@ public class RentRestController {
     
     @PostMapping("/add/{rentalId}")
     public Rent addRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)
-            throws RentServiceException, RentalServiceException {
-        return rentService.addRent(rent, rentalId);
+            throws RentServiceException, RentalServiceException, UserServiceException {
+        return rentService.addRent(rent, rentalId, ApplicationConfig.getAuthenticatedUser());
     }
 
     @DeleteMapping("/delete/")

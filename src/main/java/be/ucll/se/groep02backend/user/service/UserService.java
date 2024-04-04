@@ -21,7 +21,7 @@ public class UserService {
 
     public List<User> getAllUsers(User user) {
         System.out.println("User: " + user);
-        if (user.getRole() == Role.ADMIN) {
+        if (user.getAuthorities().contains(Role.ADMIN)) {
             var users = repository.findAll();
             return users;
         } else {
@@ -43,8 +43,10 @@ public class UserService {
                 .birthDate(userInput.getBirthDate())
                 .nationalRegisterNumber(userInput.getNationalRegisterNumber())
                 .licenseNumber(userInput.getLicenseNumber())
-                .role(Role.USER)
                 .build();
+        newUser.addAuthority(Role.OWNER);
+        newUser.addAuthority(Role.USER);
+        System.out.println("User: " + newUser);
         // Now you can pass the User object to the save method
         return repository.save(newUser);
 

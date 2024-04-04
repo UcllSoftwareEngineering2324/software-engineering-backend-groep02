@@ -16,6 +16,7 @@ import be.ucll.se.groep02backend.rent.repo.RentRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
+import be.ucll.se.groep02backend.user.repo.UserRepository;
 
 @Service
 public class RentalService {
@@ -27,6 +28,7 @@ public class RentalService {
 
     @Autowired
     private CarRepository carRepository;
+    
 
     public List<Rental> findAll() {
         return rentalRepository.findAll();
@@ -56,8 +58,23 @@ public class RentalService {
     }
 
     public List<Rental> searchRentals(SearchRentals search) throws RentalServiceException, CarServiceException {
-        List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getEmail(), search.getStartDate(), search.getEnddate(), search.getCity());
+        List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getStartDate(), search.getEnddate(), search.getCity());
+        List<Rental> betweenfinalRentals = new ArrayList<>();
         List<Rental> finalRentals = new ArrayList<>();
+
+        if (search.getEmail() != null) {
+            List<Car> cars = carRepository.findAllCarsByUserEmail(search.getEmail());
+
+            for (Rental rental: foundRentals) {
+                for (Car car: cars) {
+                    if (car.getRentals().contains(rental)) {
+                        betweenfinalRentals.add(rental);
+                    }
+                }
+            }
+        } else {
+            betweenfinalRentals.addAll(foundRentals);
+        }
  
         if (search.getBrand() != null) {
             if (!carRepository.existsByBrand(search.getBrand())) {
@@ -65,7 +82,7 @@ public class RentalService {
             }
             List<Car> cars = carRepository.findAllCarsByBrand(search.getBrand());
 
-            for (Rental rental: foundRentals) {
+            for (Rental rental: betweenfinalRentals) {
                 for (Car car: cars) {
                     if (car.getRentals().contains(rental)) {
                         finalRentals.add(rental);

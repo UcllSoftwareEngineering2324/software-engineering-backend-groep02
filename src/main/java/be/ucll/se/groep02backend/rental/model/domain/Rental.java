@@ -22,7 +22,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 // import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 
@@ -37,11 +36,10 @@ public class Rental {
     @Id
     public long id;
 
-
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
-    
+
     @OneToMany(mappedBy = "rental", fetch = FetchType.EAGER)
     private Set<Rent> rents;
 
@@ -58,19 +56,14 @@ public class Rental {
     private LocalDate endDate;
     
     private String street;
+
     private int streetNumber;
+
     private int postal;
 
     @NotBlank(message = "City is required")
     private String city;
 
-    @NotBlank(message = "Phone number is required")
-    private String phoneNumber;
-    
-    @NotBlank(message = "Email is required")
-    // @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
-    @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
-    private String email;
 
     public Rental() {
     }
@@ -82,8 +75,6 @@ public class Rental {
         setStreetNumber(streetNumber);
         setPostal(postal);
         setCity(city);
-        setPhoneNumber(phoneNumber);
-        setEmail(email);
     }
 
     // Getters 
@@ -111,13 +102,6 @@ public class Rental {
         return this.city;
     }
 
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
 
     // Setters
     public void setStartDate(LocalDate starDate){
@@ -144,13 +128,6 @@ public class Rental {
         this.city = city;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
 
     public Car getCar() {

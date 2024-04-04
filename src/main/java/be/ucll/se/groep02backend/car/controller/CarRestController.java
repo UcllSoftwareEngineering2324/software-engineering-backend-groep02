@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
+import be.ucll.se.groep02backend.config.ApplicationConfig;
+import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -39,8 +41,8 @@ public class CarRestController {
     }
 
     @PostMapping("/add")
-    public Car addCar(@RequestBody @Valid Car car) throws CarServiceException {
-        return carService.addCar(car);
+    public Car addCar(@RequestBody @Valid Car car) throws CarServiceException, UserServiceException {
+        return carService.addCar(car,ApplicationConfig.getAuthenticatedUser());
     }
 
     @DeleteMapping("/delete/{id}")

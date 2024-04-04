@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
-import be.ucll.se.groep02backend.rent.model.domain.Rent.RentStatus;
+import be.ucll.se.groep02backend.rent.model.domain.RentStatus;
 import be.ucll.se.groep02backend.rent.repo.RentRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
+import be.ucll.se.groep02backend.user.model.User;
 
 @Service
 public class RentService {
@@ -32,14 +33,14 @@ public class RentService {
 
 
     public List<Rent> getRentsByEmail(String email) throws RentServiceException {
-        List<Rent> foundRents = rentRepository.findRentByEmail(email);
+        List<Rent> foundRents = rentRepository.findRentsByUserEmail(email);
         if (foundRents.size() == 0) {
             throw new RentServiceException("rent", "There are no rents for this email");
         }
         return foundRents;
     }
 
-    public Rent addRent(Rent rent, Long rentalId) throws RentServiceException, RentalServiceException{
+    public Rent addRent(Rent rent, Long rentalId, User user) throws RentServiceException, RentalServiceException{
         Rental rental = rentalRepository.findRentalById(rentalId);
         if(rental == null){
             throw new RentalServiceException("rent", "Rental does not exist with given id");
@@ -61,6 +62,7 @@ public class RentService {
             }
         }
         rent.setStatus(RentStatus.PENDING);
+        rent.setUser(user);
         rent.setRental(rental);
         rentRepository.save(rent);
         notificationService.addNotification(rent);

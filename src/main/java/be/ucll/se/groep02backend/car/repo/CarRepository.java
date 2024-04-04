@@ -11,4 +11,5 @@ public interface CarRepository extends JpaRepository<Car, Long>{
     public Car findCarByRentalsId(Long rentalId);
     public List<Car> findAllCarsByBrand(String brand);
     public boolean existsByBrand(String brand);
+    public List<Car> findAllCarsByUserEmail(String email);
 }

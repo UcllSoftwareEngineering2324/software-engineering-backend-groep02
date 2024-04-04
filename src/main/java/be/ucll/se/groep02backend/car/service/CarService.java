@@ -11,6 +11,7 @@ import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
+import be.ucll.se.groep02backend.user.model.User;
 
 @Service
 public class CarService {
@@ -27,7 +28,8 @@ public class CarService {
         return carRepository.findAll();
     }
 
-    public Car addCar(Car car) throws CarServiceException {
+    public Car addCar(Car car, User user) throws CarServiceException {
+        car.setUser(user);
         return carRepository.save(car);
     } 
 

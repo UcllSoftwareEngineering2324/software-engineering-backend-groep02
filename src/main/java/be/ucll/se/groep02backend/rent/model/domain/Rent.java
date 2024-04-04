@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
+import be.ucll.se.groep02backend.user.model.User;
 // JPA imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,10 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 // Validation imports
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Email;
 // import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -25,9 +23,7 @@ import jakarta.validation.constraints.FutureOrPresent;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "rent")
 public class Rent {
@@ -36,59 +32,38 @@ public class Rent {
     public long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
 
-    @NotNull(message="Start date is required")
-    @FutureOrPresent(message="Start date is invalid, it has to be in the future")
-    // Date format change because spring wont allow POST 
+    @NotNull(message = "Start date is required")
+    @FutureOrPresent(message = "Start date is invalid, it has to be in the future")
+    // Date format change because spring wont allow POST
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
-    
-    @NotNull(message="End date is required")
+
+    @NotNull(message = "End date is required")
     @Future(message = "End date is invalid, it has to be in the future")
     // Date format change because spring wont allow POST
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @NotBlank(message = "Phone number is required")
-    private String phoneNumber;
-    
-    @NotBlank(message = "Email is required")
-    // @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
-    @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
-    private String email;
-
-    @NotBlank(message = "Identification number of national register is required")
-    @Pattern(regexp = "\\d{2}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}", message = "Identification number is not in the right format!")
-    private String nationalRegisterNumber;
-
-    @NotNull(message = "Birth date is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
-
-    @NotBlank(message = "Driving license number is required")
-    @Pattern(regexp = "\\d{10}", message = "Driving license number is not in the right format!")
-    private String licenseNumber;
-
-    
     private RentStatus status;
 
     public Rent() {
     }
 
-    public Rent(LocalDate startDate, LocalDate endDate, String phoneNumber, String email, String nationalRegisterNumber, LocalDate birthDate, String licenseNumber, RentStatus status) {
+    public Rent(LocalDate startDate, LocalDate endDate, String phoneNumber, String email, String nationalRegisterNumber,
+            LocalDate birthDate, String licenseNumber, RentStatus status) {
         setStartDate(startDate);
         setEndDate(endDate);
-        setPhoneNumber(phoneNumber);
-        setEmail(email);
-        setNationalRegisterNumber(nationalRegisterNumber);
-        setBirthDate(birthDate);
-        setLicenseNumber(licenseNumber);
         setStatus(status);
     }
 
-    // Getters 
+    // Getters
     public LocalDate getStartDate() {
         return this.startDate;
     }
@@ -97,78 +72,39 @@ public class Rent {
         return this.endDate;
     }
 
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public String getNationalRegisterNumber() {
-        return this.nationalRegisterNumber;
-    }
-
-    public LocalDate getBirthDate() {
-        return this.birthDate;
-    }
-
-    public String getLicenseNumber() {
-        return this.licenseNumber;
-    }
-
     public RentStatus getStatus() {
         return this.status;
     }
 
     // Setters
-    public void setStartDate(LocalDate starDate){
+    public void setStartDate(LocalDate starDate) {
         this.startDate = starDate;
     }
 
-    public void setEndDate(LocalDate endDate){
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setNationalRegisterNumber(String nationalRegisterNumber) {
-        this.nationalRegisterNumber = nationalRegisterNumber;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber;
     }
 
     public void setStatus(RentStatus status) {
         this.status = status;
     }
 
-    public Rental getRental(){
+    public Rental getRental() {
         return rental;
     }
 
-    public void setRental(Rental rental){
+    public void setRental(Rental rental) {
         this.rental = rental;
         rental.addRent(this);
     }
 
-    public void removeRental(){
+    public void removeRental() {
         this.rental = null;
         rental.removeRent(this);
     }
 
-    public enum RentStatus {
-        CONFIRMED, PENDING, REJECTED;
-    }
+	public void setUser(User user) {
+        this.user = user;
+	}
+
 }

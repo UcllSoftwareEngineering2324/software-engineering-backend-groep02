@@ -2,7 +2,10 @@ package be.ucll.se.groep02backend.user.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -10,13 +13,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import be.ucll.se.groep02backend.car.model.Car;
+import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +41,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -61,21 +73,35 @@ public class User implements UserDetails {
     @Pattern(regexp = "\\d{10}", message = "Driving license number is not in the right format!")
     private String licenseNumber;
 
+    @Builder.Default
+    private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Car> cars;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Rent> rents;
 
 
-    @NotNull(message = "Role is required")
-    @Enumerated(EnumType.STRING)
-    private Role role;
+
+    public void addAuthority(Role role) {
+        if (role != null) {
+            roles.add(role);
+        }
+    }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+    public Set<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                    .collect(Collectors.toSet());
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     
-    public Collection<? extends GrantedAuthority> addAuthorities(Role roleToAdd) {
-        return List.of(new SimpleGrantedAuthority(roleToAdd.name()));
-    }
 
     @Override
     public String getUsername() {
@@ -115,9 +141,6 @@ public class User implements UserDetails {
         return licenseNumber;
     }
 
-
-
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -137,10 +160,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-    // public User(String username, String password2, Collection<? extends GrantedAuthority> authorities,
-    //         String firstName2, String lastName2, String email2, Role role2) {
-    //     //TODO Auto-generated constructor stub
-    // }
 }

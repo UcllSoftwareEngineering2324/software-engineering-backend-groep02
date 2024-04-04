@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
+import be.ucll.se.groep02backend.user.model.User;
 // JPA imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 // Validation imports
 import jakarta.validation.constraints.NotBlank;
@@ -26,31 +29,33 @@ public class Car {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Id
     public long id;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
     
     @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
     private Set<Rental> rentals;
     
-    // @ManyToOne
-    // @JoinColumn(name = "rental_id")
-    // @JsonBackReference
-    // private Rental rental;
+    public String model;
 
-    
     @NotBlank(message="Brand is required")
     private String brand;
 
-    public String model;
-
     @NotBlank(message="Type is required")
     private String type;
-    
+
     @NotBlank(message="License plate is required")
     private String licensePlate;
 
     private short numberOfSeats;
+
     private short numberOfChildSeats;
+
     private boolean foldingRearSeat;
+
     private boolean towBar;
+
     
     public Car() {}
 
@@ -132,5 +137,9 @@ public class Car {
     public void removeRental(Rental rental) {
         this.rentals.remove(rental);
     }
+
+	public void setUser(User user) {
+        this.user = user;
+	}
 
 }
