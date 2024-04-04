@@ -1,4 +1,4 @@
-package be.ucll.se.groep02backend.greeting.model.domain;
+package be.ucll.se.groep02backend.demo.model.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

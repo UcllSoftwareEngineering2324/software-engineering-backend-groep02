@@ -1,10 +1,10 @@
-package be.ucll.se.groep02backend.greeting.service;
+package be.ucll.se.groep02backend.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import be.ucll.se.groep02backend.greeting.model.domain.Greeting;
-import be.ucll.se.groep02backend.greeting.repo.GreetingRepository;
+import be.ucll.se.groep02backend.demo.model.domain.Greeting;
+import be.ucll.se.groep02backend.demo.repo.GreetingRepository;
 import jakarta.annotation.PostConstruct;
 
 @Component

@@ -8,7 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import be.ucll.se.groep02backend.car.model.domain.Car;
+import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;

@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
+import be.ucll.se.groep02backend.user.model.UserInput;
 import be.ucll.se.groep02backend.user.repo.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +20,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers(User user) {
+        System.out.println("User: " + user);
         if (user.getRole() == Role.ADMIN) {
             var users = repository.findAll();
             return users;
@@ -26,13 +29,24 @@ public class UserService {
         }
     }
 
-    public User createUser(User user) throws UserServiceException {
-        Optional<User> foundOtherUser = repository.findByEmail(user.getEmail());
+    public User createUser(UserInput userInput) throws UserServiceException {
+        Optional<User> foundOtherUser = repository.findByEmail(userInput.getEmail());
         if (foundOtherUser.isPresent()) {
             throw new UserServiceException("User", "User already exists");
         }
+        User newUser  = User.builder()
+                .firstName(userInput.getFirstName())
+                .lastName(userInput.getLastName())
+                .email(userInput.getEmail())
+                .password(passwordEncoder.encode(userInput.getPassword()))
+                .phoneNumber(userInput.getPhoneNumber())
+                .birthDate(userInput.getBirthDate())
+                .nationalRegisterNumber(userInput.getNationalRegisterNumber())
+                .licenseNumber(userInput.getLicenseNumber())
+                .role(Role.USER)
+                .build();
         // Now you can pass the User object to the save method
-        return repository.save(user);
+        return repository.save(newUser);
 
     }
 

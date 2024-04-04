@@ -1,4 +1,4 @@
-package be.ucll.se.groep02backend.car.model.domain;
+package be.ucll.se.groep02backend.car.model;
 
 import java.util.HashSet;
 import java.util.Set;

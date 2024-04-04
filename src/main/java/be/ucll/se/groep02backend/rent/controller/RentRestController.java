@@ -22,6 +22,7 @@ import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Tag(name = "Rent")
 @RestController
 @RequestMapping("/rent")
 public class RentRestController {
@@ -64,34 +66,4 @@ public class RentRestController {
         return rentService.updateRentStatus(id, status);
     }
     
-    // RentalServiceException
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ RentalServiceException.class })
-    public Map<String, String> handleUserServiceExceptions(RentalServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
-    }
-
-    // CarServiceException
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ RentServiceException.class })
-    public Map<String, String> handleUserServiceExceptions(RentServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({
-            MethodArgumentNotValidException.class })
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getFieldErrors().forEach((error) -> {
-            String fieldName = error.getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
 }
