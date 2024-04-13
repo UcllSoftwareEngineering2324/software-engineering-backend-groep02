@@ -20,7 +20,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers(User user) {
-        System.out.println("User: " + user);
         if (user.getAuthorities().contains(Role.ADMIN)) {
             var users = repository.findAll();
             return users;
@@ -44,7 +43,6 @@ public class UserService {
                 .nationalRegisterNumber(userInput.getNationalRegisterNumber())
                 .licenseNumber(userInput.getLicenseNumber())
                 .build();
-        newUser.addAuthority(Role.OWNER);
         newUser.addAuthority(Role.USER);
         System.out.println("User: " + newUser);
         // Now you can pass the User object to the save method
@@ -58,6 +56,15 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    public User makeUserAdmin(User user) {
+        if (user.getAuthorities().contains(Role.ADMIN)) {
+            return user;
+        }
+        user.addAuthority(Role.ADMIN);
+        repository.save(user);
+        return user;
     }
 
 }

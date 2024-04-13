@@ -1,14 +1,11 @@
 package be.ucll.se.groep02backend.user.model;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,10 +15,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
-import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

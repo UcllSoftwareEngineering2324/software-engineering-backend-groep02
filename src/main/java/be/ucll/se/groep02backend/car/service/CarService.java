@@ -37,7 +37,7 @@ public class CarService {
         return carRepository.findCarByRentalsId(rentalId);
     }
 
-    public Car deleteCar(Long id) throws CarServiceException{
+    public Car deleteCar(Long id, User user) throws CarServiceException{
         Car car = carRepository.findCarById(id);
         if(Objects.isNull(car)){
             throw new CarServiceException("id", "Car with given id does not exist.");
