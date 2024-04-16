@@ -73,10 +73,22 @@ public class Rental {
     @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
 
+    @NotNull(message = "Base price is required")
+    private float basePrice;
+
+    @NotNull(message = "Price per Kilometer is required")
+    private float pricePerKm;
+
+    @NotNull(message = "Fuel penalty price is required")
+    private float fuelPenaltyPrice;
+
+    @NotNull(message = "Price per day is required")
+    private float pricePerDay;
+
     public Rental() {
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email) {
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email, float basePrice, float pricePerKm, float fuelPenaltyPrice, float pricePerDay) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
@@ -85,6 +97,10 @@ public class Rental {
         setCity(city);
         setPhoneNumber(phoneNumber);
         setEmail(email);
+        setBasePrice(basePrice);
+        setPricePerKm(pricePerKm);
+        setFuelPenaltyPrice(fuelPenaltyPrice);
+        setPricePerDay(pricePerDay);
     }
 
     // Getters 
@@ -120,6 +136,22 @@ public class Rental {
         return this.email;
     }
 
+    public float getBasePrice() {
+        return this.basePrice;
+    }
+
+    public float getPricePerKm() {
+        return this.pricePerKm;
+    }
+
+    public float getFuelPenaltyPrice() {
+        return this.fuelPenaltyPrice;
+    }
+
+    public float getPricePerDay() {
+        return this.pricePerDay;
+    }
+
     // Setters
     public void setStartDate(LocalDate starDate){
         this.startDate = starDate;
@@ -153,6 +185,22 @@ public class Rental {
         this.email = email;
     }
 
+    public void setBasePrice(float basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public void setPricePerKm(float pricePerKm) {
+        this.pricePerKm = pricePerKm;
+    }
+
+    public void setFuelPenaltyPrice(float fuelPenaltyPrice) {
+        this.fuelPenaltyPrice = fuelPenaltyPrice;
+    }
+
+    public void setPricePerDay(float pricePerDay) {
+        this.pricePerDay = pricePerDay;
+    }
+
 
     public Car getCar() {
         return car;
@@ -173,7 +221,7 @@ public class Rental {
             rents = new HashSet<>();
         }
         return rents;
-    }
+    } 
 
     public void addRent(Rent rent){
         this.getRents().add(rent);
