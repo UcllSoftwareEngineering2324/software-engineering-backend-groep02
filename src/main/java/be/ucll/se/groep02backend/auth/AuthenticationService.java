@@ -8,6 +8,7 @@ import be.ucll.se.groep02backend.user.service.UserService;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import be.ucll.se.groep02backend.config.JwtService;
 import lombok.RequiredArgsConstructor;
+import be.ucll.se.groep02backend.user.model.PublicUser;
 import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.model.UserInput;
 @Service
@@ -17,15 +18,17 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    
 
-    public AuthenticationResponse register(UserInput user) throws UserServiceException{
+    public PublicUser register(UserInput user) throws UserServiceException{
         User createdUser = userService.createUser(user);
         
         var jwtToken = jwtService.generateToken(createdUser);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        PublicUser publicUser = userService.toPublicData(createdUser, jwtToken);
+        return publicUser;
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) throws UserServiceException{
+    public PublicUser authenticate(AuthenticationRequest request) throws UserServiceException{
         try {
             authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -38,7 +41,8 @@ public class AuthenticationService {
             throw new UserServiceException("User", "Invalid email or password");
         }
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        PublicUser publicUser = userService.toPublicData(user, jwtToken);
+        return publicUser;
 
     }
 

@@ -28,7 +28,8 @@ public class RentService {
         List<Rent> foundRents = rentRepository.findAll();
         if (foundRents.isEmpty()) {
             throw new RentServiceException("rent", "There are no rents");
-        }return foundRents;}
+        }
+        return foundRents;}
 
 
 

@@ -14,6 +14,9 @@ import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import be.ucll.se.groep02backend.config.ApplicationConfig;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "User")
 @RequestMapping("/user")
@@ -24,12 +27,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Get all users", description = "Get all users from the database.")
+    @Operation(summary = "Get all users")
     @GetMapping()
     public List<User> getUsers() throws UserServiceException {
 
         return userService.getAllUsers(ApplicationConfig.getAuthenticatedUser());
 
+    }
+
+    @Operation(summary = "Add role")
+    @PutMapping("role/add/{role}")
+    public String addRole(@PathVariable String role) throws UserServiceException {
+        return userService.addRole(role, ApplicationConfig.getAuthenticatedUser());
     }
 
 }

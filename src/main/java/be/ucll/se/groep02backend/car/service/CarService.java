@@ -11,6 +11,7 @@ import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
+import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
 
 @Service
@@ -29,25 +30,47 @@ public class CarService {
     }
 
     public Car addCar(Car car, User user) throws CarServiceException {
-        car.setUser(user);
-        return carRepository.save(car);
-    } 
+        if (user.getAuthorities().contains(Role.OWNER) || user.getAuthorities().contains(Role.ADMIN)) {
+            car.setUser(user);
+            return carRepository.save(car);
+        } else {
+            throw new CarServiceException("role", "User is not an owner.");
+        }
+    }
 
     public Car findCarByRentalId(Long rentalId) {
         return carRepository.findCarByRentalsId(rentalId);
     }
 
-    public Car deleteCar(Long id, User user) throws CarServiceException{
-        Car car = carRepository.findCarById(id);
-        if(Objects.isNull(car)){
-            throw new CarServiceException("id", "Car with given id does not exist.");
+    public Car deleteCar(Long id, User user) throws CarServiceException {
+
+        if (!user.getAuthorities().contains(Role.OWNER) && !user.getAuthorities().contains(Role.ADMIN)) {
+            throw new CarServiceException("role", "User is not an owner.");
+        } else {
+            if (user.getAuthorities().contains(Role.ADMIN)) {
+                Car car = carRepository.findCarById(id);
+                Set<Rental> rentals = car.getRentals();
+                for (Rental rental : rentals) {
+                    car.removeRental(rental);
+                    rentalRepository.delete(rental);
+                }
+                carRepository.delete(car);
+                return car;
+            } else {
+
+                if (user.getCars().contains(carRepository.findCarById(id))) {
+                    Car car = carRepository.findCarById(id);
+                    Set<Rental> rentals = car.getRentals();
+                    for (Rental rental : rentals) {
+                        car.removeRental(rental);
+                        rentalRepository.delete(rental);
+                    }
+                    carRepository.delete(car);
+                    return car;
+                } else {
+                    throw new CarServiceException("user", "Car is not owned by user.");
+                }
+            }
         }
-        Set<Rental> rentals = car.getRentals();
-        for(Rental rental : rentals){
-            car.removeRental(rental);
-            rentalRepository.delete(rental);
-        }
-        carRepository.delete(car);
-        return car;
     }
 }

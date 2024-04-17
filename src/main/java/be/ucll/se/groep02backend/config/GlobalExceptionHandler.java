@@ -11,9 +11,6 @@ import be.ucll.se.groep02backend.notification.service.NotificationServiceExcepti
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
-import io.jsonwebtoken.io.IOException;
-import io.jsonwebtoken.security.SignatureException;
-import jakarta.servlet.ServletException;
 
 import java.util.HashMap;
 import java.util.Map;

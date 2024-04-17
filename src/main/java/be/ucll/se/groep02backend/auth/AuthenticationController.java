@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import be.ucll.se.groep02backend.user.model.PublicUser;
 import be.ucll.se.groep02backend.user.model.UserInput;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,12 +24,12 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid UserInput user) throws UserServiceException{
+    public ResponseEntity<PublicUser> register(@RequestBody @Valid UserInput user) throws UserServiceException{
         return ResponseEntity.ok(service.register(user));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) throws UserServiceException{
+    public ResponseEntity<PublicUser> authenticate(@RequestBody @Valid AuthenticationRequest request) throws UserServiceException{
         return ResponseEntity.ok(service.authenticate(request));
     }
 
