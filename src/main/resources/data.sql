@@ -13,12 +13,28 @@ INSERT INTO "PUBLIC"."CAR" VALUES
 
 
 
-INSERT INTO "PUBLIC"."RENTAL" VALUES
-(DATE '2024-04-07', 0, DATE '2024-04-01', 0, 1, 1, 'New York', 'nyrental@example.com', '123-456-7890', NULL),
-(DATE '2024-04-26', 0, DATE '2024-04-15', 0, 2, 2, 'Los Angeles', 'larental@example.com', '987-654-3210', NULL),
-(DATE '2024-05-31', 0, DATE '2024-04-24', 0, 3, 3, 'Chicago', 'chirental@example.com', '555-123-4567', NULL),      
-(DATE '2024-06-15', 0, DATE '2024-06-01', 0, 4, 4, 'Houston', 'hourental@example.com', '321-654-9870', NULL),
-(DATE '2024-07-20', 0, DATE '2024-07-05', 0, 5, 5, 'Miami', 'miamirental@example.com', '456-789-1234', NULL);
+INSERT INTO "PUBLIC"."RENTAL" (
+    "END_DATE",
+    "POSTAL",
+    "START_DATE",
+    "STREET_NUMBER",
+    "CAR_ID",
+    "ID",
+    "CITY",
+    "EMAIL",
+    "PHONE_NUMBER",
+    "STREET",
+    "BASE_PRICE",
+    "PRICE_PER_KM",
+    "FUEL_PENALTY_PRICE",
+    "PRICE_PER_DAY"
+) VALUES 
+(DATE '2024-04-07', 0, DATE '2024-04-01', 1, 1, 1, 'New York', 'nyrental@example.com', '123-456-7890', NULL, 20.00, 3.00, 4.00, 2.00),
+(DATE '2024-04-26', 0, DATE '2024-04-15', 2, 2, 2, 'Los Angeles', 'larental@example.com', '987-654-3210', NULL, 20.00, 3.00, 4.00, 2.00),
+(DATE '2024-05-31', 0, DATE '2024-04-24', 3, 3, 3, 'Chicago', 'chirental@example.com', '555-123-4567', NULL, 20.00, 3.00, 4.00, 2.00),
+(DATE '2024-06-15', 0, DATE '2024-06-01', 4, 4, 4, 'Houston', 'hourental@example.com', '321-654-9870', NULL, 20.00, 3.00, 4.00, 2.00),
+(DATE '2024-07-20', 0, DATE '2024-07-05', 5, 5, 5, 'Miami', 'miamirental@example.com', '456-789-1234', NULL, 20.3434, 3.69, 4.20, 2.32890280492);
+
 
 
 
