@@ -41,6 +41,13 @@ public class RentService {
         return foundRents;
     }
 
+
+    // public void test() {
+    //     rentRepository.getAllRentsByUserEmail()
+    //     rentRepository.getAllRentsByRentalByCarByUserEmail()
+
+    // }
+
     public Rent addRent(Rent rent, Long rentalId, User user) throws RentServiceException, RentalServiceException{
         Rental rental = rentalRepository.findRentalById(rentalId);
         if(rental == null){

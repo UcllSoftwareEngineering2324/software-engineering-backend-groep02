@@ -30,7 +30,7 @@ public class CarService {
     }
 
     public Car addCar(Car car, User user) throws CarServiceException {
-        if (user.getAuthorities().contains(Role.OWNER) || user.getAuthorities().contains(Role.ADMIN)) {
+        if (user.getRoles().contains(Role.OWNER) || user.getRoles().contains(Role.ADMIN)) {
             car.setUser(user);
             return carRepository.save(car);
         } else {
@@ -43,11 +43,10 @@ public class CarService {
     }
 
     public Car deleteCar(Long id, User user) throws CarServiceException {
-
-        if (!user.getAuthorities().contains(Role.OWNER) && !user.getAuthorities().contains(Role.ADMIN)) {
+        if (!user.getRoles().contains(Role.OWNER) && !user.getRoles().contains(Role.ADMIN)) {
             throw new CarServiceException("role", "User is not an owner.");
         } else {
-            if (user.getAuthorities().contains(Role.ADMIN)) {
+            if (user.getRoles().contains(Role.ADMIN)) {
                 Car car = carRepository.findCarById(id);
                 Set<Rental> rentals = car.getRentals();
                 for (Rental rental : rentals) {

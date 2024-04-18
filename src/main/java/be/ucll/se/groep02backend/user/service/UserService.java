@@ -1,5 +1,6 @@
 package be.ucll.se.groep02backend.user.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,24 +32,25 @@ public class UserService {
     }
 
 
-    public List<User> removeSensitiveData(List<User> users) {
+    public List<PublicUser> removeSensitiveData(List<User> users) {
+        List<PublicUser> publicUsers = new ArrayList<>();
         for (User u : users) {
-            u.setPassword(null);
+            publicUsers.add(toPublicData(u));
         }
-        return users;
+        return publicUsers;
     }
 
     public User getUserByEmail(String email) {
         return repository.findByEmail(email).orElse(null);
     }
 
-    public List<User> getAllUsers(User user) {
-        if (user.getRoles().contains(Role.ADMIN)) {
-            List<User> users = repository.findAll();
-            return removeSensitiveData(users);
-        } else {
-            return List.of(user);
-        }
+    public List<PublicUser> getAllUsers(User user) {
+        List<User> users = repository.findAll();
+        return removeSensitiveData(users);
+    }
+
+    public PublicUser getUser(User user) {
+        return toPublicData(user);
     }
 
     public User createUser(UserInput userInput) throws UserServiceException {

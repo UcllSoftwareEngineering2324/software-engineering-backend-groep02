@@ -52,7 +52,7 @@ public class SecurityConfiguration {
                                 .authorizeHttpRequests(req ->
                                 req.requestMatchers(getAuthWhitelist())
                                         .permitAll()
-                                        .requestMatchers("/accounting/**").hasAnyAuthority("ACCOUNTANT", "ADMIN")
+                                        .requestMatchers("**/admin/**").hasAnyAuthority( "ADMIN")
                                         .anyRequest()
                                         .authenticated()
                         )
