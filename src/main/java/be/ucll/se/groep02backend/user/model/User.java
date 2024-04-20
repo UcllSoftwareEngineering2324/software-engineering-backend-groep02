@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -64,7 +65,7 @@ public class User implements UserDetails {
     private String nationalRegisterNumber;
 
     @NotBlank(message = "Driving license number is required")
-    @Pattern(regexp = "\\d{10}", message = "Driving license number is not in the right format!")
+    @Pattern(regexp = "[0-9]{10}", message = "Driving license number is not in the right format!")
     private String licenseNumber;
 
     @Builder.Default
