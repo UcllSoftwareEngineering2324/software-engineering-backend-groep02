@@ -215,7 +215,7 @@ public class Seed implements ApplicationRunner {
         System.out.println("<------------------------------------>");
         System.out.println(renter1.getEmail() + ": " + renter1Token);
         System.out.println("<------------------------------------>");
-        System.out.println(accountant1.getEmail() + ": " + renter1Token);
+        System.out.println(accountant1.getEmail() + ": " + accountant1Token);
 
 
 
