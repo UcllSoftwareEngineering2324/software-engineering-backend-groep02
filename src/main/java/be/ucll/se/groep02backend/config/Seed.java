@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import be.ucll.se.groep02backend.auth.AuthenticationService;
 import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
+import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.service.RentalService;
 import be.ucll.se.groep02backend.user.model.PublicUser;
@@ -28,6 +30,8 @@ public class Seed implements ApplicationRunner {
     private UserService userService;
     private CarService carService;
     private RentalService rentalService;
+    private RentService rentService;
+
 
     @Override
     public void run(ApplicationArguments args) {
@@ -43,11 +47,12 @@ public class Seed implements ApplicationRunner {
     }
 
     @Autowired
-    public void seed(AuthenticationService authenticationService, UserService userService, CarService carService, RentalService rentalService) {
+    public void seed(AuthenticationService authenticationService, UserService userService, CarService carService, RentalService rentalService, RentService rentService) {
         this.authenticationService = authenticationService;
         this.userService = userService;
         this.carService = carService;
         this.rentalService = rentalService;
+        this.rentService = rentService;
     }
 
     public void seedData() throws UserServiceException, Exception, MethodArgumentNotValidException {
@@ -73,7 +78,7 @@ public class Seed implements ApplicationRunner {
         carService.addCar(car1, admin_1);
         carService.addCar(car2, admin_1);
 
-        Rental rental1 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(2), "Misery street", 13, 3000, "Leuven",100, 1, 20, 80);
+        Rental rental1 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Misery street", 13, 3000, "Leuven",100, 1, 20, 80);
         Rental rental2 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Misery street", 14, 3000, "Leuven",100, 1, 21, 80);
 
         rentalService.addRental(rental1, car1.id, admin_1);
@@ -160,6 +165,7 @@ public class Seed implements ApplicationRunner {
         rentalService.addRental(rental8, car6.id, owner_2);
         rentalService.addRental(rental9, car7.id, owner_2);
         rentalService.addRental(rental10, car7.id, owner_2);
+        rentalService.addRental(rental11, car8.id, owner_2);
         
         // -------------------> Renter 1 <-------------------
         UserInput renter1 = new UserInput();
@@ -175,6 +181,13 @@ public class Seed implements ApplicationRunner {
         PublicUser renter1Response = authenticationService.register(renter1);
         String renter1Token = renter1Response.getToken();
         User renter_1 = userService.getUserByEmail(renter1.getEmail());
+        Rent rent1 = new Rent(LocalDate.now().plusDays(1), LocalDate.now().plusDays(2));
+        Rent rent2 = new Rent(LocalDate.now().plusDays(2), LocalDate.now().plusDays(4));
+        Rent rent3 = new Rent(LocalDate.now().plusDays(1), LocalDate.now().plusDays(2));
+        rentService.checkinRent(rent1, rental1.id, renter_1);
+        rentService.checkinRent(rent2, rental9.id, renter_1);
+        rentService.checkinRent(rent3, rental10.id, renter_1);
+
 
         // -------------------> Renter 2 <-------------------
         UserInput renter2 = new UserInput();

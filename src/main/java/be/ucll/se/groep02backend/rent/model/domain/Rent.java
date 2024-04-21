@@ -56,11 +56,9 @@ public class Rent {
     public Rent() {
     }
 
-    public Rent(LocalDate startDate, LocalDate endDate, String phoneNumber, String email, String nationalRegisterNumber,
-            LocalDate birthDate, String licenseNumber, RentStatus status) {
+    public Rent(LocalDate startDate, LocalDate endDate) {
         setStartDate(startDate);
         setEndDate(endDate);
-        setStatus(status);
     }
 
     // Getters

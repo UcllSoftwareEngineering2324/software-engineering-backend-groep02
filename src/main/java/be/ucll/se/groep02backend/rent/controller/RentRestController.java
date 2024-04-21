@@ -41,25 +41,25 @@ public class RentRestController {
     }
     
     @GetMapping("/get/")
-    public List<Rent> getMethodName(@RequestParam String email) throws RentServiceException {
-        return rentService.getRentsByEmail(email);
+    public List<Rent> getMethodName(@RequestParam String email) throws RentServiceException, UserServiceException{
+        return rentService.getRentsByEmail(email, ApplicationConfig.getAuthenticatedUser());
     }
     
     
     @PostMapping("/add/{rentalId}")
-    public Rent addRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)
+    public Rent checkInRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)
             throws RentServiceException, RentalServiceException, UserServiceException {
-        return rentService.addRent(rent, rentalId, ApplicationConfig.getAuthenticatedUser());
+        return rentService.checkinRent(rent, rentalId, ApplicationConfig.getAuthenticatedUser());
     }
 
     @DeleteMapping("/delete/")
-    public Rent deleteRent(@RequestParam("rentId") Long rentId) throws RentServiceException{
-        return rentService.deleteRent(rentId);
+    public Rent deleteRent(@RequestParam("rentId") Long rentId) throws RentServiceException, UserServiceException{
+        return rentService.checkoutRent(rentId, ApplicationConfig.getAuthenticatedUser());
     }
 
     @PutMapping("/status/{status}/{id}")
-    public Rent updateRentStatus(@PathVariable Long id, @PathVariable String status) throws RentServiceException{
-        return rentService.updateRentStatus(id, status);
+    public Rent updateRentStatus(@PathVariable Long id, @PathVariable String status) throws RentServiceException, UserServiceException{
+        return rentService.updateRentStatus(id, status, ApplicationConfig.getAuthenticatedUser());
     }
     
 }

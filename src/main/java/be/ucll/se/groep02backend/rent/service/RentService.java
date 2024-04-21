@@ -12,6 +12,7 @@ import be.ucll.se.groep02backend.rent.repo.RentRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
+import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
 
 @Service
@@ -33,12 +34,21 @@ public class RentService {
 
 
 
-    public List<Rent> getRentsByEmail(String email) throws RentServiceException {
-        List<Rent> foundRents = rentRepository.findRentsByUserEmail(email);
-        if (foundRents.size() == 0) {
-            throw new RentServiceException("rent", "There are no rents for this email");
+    public List<Rent> getRentsByEmail(String email, User user) throws RentServiceException {
+        if (user.getRoles().contains(Role.ADMIN)) {
+            List<Rent> foundRents = rentRepository.findRentsByUserEmail(email);
+            if (foundRents.size() == 0) {
+                throw new RentServiceException("rent", "There are no rents for this email");
+            }
+            return foundRents;
         }
-        return foundRents;
+        else {
+            List<Rent> foundRents = rentRepository.findRentsByUserEmail(user.getEmail());
+            if (foundRents.size() == 0) {
+                throw new RentServiceException("rent", "There are no rents for this email");
+            }
+            return foundRents;
+        }
     }
 
 
@@ -48,7 +58,10 @@ public class RentService {
 
     // }
 
-    public Rent addRent(Rent rent, Long rentalId, User user) throws RentServiceException, RentalServiceException{
+    public Rent checkinRent(Rent rent, Long rentalId, User user) throws RentServiceException, RentalServiceException{
+        if (!user.getRoles().contains(Role.RENTER) && !user.getRoles().contains(Role.ADMIN)) {
+            throw new RentServiceException("role", "User must be a renter or admin to rent a car");
+        }
         Rental rental = rentalRepository.findRentalById(rentalId);
         if(rental == null){
             throw new RentalServiceException("rent", "Rental does not exist with given id");
@@ -77,11 +90,15 @@ public class RentService {
         return rent;
     }
 
-    public Rent deleteRent(Long id) throws RentServiceException{
-        Rent rent = rentRepository.findRentById(id);
-        if(rent == null){
-            throw new RentServiceException("id", "Rent with given id does not exist");
+    public Rent checkoutRent(Long id, User user) throws RentServiceException{
+        if (!user.getRoles().contains(Role.RENTER) && !user.getRoles().contains(Role.ADMIN)) {
+            throw new RentServiceException("role", "User must be a renter or admin to delete a rent");
         }
+        Rent rent = rentRepository.findRentByIdAndUserEmail(id, user.getEmail());
+        if(rent == null){
+            throw new RentServiceException("id", "Rent with given id does not exist or insufficient rights to delete rent");
+        }
+        
         Rental rental = rent.getRental();
         rental.removeRent(rent);
         rentalRepository.save(rental);
@@ -89,7 +106,10 @@ public class RentService {
         return rent;
     }
 
-    public Rent updateRentStatus(Long id, String status) throws RentServiceException{
+    public Rent updateRentStatus(Long id, String status, User user) throws RentServiceException{
+        if (!user.getRoles().contains(Role.OWNER) && !user.getRoles().contains(Role.ADMIN)) {
+            throw new RentServiceException("role", "User must be an owner or admin to update a rent");
+        }
         Rent rent = rentRepository.findRentById(id);
         if(rent == null){
             throw new RentServiceException("id", "Rent with given id does not exist");

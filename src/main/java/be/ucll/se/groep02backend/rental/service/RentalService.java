@@ -19,7 +19,6 @@ import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
-import be.ucll.se.groep02backend.user.repo.UserRepository;
 
 @Service
 public class RentalService {
@@ -55,6 +54,9 @@ public class RentalService {
         Car car = carRepository.findCarById(carId);
         if (user.getRoles().contains(Role.OWNER)) {
             List<Car> userCars = carRepository.findAllCarsByUser(user);
+            System.out.println(userCars.size());
+            System.out.println(car.getBrand());
+
             if (!userCars.contains(car)) {
                 throw new CarServiceException("car", "Car with id: " + carId + " does not belong to user");
             }
