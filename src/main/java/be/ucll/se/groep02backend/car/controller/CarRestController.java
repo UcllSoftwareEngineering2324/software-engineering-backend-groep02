@@ -29,8 +29,8 @@ public class CarRestController {
     private CarService carService;
 
     @GetMapping
-    public List<Car> getCars() {
-        return carService.findAll();
+    public List<Car> getCars() throws CarServiceException, UserServiceException{
+        return carService.getAllCars(ApplicationConfig.getAuthenticatedUser());
     }
 
     @PostMapping("/add")
@@ -41,6 +41,11 @@ public class CarRestController {
     @DeleteMapping("/delete/{id}")
     public Car deleteCar(@PathVariable("id") Long id) throws CarServiceException, UserServiceException {
         return carService.deleteCar(id, ApplicationConfig.getAuthenticatedUser());
+    }
+
+    @GetMapping("/user")
+    public List<Car> getCarsByUser() throws UserServiceException, CarServiceException {
+        return carService.getAllCarsByUser(ApplicationConfig.getAuthenticatedUser());
     }
 
 }

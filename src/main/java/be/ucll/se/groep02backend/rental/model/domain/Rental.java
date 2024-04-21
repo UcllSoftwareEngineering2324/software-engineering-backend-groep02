@@ -64,17 +64,33 @@ public class Rental {
     @NotBlank(message = "City is required")
     private String city;
 
+    @NotNull(message = "Base price is required")
+    private float basePrice;
+
+    @NotNull(message = "Price per Kilometer is required")
+    private float pricePerKm;
+
+    @NotNull(message = "Fuel penalty price is required")
+    private float fuelPenaltyPrice;
+
+    @NotNull(message = "Price per day is required")
+    private float pricePerDay;
+
 
     public Rental() {
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email) {
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, float basePrice, float pricePerKm, float fuelPenaltyPrice, float pricePerDay) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
         setStreetNumber(streetNumber);
         setPostal(postal);
         setCity(city);
+        setBasePrice(basePrice);
+        setPricePerKm(pricePerKm);
+        setFuelPenaltyPrice(fuelPenaltyPrice);
+        setPricePerDay(pricePerDay);
     }
 
     // Getters 
@@ -102,6 +118,22 @@ public class Rental {
         return this.city;
     }
 
+    public float getBasePrice() {
+        return this.basePrice;
+    }
+
+    public float getPricePerKm() {
+        return this.pricePerKm;
+    }
+
+    public float getFuelPenaltyPrice() {
+        return this.fuelPenaltyPrice;
+    }
+
+    public float getPricePerDay() {
+        return this.pricePerDay;
+    }
+
 
     // Setters
     public void setStartDate(LocalDate starDate){
@@ -126,6 +158,22 @@ public class Rental {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public void setBasePrice(float basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public void setPricePerKm(float pricePerKm) {
+        this.pricePerKm = pricePerKm;
+    }
+
+    public void setFuelPenaltyPrice(float fuelPenaltyPrice) {
+        this.fuelPenaltyPrice = fuelPenaltyPrice;
+    }
+
+    public void setPricePerDay(float pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
 

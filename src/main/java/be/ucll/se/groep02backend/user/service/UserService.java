@@ -9,7 +9,6 @@ import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.model.UserInput;
 import be.ucll.se.groep02backend.user.repo.UserRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,7 +67,7 @@ public class UserService {
                 .nationalRegisterNumber(userInput.getNationalRegisterNumber())
                 .licenseNumber(userInput.getLicenseNumber())
                 .build();
-        newUser.addAuthority(Role.USER);
+        newUser.addAuthority(Role.RENTER);
         System.out.println("User: " + newUser);
         return repository.save(newUser);
 
@@ -88,14 +87,6 @@ public class UserService {
                 throw new UserServiceException("User", "User already has this role: " + Role.ADMIN);
             } else {
                 authenticatedUser.addAuthority(Role.ADMIN);
-                repository.save(authenticatedUser);
-                return "Role added";
-            }
-        } else if (role.equalsIgnoreCase("USER")) {
-            if (authenticatedUser.getRoles().contains(Role.USER)) {
-                throw new UserServiceException("User", "User already has this role: " + Role.USER);
-            } else {
-                authenticatedUser.addAuthority(Role.USER);
                 repository.save(authenticatedUser);
                 return "Role added";
             }

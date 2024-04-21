@@ -96,6 +96,7 @@ public class Car {
         return this.towBar;
     }
 
+
     // Setters
     public void setBrand(String brand) {
         this.brand = brand;

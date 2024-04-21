@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ import be.ucll.se.groep02backend.rent.repo.RentRepository;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
+import be.ucll.se.groep02backend.user.model.Role;
+import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.repo.UserRepository;
 
 @Service
@@ -38,7 +41,10 @@ public class RentalService {
         return rentalRepository.findById(id).orElse(null);
     }
 
-    public Rental addRental(Rental rental, Long carId) throws RentalServiceException, CarServiceException {
+    public Rental addRental(Rental rental, Long carId, User user) throws RentalServiceException, CarServiceException {
+        if (!user.getRoles().contains(Role.OWNER) && !user.getRoles().contains(Role.ADMIN)) {
+            throw new RentalServiceException("role", "User is not an owner.");
+        }
         LocalDate startDate = rental.getStartDate();
         LocalDate endDate = rental.getEndDate();
         if(startDate.isAfter(endDate)){
@@ -46,8 +52,13 @@ public class RentalService {
         } else if (endDate.isBefore(startDate)) {
             throw new RentalServiceException("rental", "End date must be after the start date");
         } 
-
         Car car = carRepository.findCarById(carId);
+        if (user.getRoles().contains(Role.OWNER)) {
+            List<Car> userCars = carRepository.findAllCarsByUser(user);
+            if (!userCars.contains(car)) {
+                throw new CarServiceException("car", "Car with id: " + carId + " does not belong to user");
+            }
+        }
         if (car == null) {
             throw new CarServiceException("car", "Car with id: " + carId + " does not exist");
         }
@@ -101,7 +112,19 @@ public class RentalService {
         
     }
 
-    public Rental deleteRental(Long id) throws RentalServiceException{
+    public Rental deleteRental(Long id, User user) throws RentalServiceException{
+        if (!user.getRoles().contains(Role.OWNER) && !user.getRoles().contains(Role.ADMIN)) {
+            throw new RentalServiceException("role", "User is not an owner.");
+        }
+        if (user.getRoles().contains(Role.OWNER)) {
+            List<Car> userCars = carRepository.findAllCarsByUser(user);
+            for (Car car: userCars) {
+                if (car.getRentals().contains(rentalRepository.findRentalById(id))) {
+                    break;
+                }
+                throw new RentalServiceException("rental", "Rental with given id does not belong to user");
+            }
+        }
         Rental rental = rentalRepository.findRentalById(id);
         if(rental == null){
             throw new RentalServiceException("id", "Rental with given id does not exist");

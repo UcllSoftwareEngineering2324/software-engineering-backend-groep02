@@ -25,9 +25,16 @@ public class CarService {
     public CarService() {
     }
 
-    public List<Car> findAll() {
-        return carRepository.findAll();
+    public List<Car> getAllCars(User user) throws CarServiceException{
+        if (user.getRoles().contains(Role.ADMIN)) {
+            return carRepository.findAll();
+        } else if (user.getRoles().contains(Role.OWNER)) {
+            return carRepository.findAllCarsByUser(user);
+        } else {
+            throw new CarServiceException("role", "User is not an owner.");
+        }
     }
+
 
     public Car addCar(Car car, User user) throws CarServiceException {
         if (user.getRoles().contains(Role.OWNER) || user.getRoles().contains(Role.ADMIN)) {
@@ -71,5 +78,14 @@ public class CarService {
                 }
             }
         }
+    }
+
+    public List<Car> getAllCarsByUser(User user) throws CarServiceException {
+        if (user.getRoles().contains(Role.OWNER) || user.getRoles().contains(Role.ADMIN)) {
+            return carRepository.findAllCarsByUser(user);
+        } else {
+            throw new CarServiceException("role", "User is not an owner.");
+        }
+
     }
 }
