@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.config.ApplicationConfig;
-import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
+import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
 
 
 
@@ -54,7 +55,7 @@ public class RentRestController {
     }
 
     @DeleteMapping("/delete/")
-    public Rent deleteRent(@RequestParam("rentId") Long rentId) throws RentServiceException, UserServiceException, NotificationServiceException{
+    public Rent deleteRent(@RequestParam("rentId") Long rentId) throws RentServiceException, UserServiceException, NotificationServiceException {
         return rentService.checkoutRent(rentId, ApplicationConfig.getAuthenticatedUser());
     }
 

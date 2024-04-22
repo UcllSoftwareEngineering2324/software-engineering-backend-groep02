@@ -47,5 +47,7 @@ public class UserController {
         return userService.getUser(ApplicationConfig.getAuthenticatedUser());
     }
 
+    
+
 
 }

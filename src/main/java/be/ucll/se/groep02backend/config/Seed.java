@@ -184,9 +184,11 @@ public class Seed implements ApplicationRunner {
         Rent rent1 = new Rent(LocalDate.now().plusDays(1), LocalDate.now().plusDays(2));
         Rent rent2 = new Rent(LocalDate.now().plusDays(2), LocalDate.now().plusDays(4));
         Rent rent3 = new Rent(LocalDate.now().plusDays(1), LocalDate.now().plusDays(2));
+        Rent rent4 = new Rent(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5));
         rentService.checkinRent(rent1, rental1.id, renter_1);
         rentService.checkinRent(rent2, rental9.id, renter_1);
         rentService.checkinRent(rent3, rental10.id, renter_1);
+        rentService.checkinRent(rent4, rental3.id, renter_1);
 
 
         // -------------------> Renter 2 <-------------------

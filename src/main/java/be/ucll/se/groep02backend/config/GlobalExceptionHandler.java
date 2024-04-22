@@ -47,16 +47,6 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleUserServiceException(UserServiceException ex) {
         return createErrorResponse(ex.getField(), ex.getMessage());
     }
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
-    // @ExceptionHandler({ UserServiceException.class })
-    // public Map<String, String> handleUserServiceException(IOException ex) {
-    //     return createErrorResponse("eeee", ex.getMessage());
-    // }
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
-    // @ExceptionHandler({ UserServiceException.class })
-    // public Map<String, String> handleUserServiceException(ServletException ex) {
-    //     return createErrorResponse("eeee", ex.getMessage());
-    // }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentNotValidException.class })
