@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.notification.repo.NotificationRepository;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.user.model.User;
 
 @Service
 public class NotificationService {
@@ -47,6 +48,16 @@ public class NotificationService {
         notificationRepository.delete(notification);
         return notification;
     }
+    public Notification deleteNotification(Rent rent) throws NotificationServiceException{
+        Notification notification = notificationRepository.findNotificationByRent(rent);
+        if(Objects.isNull(notification)){
+            throw new NotificationServiceException("id", "Notification with given id does not exist.");
+        }
+        notificationRepository.delete(notification);
+        return notification;
+    }
+
+    
 
     public Notification viewedNotification(Long id) throws NotificationServiceException {
         Notification notification = notificationRepository.findNotificationById(id);
