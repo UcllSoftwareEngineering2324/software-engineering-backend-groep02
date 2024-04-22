@@ -82,7 +82,7 @@ public class Seed implements ApplicationRunner {
         Rental rental2 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Misery street", 14, 3000, "Leuven",100, 1, 21, 80);
 
         rentalService.addRental(rental1, car1.id, admin_1);
-        rentalService.addRental(rental2, car1.id, admin_1);
+        rentalService.addRental(rental2, car2.id, admin_1);
 
 
         // -------------------> Owner 1 <-------------------
@@ -164,8 +164,8 @@ public class Seed implements ApplicationRunner {
         Rental rental11 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800, "Bruges", 100, 6, 23, 90);
         rentalService.addRental(rental8, car6.id, owner_2);
         rentalService.addRental(rental9, car7.id, owner_2);
-        rentalService.addRental(rental10, car7.id, owner_2);
-        rentalService.addRental(rental11, car8.id, owner_2);
+        rentalService.addRental(rental10, car8.id, owner_2);
+        rentalService.addRental(rental11, car9.id, owner_2);
         
         // -------------------> Renter 1 <-------------------
         UserInput renter1 = new UserInput();
