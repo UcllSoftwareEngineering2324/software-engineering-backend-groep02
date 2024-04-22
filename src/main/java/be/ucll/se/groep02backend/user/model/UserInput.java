@@ -31,14 +31,14 @@ public class UserInput {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @NotNull(message = "role admin is required")
-    private Boolean role_admin;
-    @NotNull(message = "role renter is required")
-    private Boolean role_renter;
-    @NotNull(message = "role owner is required")
-    private Boolean role_owner;
-    @NotNull(message = "role accountant is required")
-    private Boolean role_accountant;
+    // @NotNull(message = "role admin is required")
+    // private Boolean role_admin;
+    // @NotNull(message = "role renter is required")
+    // private Boolean role_renter;
+    // @NotNull(message = "role owner is required")
+    // private Boolean role_owner;
+    // @NotNull(message = "role accountant is required")
+    // private Boolean role_accountant;
 
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "^(\\+\\d{1,3})?[-.\\s]?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$", message = "Invalid phone number format")
@@ -89,37 +89,37 @@ public class UserInput {
         this.lastName = lastName;
     }
 
-    public Boolean getRole_admin() {
-        return role_admin;
-    }
+    // public Boolean getRole_admin() {
+    //     return role_admin;
+    // }
 
-    public void setRole_admin(Boolean role_admin) {
-        this.role_admin = role_admin;
-    }
+    // public void setRole_admin(Boolean role_admin) {
+    //     this.role_admin = role_admin;
+    // }
 
-    public Boolean getRole_renter() {
-        return role_renter;
-    }
+    // public Boolean getRole_renter() {
+    //     return role_renter;
+    // }
 
-    public void setRole_renter(Boolean role_renter) {
-        this.role_renter = role_renter;
-    }
+    // public void setRole_renter(Boolean role_renter) {
+    //     this.role_renter = role_renter;
+    // }
 
-    public Boolean getRole_owner() {
-        return role_owner;
-    }
+    // public Boolean getRole_owner() {
+    //     return role_owner;
+    // }
 
-    public void setRole_owner(Boolean role_owner) {
-        this.role_owner = role_owner;
-    }
+    // public void setRole_owner(Boolean role_owner) {
+    //     this.role_owner = role_owner;
+    // }
 
-    public Boolean getRole_accountant() {
-        return role_accountant;
-    }
+    // public Boolean getRole_accountant() {
+    //     return role_accountant;
+    // }
 
-    public void setRole_accountant(Boolean role_accountant) {
-        this.role_accountant = role_accountant;
-    }
+    // public void setRole_accountant(Boolean role_accountant) {
+    //     this.role_accountant = role_accountant;
+    // }
 
     
 
