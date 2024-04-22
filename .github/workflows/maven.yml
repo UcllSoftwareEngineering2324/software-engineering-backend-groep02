@@ -45,14 +45,14 @@ jobs:
         run: |
           PACKAGE_URL="https://maven.pkg.github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/be/ucll/se/groep02-backend/0.0.1/groep02-backend-0.0.1.jar"
           wget --header="Authorization: token ${{ secrets.GITHUB_TOKEN }}" $PACKAGE_URL -O software-engineering-backend-groep02.jar
-              
-      - name: Deploy to Azure Web App acceptance
+          
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'groep2-backend-acceptance-test'
+          app-name: 'groep02-backend-acceptance'
           slot-name: 'Production'
           package: 'software-engineering-backend-groep02.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4C635568B4134E31851B97CEF9FA920C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_08F1BE3FF77E48E79D50CE2058D09C1F }}
 
 
