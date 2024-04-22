@@ -15,13 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import be.ucll.se.groep02backend.config.ApplicationConfig;
 import be.ucll.se.groep02backend.notification.model.Notification;
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
+import be.ucll.se.groep02backend.user.service.UserServiceException;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@Tag(name = "Notification")
 @RestController
 @RequestMapping("/notification")
 public class NotificationRestController {
@@ -31,9 +36,11 @@ public class NotificationRestController {
     
     
     @GetMapping()
-    public List<Notification> getMethodName() {
-        return notificationService.findAll();
+    public List<Notification> getMethodName() throws NotificationServiceException, UserServiceException{
+        return notificationService.getMyNotifications(ApplicationConfig.getAuthenticatedUser());
     }
+
+
     
 
     @PutMapping("/viewed/")
@@ -44,24 +51,7 @@ public class NotificationRestController {
     
     
     
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ NotificationServiceException.class })
-    public Map<String, String> handleUserServiceExceptions(NotificationServiceException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put(ex.getField(), ex.getMessage());
-        return errors;
-    }
+    
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({
-            MethodArgumentNotValidException.class })
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getFieldErrors().forEach((error) -> {
-            String fieldName = error.getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
+    
 }

@@ -8,20 +8,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface RentalRepository extends JpaRepository<Rental, Long>{
+public interface RentalRepository extends JpaRepository<Rental, Long> {
     public List<Rental> findAll();
+
     public Rental findRentalById(Long id);
+
     public Rental findRentalByRentsId(Long id);
 
     @Query("SELECT r FROM Rental r WHERE " +
-       "(:searchEmail IS NULL OR r.email = :searchEmail) " +
-       "AND (:searchStartDate IS NULL OR r.startDate >= :searchStartDate) " +
-       "AND (:searchEndDate IS NULL OR r.endDate <= :searchEndDate) " +
-       "AND (:searchCity IS NULL OR r.city = :searchCity)")
+            "(:searchStartDate IS NULL OR r.startDate >= :searchStartDate) " +
+            "AND (:searchEndDate IS NULL OR r.endDate <= :searchEndDate) " +
+            "AND (:searchCity IS NULL OR r.city = :searchCity)")
     List<Rental> findRentalsByCriteria(
-            @Param("searchEmail") String searchEmail,
             @Param("searchStartDate") LocalDate searchStartDate,
             @Param("searchEndDate") LocalDate searchEndDate,
-            @Param("searchCity") String searchCity
-    );
+            @Param("searchCity") String searchCity);
 }

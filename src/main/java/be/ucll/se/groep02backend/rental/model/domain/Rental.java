@@ -6,8 +6,7 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
-import be.ucll.se.groep02backend.car.model.domain.Car;
+import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 // JPA imports
 import jakarta.persistence.Entity;
@@ -23,7 +22,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 // import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 
@@ -38,11 +36,10 @@ public class Rental {
     @Id
     public long id;
 
-
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
-    
+
     @OneToMany(mappedBy = "rental", fetch = FetchType.EAGER)
     private Set<Rent> rents;
 
@@ -59,19 +56,13 @@ public class Rental {
     private LocalDate endDate;
     
     private String street;
+
     private int streetNumber;
+
     private int postal;
 
     @NotBlank(message = "City is required")
     private String city;
-
-    @NotBlank(message = "Phone number is required")
-    private String phoneNumber;
-    
-    @NotBlank(message = "Email is required")
-    // @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
-    @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
-    private String email;
 
     @NotNull(message = "Base price is required")
     private float basePrice;
@@ -85,18 +76,17 @@ public class Rental {
     @NotNull(message = "Price per day is required")
     private float pricePerDay;
 
+
     public Rental() {
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, String phoneNumber, String email, float basePrice, float pricePerKm, float fuelPenaltyPrice, float pricePerDay) {
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, float basePrice, float pricePerKm, float fuelPenaltyPrice, float pricePerDay) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
         setStreetNumber(streetNumber);
         setPostal(postal);
         setCity(city);
-        setPhoneNumber(phoneNumber);
-        setEmail(email);
         setBasePrice(basePrice);
         setPricePerKm(pricePerKm);
         setFuelPenaltyPrice(fuelPenaltyPrice);
@@ -128,14 +118,6 @@ public class Rental {
         return this.city;
     }
 
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
     public float getBasePrice() {
         return this.basePrice;
     }
@@ -151,6 +133,7 @@ public class Rental {
     public float getPricePerDay() {
         return this.pricePerDay;
     }
+
 
     // Setters
     public void setStartDate(LocalDate starDate){
@@ -177,14 +160,6 @@ public class Rental {
         this.city = city;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setBasePrice(float basePrice) {
         this.basePrice = basePrice;
     }
@@ -200,6 +175,7 @@ public class Rental {
     public void setPricePerDay(float pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
+
 
 
     public Car getCar() {
@@ -221,7 +197,7 @@ public class Rental {
             rents = new HashSet<>();
         }
         return rents;
-    } 
+    }
 
     public void addRent(Rent rent){
         this.getRents().add(rent);

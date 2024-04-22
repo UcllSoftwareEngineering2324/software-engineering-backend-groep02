@@ -15,7 +15,7 @@ public class Notification {
     @Id
     public long id;
 
-    private boolean receiverViewed;
+    private boolean renterViewed;
     private boolean ownerViewed;
 
     @OneToOne(optional = true)
@@ -24,9 +24,9 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(boolean receiverViewed, boolean ownerViewed, Rent rent) {
+    public Notification(boolean renterViewed, boolean ownerViewed, Rent rent) {
         setOwnerViewed(ownerViewed);
-        setReceiverViewed(receiverViewed);
+        setReceiverViewed(renterViewed);
         setrent(rent);
     }
 
@@ -35,7 +35,7 @@ public class Notification {
     }
     
     public boolean getReceiverViewed() {
-        return this.receiverViewed;
+        return this.renterViewed;
     }
 
     public boolean getOwnerViewed() {
@@ -46,8 +46,8 @@ public class Notification {
         return this.rent;
     }
 
-    public void setReceiverViewed(boolean receiverViewed) {
-        this.receiverViewed = receiverViewed;
+    public void setReceiverViewed(boolean renterViewed) {
+        this.renterViewed = renterViewed;
     }
 
     public void setOwnerViewed(boolean ownerViewed) {
