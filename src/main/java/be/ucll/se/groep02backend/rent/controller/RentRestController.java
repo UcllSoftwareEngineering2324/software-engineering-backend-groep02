@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.config.ApplicationConfig;
-import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
