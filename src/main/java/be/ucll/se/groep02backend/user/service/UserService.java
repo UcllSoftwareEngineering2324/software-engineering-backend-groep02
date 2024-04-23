@@ -67,7 +67,18 @@ public class UserService {
                 .nationalRegisterNumber(userInput.getNationalRegisterNumber())
                 .licenseNumber(userInput.getLicenseNumber())
                 .build();
-        newUser.addAuthority(Role.RENTER);
+        if (userInput.getIsAdmin()) {
+            newUser.addAuthority(Role.ADMIN);
+        }
+        if (userInput.getIsRenter()) {
+            newUser.addAuthority(Role.RENTER);
+        }
+        if (userInput.getIsOwner()) {
+            newUser.addAuthority(Role.OWNER);
+        }
+        if (userInput.getIsAccountant()) {
+            newUser.addAuthority(Role.ACCOUNTANT);
+        }
         System.out.println("User: " + newUser);
         return repository.save(newUser);
 
