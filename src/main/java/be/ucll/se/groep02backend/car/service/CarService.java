@@ -64,9 +64,16 @@ public class CarService {
         } else {
             if (user.getRoles().contains(Role.ADMIN)) {
                 Car car = carRepository.findCarById(id);
+                if (car == null) {
+                    throw new CarServiceException("car", "Car with given id: "+ id +" does not exist.");
+                }
                 Set<Rental> rentals = car.getRentals();
                 for (Rental rental : rentals) {
-                    car.removeRental(rental);
+                    Set<Rent> rents = rental.getRents();
+                    for (Rent rent : rents) {
+                        notificationService.deleteNotification(rent);
+                        rentRepository.delete(rent);
+                    }
                     rentalRepository.delete(rental);
                 }
                 carRepository.delete(car);
@@ -74,7 +81,7 @@ public class CarService {
             } else {
                 Car cars = carRepository.findCarById(id);
                 List<Car> userCars = carRepository.findAllCarsByUser(user);
-                
+
                 if (cars != null && !userCars.isEmpty()) {
                     for (Car car : userCars) {
                         if (Objects.equals(car.id, cars.id)) {
@@ -98,11 +105,12 @@ public class CarService {
     }
 
     // public List<Car> getAllCarsByUser(User user) throws CarServiceException {
-    //     if (user.getRoles().contains(Role.OWNER) || user.getRoles().contains(Role.ADMIN)) {
-    //         return carRepository.findAllCarsByUser(user);
-    //     } else {
-    //         throw new CarServiceException("role", "User is not an owner.");
-    //     }
+    // if (user.getRoles().contains(Role.OWNER) ||
+    // user.getRoles().contains(Role.ADMIN)) {
+    // return carRepository.findAllCarsByUser(user);
+    // } else {
+    // throw new CarServiceException("role", "User is not an owner.");
+    // }
 
     // }
 }
