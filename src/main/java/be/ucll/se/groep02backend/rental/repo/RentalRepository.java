@@ -1,6 +1,7 @@
 package be.ucll.se.groep02backend.rental.repo;
 
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;

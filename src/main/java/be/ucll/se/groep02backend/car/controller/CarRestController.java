@@ -17,6 +17,7 @@ import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
 import be.ucll.se.groep02backend.config.ApplicationConfig;
+import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -39,13 +40,13 @@ public class CarRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Car deleteCar(@PathVariable("id") Long id) throws CarServiceException, UserServiceException {
+    public boolean deleteCar(@PathVariable("id") Long id) throws CarServiceException, UserServiceException, NotificationServiceException {
         return carService.deleteCar(id, ApplicationConfig.getAuthenticatedUser());
     }
 
-    @GetMapping("/user")
-    public List<Car> getCarsByUser() throws UserServiceException, CarServiceException {
-        return carService.getAllCarsByUser(ApplicationConfig.getAuthenticatedUser());
-    }
+    // @GetMapping("/user")
+    // public List<Car> getCarsByUser() throws UserServiceException, CarServiceException {
+    //     return carService.getAllCarsByUser(ApplicationConfig.getAuthenticatedUser());
+    // }
 
 }
