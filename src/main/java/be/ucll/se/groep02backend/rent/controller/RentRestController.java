@@ -42,8 +42,8 @@ public class RentRestController {
         return rentService.getAllRents();
     }
     
-    @GetMapping("/get/")
-    public List<Rent> getMethodName(@RequestParam String email) throws RentServiceException, UserServiceException{
+    @GetMapping("/email/")
+    public List<Rent> getRentsByEmail(@RequestParam String email) throws RentServiceException, UserServiceException{
         return rentService.getRentsByEmail(email, ApplicationConfig.getAuthenticatedUser());
     }
     

@@ -16,6 +16,7 @@ import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
 import be.ucll.se.groep02backend.config.ApplicationConfig;
+import be.ucll.se.groep02backend.rental.model.domain.PublicRental;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.service.RentalService;
@@ -36,8 +37,8 @@ public class RentalRestController {
     private CarService carService;
 
     @GetMapping
-    public List<Rental> getRentals() {
-        return rentalService.findAll();
+    public List<PublicRental> getRentals() {
+        return rentalService.getAllPublicRentals();
     }
 
     @GetMapping("/get/car/")
