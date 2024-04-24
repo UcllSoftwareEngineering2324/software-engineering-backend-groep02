@@ -62,7 +62,7 @@ public class RentTest {
 
         // then
         Set<ConstraintViolation<Rent>> violations = validator.validate(rent);
-        assertEquals(violations.size(), 1);
+        assertEquals(1, violations.size());
         ConstraintViolation<Rent> violation = violations.iterator().next();
         assertEquals("Start date is required", violation.getMessage());
         assertEquals("startDate", violation.getPropertyPath().toString());
@@ -78,7 +78,7 @@ public class RentTest {
 
         // then
         Set<ConstraintViolation<Rent>> violations = validator.validate(rent);
-        assertEquals(violations.size(), 1);
+        assertEquals(1, violations.size());
         ConstraintViolation<Rent> violation = violations.iterator().next();
         assertEquals("Start date is invalid, it has to be in the future", violation.getMessage());
         assertEquals("startDate", violation.getPropertyPath().toString());
@@ -94,7 +94,7 @@ public class RentTest {
 
         // then
         Set<ConstraintViolation<Rent>> violations = validator.validate(rent);
-        assertEquals(violations.size(), 1);
+        assertEquals(1, violations.size());
         ConstraintViolation<Rent> violation = violations.iterator().next();
         assertEquals("End date is required", violation.getMessage());
         assertEquals("endDate", violation.getPropertyPath().toString());
@@ -110,7 +110,7 @@ public class RentTest {
 
         // then
         Set<ConstraintViolation<Rent>> violations = validator.validate(rent);
-        assertEquals(violations.size(), 1);
+        assertEquals(1, violations.size());
         ConstraintViolation<Rent> violation = violations.iterator().next();
         assertEquals("End date is invalid, it has to be in the future", violation.getMessage());
         assertEquals("endDate", violation.getPropertyPath().toString());

@@ -43,12 +43,18 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @NotBlank(message = "FirstName is required")
     private String firstName;
+
+    @NotBlank(message = "LastName is required")
     private String lastName;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email value is invalid, it has to be of the following format xxx@yyy.zzz")
     private String email;
+
+    @NotBlank(message = "Password is required")
     private String password;
 
     @NotBlank(message = "Phone number is required")

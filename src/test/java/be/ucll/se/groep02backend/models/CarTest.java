@@ -70,7 +70,7 @@ public class CarTest {
 
         // then
         Set<ConstraintViolation<Car>> violations = validator.validate(car);
-        assertEquals(violations.size(), 1);
+        assertEquals(1, violations.size());
         ConstraintViolation<Car> violation = violations.iterator().next();
         assertEquals("Brand is required", violation.getMessage());
         assertEquals("brand", violation.getPropertyPath().toString());
@@ -108,7 +108,7 @@ public class CarTest {
 
         // then
         Set<ConstraintViolation<Car>> violations = validator.validate(car);
-        assertEquals(violations.size(), 1);
+        assertEquals(1, violations.size());
         ConstraintViolation<Car> violation = violations.iterator().next();
         assertEquals("Type is required", violation.getMessage());
         assertEquals("type", violation.getPropertyPath().toString());
@@ -133,7 +133,7 @@ public class CarTest {
 
         // then
         Set<ConstraintViolation<Car>> violations = validator.validate(car);
-        assertEquals(violations.size(), 1);
+        assertEquals(1, violations.size());
         ConstraintViolation<Car> violation = violations.iterator().next();
         assertEquals("License plate is required", violation.getMessage());
         assertEquals("licensePlate", violation.getPropertyPath().toString());
