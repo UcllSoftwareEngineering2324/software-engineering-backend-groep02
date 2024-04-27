@@ -1,5 +1,6 @@
 package be.ucll.se.groep02backend.rent.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
+import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.model.domain.RentStatus;
 import be.ucll.se.groep02backend.rent.repo.RentRepository;
@@ -26,10 +28,18 @@ public class RentService {
     @Autowired
     private NotificationService notificationService;
 
-    public List<Rent> getAllRents() throws RentServiceException {
-        List<Rent> foundRents = rentRepository.findAll();
-        if (foundRents.isEmpty()) {
+    public List<PublicRent> getAllRents() throws RentServiceException {
+        List<PublicRent> foundRents = new ArrayList<>();
+        List<Rent> rents = rentRepository.findAll();  
+        if (rents.isEmpty()) {
             throw new RentServiceException("rent", "There are no rents");
+        }
+        for (Rent rent : rents) {
+            String ownerEmail = rentRepository.findEmailByRentalCarUser(rent).getEmail();
+            if (ownerEmail == null) {
+                throw new RentServiceException("email", "Owner email not found");
+            }
+            foundRents.add(new PublicRent(rent, ownerEmail));
         }
         return foundRents;
     }
