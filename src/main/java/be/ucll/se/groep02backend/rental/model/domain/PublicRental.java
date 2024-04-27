@@ -1,14 +1,9 @@
 package be.ucll.se.groep02backend.rental.model.domain;
 
 import java.time.LocalDate;
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import be.ucll.se.groep02backend.car.model.Car;
-import be.ucll.se.groep02backend.rent.model.domain.Rent;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,16 +17,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class PublicRental {
     
 
     private long id;
 
+    @JsonIgnoreProperties("rentals")
     private Car car;
-
-    @JsonBackReference
-    private Set<Rent> rents;
+    
+    private Long hasRents;
 
     private LocalDate startDate;
     
@@ -61,6 +55,23 @@ public class PublicRental {
     @NotNull(message = "Price per day is required")
     private float pricePerDay;
 
+
+    public PublicRental(Rental rental, String ownerEmail) {
+        this.id = rental.id;
+        this.car = rental.getCar();
+        this.hasRents = rental.getRents().stream().count();
+        this.startDate = rental.getStartDate();
+        this.endDate = rental.getEndDate();
+        this.ownerEmail = ownerEmail;
+        this.street = rental.getStreet();
+        this.streetNumber = rental.getStreetNumber();
+        this.postal = rental.getPostal();
+        this.city = rental.getCity();
+        this.basePrice = rental.getBasePrice();
+        this.pricePerKm = rental.getPricePerKm();
+        this.fuelPenaltyPrice = rental.getFuelPenaltyPrice();
+        this.pricePerDay = rental.getPricePerDay();
+    }
 
    
 }
