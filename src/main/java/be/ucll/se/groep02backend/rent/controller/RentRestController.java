@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.config.ApplicationConfig;
 import be.ucll.se.groep02backend.notification.service.NotificationService;
+import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
@@ -38,7 +39,7 @@ public class RentRestController {
 
     // Returns a dict with car as string and a rent object
     @GetMapping
-    public List<Rent> getAllRents() throws RentServiceException {
+    public List<PublicRent> getAllRents() throws RentServiceException {
         return rentService.getAllRents();
     }
     

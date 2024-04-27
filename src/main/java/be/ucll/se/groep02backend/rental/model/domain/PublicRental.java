@@ -3,6 +3,10 @@ package be.ucll.se.groep02backend.rental.model.domain;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 
@@ -18,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class PublicRental {
     
 
@@ -25,6 +30,7 @@ public class PublicRental {
 
     private Car car;
 
+    @JsonBackReference
     private Set<Rent> rents;
 
     private LocalDate startDate;

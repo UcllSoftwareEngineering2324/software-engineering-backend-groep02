@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.user.model.User;
 // JPA imports
@@ -61,6 +62,15 @@ public class Rent {
         setEndDate(endDate);
     }
 
+    public Rent(long id, Car car, Rental rental, LocalDate startDate, LocalDate endDate, RentStatus status, User user) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.user = user;
+        this.rental = rental;
+    }
+
     // Getters
     public LocalDate getStartDate() {
         return this.startDate;
@@ -104,5 +114,13 @@ public class Rent {
 	public void setUser(User user) {
         this.user = user;
 	}
+
+    public User getUser() {
+        return user;
+    }
+
+    public Car getCar() {
+        return rental.getCar();
+    }
 
 }
