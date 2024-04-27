@@ -38,21 +38,7 @@ public class RentalService {
         List<PublicRental> publicRentals = new ArrayList<>();
         for (Rental rental: rentals) {
             User owner = rentalRepository.findUserByRentalsCar(rental);
-            PublicRental publicRental = new PublicRental();
-
-            publicRental.setBasePrice(rental.getBasePrice());
-            publicRental.setCar(rental.getCar());
-            publicRental.setCity(rental.getCity());
-            publicRental.setEndDate(rental.getEndDate());
-            publicRental.setStartDate(rental.getStartDate());
-            publicRental.setOwnerEmail(owner.getEmail());
-            publicRental.setId(rental.id);
-            publicRental.setPricePerDay(rental.getPricePerDay());
-            publicRental.setRents(rental.getRents());
-            publicRental.setFuelPenaltyPrice(rental.getFuelPenaltyPrice());
-            publicRental.setPricePerKm(rental.getPricePerKm());
-            publicRental.setPostal(rental.getPostal());
-            publicRental.setStreet(rental.getStreet());
+            PublicRental publicRental = new PublicRental( rental,  owner.getEmail());
             publicRentals.add(publicRental);
         }
         return publicRentals;
