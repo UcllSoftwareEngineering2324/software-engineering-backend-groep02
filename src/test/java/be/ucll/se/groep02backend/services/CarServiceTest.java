@@ -32,29 +32,14 @@ public class CarServiceTest {
     @InjectMocks
     CarService carService;
 
-    private Car carOne;
-    private Car carTwo;
-    private Car carThree;
-    private Car carFour;
+    private Car carOne = new Car("Ferrari", "488 GTB", "Super Car", "IT123", (short) 2, (short) 0, false, false);
+    private Car carTwo = new Car("Audi", "A4", "Brake", "IT123", (short) 2, (short) 0, false, false);
+    private Car carThree = new Car("BMW", "X5", "Brake", "IT123", (short) 2, (short) 0, false, false);
+    private Car carFour = new Car("Lamborghini", "Aventador", "Super Car", "IT123", (short) 2, (short) 0, false, false);
 
-    private User userOne;
+    private User userOne = new User(1, "John", "Doe", "johndoe@example.com", "password", "1234567890", LocalDate.of(1990, 5, 15), "00.00.00-000.00", "1234567890", null, null, null);
 
-    @BeforeEach
-    public void setUp() {
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.ADMIN);
-        carOne = new Car("Ferrari", "488 GTB", "Super Car", "IT123", (short) 2, (short) 0, false, false);
-
-        carTwo = new Car("Audi", "A4", "Brake", "IT123", (short) 2, (short) 0, false, false);
-
-        carThree = new Car("BMW", "X5", "Brake", "IT123", (short) 2, (short) 0, false, false);
-
-        carFour = new Car("Lamborghini", "Aventador", "Super Car", "IT123", (short) 2, (short) 0, false, false);
-
-        userOne = new User(1, "John", "Doe", "johndoe@example.com", "password", "1234567890", LocalDate.of(1990, 5, 15), "00.00.00-000.00", "1234567890", roles, null, null);
-    }
-
+    
     @Test
     public void givenNoCars_whenValidCarAdded_ThenCarIsAddedAndCarIsReturned() throws CarServiceException {
         // given
