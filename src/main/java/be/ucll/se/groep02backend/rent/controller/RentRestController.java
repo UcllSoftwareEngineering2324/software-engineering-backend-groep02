@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.config.ApplicationConfig;
-import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.service.RentService;
@@ -47,7 +46,16 @@ public class RentRestController {
     public List<Rent> getRentsByEmail(@RequestParam String email) throws RentServiceException, UserServiceException{
         return rentService.getRentsByEmail(email, ApplicationConfig.getAuthenticatedUser());
     }
-    
+
+    @PutMapping("/checkIn/{rentId}")
+    public Rent checkInRent(@PathVariable("rentId") Long rentId) throws RentServiceException {
+        return rentService.checkInRent(rentId, null);
+    }
+
+    @PutMapping("/checkOut/{rentId}")
+    public Rent checkOutRent(@PathVariable("rentId") Long rentId) throws RentServiceException {
+        return rentService.checkOutRent(rentId, null);
+    }
     
     @PostMapping("/add/{rentalId}")
     public Rent checkInRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)

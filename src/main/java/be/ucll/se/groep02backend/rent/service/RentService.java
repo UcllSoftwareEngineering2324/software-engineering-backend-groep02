@@ -1,5 +1,6 @@
 package be.ucll.se.groep02backend.rent.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +134,35 @@ public class RentService {
             throw new RentServiceException("status", "Status is not valid");
         }
         rentRepository.save(rent);
+        return rent;
+    }
+
+    // Check in rent
+    public Rent checkInRent(Long id, User user) throws RentServiceException {
+        Rent rent = rentRepository.findRentById(id);
+
+        if (rent.getStatus().equals(RentStatus.CONFIRMED)) {
+            rent.setCheckInDate(LocalDate.now());
+            rent.setRentStatus(true);
+            rentRepository.save(rent);
+        } else {
+            throw new RentServiceException("rent", "Cannot check in rent");
+        }
+
+        return rent;
+    }
+
+    // Check out rent
+    public Rent checkOutRent(Long id, User user) throws RentServiceException {
+        Rent rent = rentRepository.findRentById(id);
+
+        if (rent.getRentStatus() == true) {
+            rent.setCheckOutDate(LocalDate.now());
+            rent.setRentStatus(false);
+            rentRepository.save(rent);
+        } else {
+            throw new RentServiceException("rent", "Cannot check out rent");
+        }
         return rent;
     }
 }
