@@ -14,6 +14,7 @@ import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.repo.RentRepository;
+import be.ucll.se.groep02backend.rental.model.domain.PublicRental;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.model.domain.SearchRentals;
 import be.ucll.se.groep02backend.rental.repo.RentalRepository;
@@ -32,8 +33,15 @@ public class RentalService {
     private CarRepository carRepository;
     
 
-    public List<Rental> findAll() {
-        return rentalRepository.findAll();
+    public List<PublicRental> getAllPublicRentals() {
+        List<Rental> rentals = rentalRepository.findAll();
+        List<PublicRental> publicRentals = new ArrayList<>();
+        for (Rental rental: rentals) {
+            User owner = rentalRepository.findUserByRentalsCar(rental);
+            PublicRental publicRental = new PublicRental( rental,  owner.getEmail());
+            publicRentals.add(publicRental);
+        }
+        return publicRentals;
     }
 
     public Rental findRental(Long id) {

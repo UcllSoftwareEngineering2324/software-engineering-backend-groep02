@@ -1,6 +1,8 @@
 package be.ucll.se.groep02backend.rental.repo;
 
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
+import be.ucll.se.groep02backend.user.model.User;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +17,8 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     public Rental findRentalByRentsId(Long id);
 
+    @Query("SELECT u FROM User u JOIN u.cars c JOIN c.rentals r WHERE r = :rental")
+    User findUserByRentalsCar(@Param("rental") Rental rental);
     @Query("SELECT r FROM Rental r WHERE " +
             "(:searchStartDate IS NULL OR r.startDate >= :searchStartDate) " +
             "AND (:searchEndDate IS NULL OR r.endDate <= :searchEndDate) " +
