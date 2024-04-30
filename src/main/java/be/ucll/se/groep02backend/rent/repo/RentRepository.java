@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.user.model.User;
 import jakarta.transaction.Transactional;
 
 public interface RentRepository extends JpaRepository<Rent, Long> {
