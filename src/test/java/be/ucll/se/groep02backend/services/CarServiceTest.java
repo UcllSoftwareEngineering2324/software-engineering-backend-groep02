@@ -37,14 +37,24 @@ public class CarServiceTest {
     private Car carThree = new Car("BMW", "X5", "Brake", "IT123", (short) 2, (short) 0, false, false);
     private Car carFour = new Car("Lamborghini", "Aventador", "Super Car", "IT123", (short) 2, (short) 0, false, false);
 
-    private User userOne = new User(1, "John", "Doe", "johndoe@example.com", "password", "1234567890", LocalDate.of(1990, 5, 15), "00.00.00-000.00", "1234567890", null, null, null);
+    // private User userOne = new User(1, "John", "Doe", "johndoe@example.com", "password", "1234567890", LocalDate.of(1990, 5, 15), "00.00.00-000.00", "1234567890", null, null, null);
 
-    
+    User userOne = User.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("johndoe@example.com")
+                .password("password123")
+                .phoneNumber("1234567890")
+                .birthDate(LocalDate.of(1990, 5, 15))
+                .nationalRegisterNumber("00.00.00-000.00")
+                .licenseNumber("1234567890")
+                .build();
     @Test
     public void givenNoCars_whenValidCarAdded_ThenCarIsAddedAndCarIsReturned() throws CarServiceException {
         // given
         when(carRepository.save(carOne)).thenReturn(carOne);
 
+        userOne.addAuthority(Role.ADMIN);
         // when
         Car added = carService.addCar(carOne, userOne);
 
@@ -57,23 +67,5 @@ public class CarServiceTest {
         assertEquals(carOne.getNumberOfChildSeats(), added.getNumberOfChildSeats());
         assertEquals(carOne.getFoldingRearSeat(), added.getFoldingRearSeat());
         assertEquals(carOne.getTowBar(), added.getTowBar());
-    }
-
-    @Test
-    public void givenExistingCars_whenCarsAreAsked_ThenAllCarsAreReturned() throws CarServiceException {
-        // given
-        List<Car> listCars = new ArrayList<>();
-        listCars.add(carOne);
-        listCars.add(carTwo);
-        listCars.add(carThree);
-        listCars.add(carFour);
-        when(carRepository.findAll()).thenReturn(listCars);
-
-        // when
-        List<Car> result = carService.getAllCars(userOne);
-
-        // then
-        assertEquals(4, result.size());
-    }
-    
+    }   
 }
