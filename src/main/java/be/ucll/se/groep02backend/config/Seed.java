@@ -81,8 +81,8 @@ public class Seed implements ApplicationRunner {
         carService.addCar(car1, admin_1);
         carService.addCar(car2, admin_1);
 
-        Rental rental1 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Misery street", 13, 3000, "Leuven",100, 1, 20, 80);
-        Rental rental2 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Misery street", 14, 3000, "Leuven",100, 1, 21, 80);
+        Rental rental1 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Misery street", 13, 3000, "Leuven",(float) 100,(float) 1,(float) 20,(float) 80);
+        Rental rental2 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Misery street", 14, 3000, "Leuven",(float)100, (float)1, (float)21, (float)80);
 
         rentalService.addRental(rental1, car1.id, admin_1);
         rentalService.addRental(rental2, car2.id, admin_1);
@@ -117,11 +117,11 @@ public class Seed implements ApplicationRunner {
         carService.addCar(car16, owner_1);
         carService.addCar(car17, owner_1);
 
-        Rental rental3 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000, "Brussels", 120, 8, 25, 100);
-        Rental rental4 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000, "Antwerp", 90, 7, 22, 90);
-        Rental rental5 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500, "Ghent", 80, 5, 20, 80);
-        Rental rental6 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800, "Bruges", 100, 6, 23, 90);
-        Rental rental7 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(5), "Snowy street", 15, 1200, "Hasselt", 110, 9, 24, 100);
+        Rental rental3 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000, "Brussels", (float) 120, (float) 8, (float) 25, (float) 100);
+        Rental rental4 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000, "Antwerp", (float) 90, (float) 7, (float) 22, (float)90);
+        Rental rental5 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500, "Ghent", (float) 80, (float) 5, (float) 20, (float) 80);
+        Rental rental6 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800, "Bruges", (float) 100, (float) 6, (float) 23, (float) 90);
+        Rental rental7 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(5), "Snowy street", 15, 1200, "Hasselt", (float) 110, (float) 9, (float) 24, (float) 100);
         rentalService.addRental(rental3, car3.id, owner_1);
         rentalService.addRental(rental4, car4.id, owner_1);
         rentalService.addRental(rental5, car5.id, owner_1);
@@ -167,10 +167,10 @@ public class Seed implements ApplicationRunner {
         carService.addCar(car14, owner_2);
         carService.addCar(car15, owner_2);
 
-        Rental rental8 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000, "Brussels", 120, 8, 25, 100);
-        Rental rental9 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000, "Antwerp", 90, 7, 22, 90);
-        Rental rental10 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500, "Ghent", 80, 5, 20, 80);
-        Rental rental11 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800, "Bruges", 100, 6, 23, 90);
+        Rental rental8 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000, "Brussels", (float) 120, (float) 8, (float) 25, (float) 100);
+        Rental rental9 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000, "Antwerp", (float) 90, (float) 7, (float) 22, (float) 90);
+        Rental rental10 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500, "Ghent", (float) 80, (float) 5, (float) 20, (float) 80);
+        Rental rental11 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800, "Bruges", (float) 100, (float) 6, (float) 23, (float) 90);
         rentalService.addRental(rental8, car6.id, owner_2);
         rentalService.addRental(rental9, car7.id, owner_2);
         rentalService.addRental(rental10, car8.id, owner_2);
