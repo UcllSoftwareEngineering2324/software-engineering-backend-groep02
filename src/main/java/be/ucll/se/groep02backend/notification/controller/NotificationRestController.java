@@ -22,7 +22,6 @@ import be.ucll.se.groep02backend.notification.service.NotificationServiceExcepti
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -35,17 +34,21 @@ public class NotificationRestController {
 
     
     
-    @GetMapping()
-    public List<Notification> getMethodName() throws NotificationServiceException, UserServiceException{
-        return notificationService.getMyNotifications(ApplicationConfig.getAuthenticatedUser());
-    }
+    // @GetMapping()
+    // public List<Notification> getMethodName() throws NotificationServiceException, UserServiceException{
+    //     return notificationService.getMyNotifications(ApplicationConfig.getAuthenticatedUser());
+    // }
 
 
     
 
-    @PutMapping("/viewed/")
-    public Notification viewedNotification(@PathVariable("notificationId") Long notificationId) throws NotificationServiceException {
-        return notificationService.viewedNotification(notificationId);
+    @PutMapping("/viewed/owner/{notificationId}")
+    public String viewedNotificationOwner(@PathVariable("notificationId") Long notificationId) throws NotificationServiceException, UserServiceException {
+        return notificationService.ownerViewed(notificationId, ApplicationConfig.getAuthenticatedUser());
+    }
+    @PutMapping("/viewed/renter/{notificationId}")
+    public String viewedNotificationRenter(@PathVariable("notificationId") Long notificationId) throws NotificationServiceException, UserServiceException {
+        return notificationService.renterViewed(notificationId, ApplicationConfig.getAuthenticatedUser());
     }
 
     

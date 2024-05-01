@@ -16,6 +16,7 @@ import be.ucll.se.groep02backend.config.ApplicationConfig;
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.rent.model.domain.RentStatus;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
@@ -61,8 +62,8 @@ public class RentRestController {
     }
 
     @PutMapping("/status/{status}/{id}")
-    public Rent updateRentStatus(@PathVariable Long id, @PathVariable String status) throws RentServiceException, UserServiceException{
-        return rentService.updateRentStatus(id, status, ApplicationConfig.getAuthenticatedUser());
+    public String updateRentStatus(@PathVariable Long id, @PathVariable @Valid RentStatus status) throws RentServiceException, UserServiceException{
+        return rentService.updateRentStatus(status, id, ApplicationConfig.getAuthenticatedUser());
     }
     
 }
