@@ -56,7 +56,7 @@ public class Rent {
 
     private LocalDate checkOutDate;
 
-    private boolean rentStatus;
+    private boolean checkInStatus;
 
     private RentStatus status;
 
@@ -75,7 +75,7 @@ public class Rent {
         this.status = status;
         this.user = user;
         this.rental = rental;
-        this.rentStatus = false;
+        this.checkInStatus = false;
     }
 
     // Getters
@@ -99,8 +99,8 @@ public class Rent {
         return this.checkOutDate;
     }
 
-    public boolean getRentStatus() {
-        return this.rentStatus;
+    public boolean getCheckInStatus() {
+        return this.checkInStatus;
     }
 
     // Setters
@@ -124,8 +124,8 @@ public class Rent {
         this.checkOutDate = date;
     }
 
-    public void setRentStatus(boolean status) {
-        this.rentStatus = status;
+    public void setCheckInStatus(boolean status) {
+        this.checkInStatus = status;
     }
 
     public Rental getRental() {

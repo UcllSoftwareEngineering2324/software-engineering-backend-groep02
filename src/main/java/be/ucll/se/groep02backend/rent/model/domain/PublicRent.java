@@ -31,7 +31,7 @@ public class PublicRent {
 
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private boolean rentStatus;
+    private boolean checkInStatus;
 
     private String ownerEmail;
 
@@ -44,7 +44,7 @@ public class PublicRent {
         this.status = rent.getStatus();
         this.checkInDate = rent.getCheckInDate();
         this.checkOutDate = rent.getCheckOutDate();
-        this.rentStatus = rent.getRentStatus();
+        this.checkInStatus = rent.getCheckInStatus();
         this.ownerEmail = ownerEmail;
     }
 
