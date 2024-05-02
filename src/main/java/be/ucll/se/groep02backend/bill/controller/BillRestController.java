@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import be.ucll.se.groep02backend.bill.model.Bill;
 import be.ucll.se.groep02backend.bill.service.BillService;
 import be.ucll.se.groep02backend.bill.service.BillServiceException;
+import be.ucll.se.groep02backend.config.ApplicationConfig;
+import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -26,8 +28,8 @@ public class BillRestController {
     private BillService billService;
 
     @GetMapping
-    public List<Bill> getBills() {
-        return billService.getAllBills();
+    public List<Bill> getBills() throws UserServiceException, BillServiceException {
+        return billService.getAllBills(ApplicationConfig.getAuthenticatedUser());
     }
 
     @GetMapping("/email/")
