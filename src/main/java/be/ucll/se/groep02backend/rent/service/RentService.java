@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.bill.model.Bill;
 import be.ucll.se.groep02backend.bill.repo.BillRepository;
+import be.ucll.se.groep02backend.car.model.Car;
+import be.ucll.se.groep02backend.car.repo.CarRepository;
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
 import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
@@ -21,6 +24,7 @@ import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
+import be.ucll.se.groep02backend.user.repo.UserRepository;
 
 @Service
 public class RentService {
@@ -34,6 +38,12 @@ public class RentService {
 
     @Autowired
     private BillRepository billRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CarRepository carRepository;
 
     public List<PublicRent> getAllRents() throws RentServiceException {
         List<PublicRent> foundRents = new ArrayList<>();
@@ -172,7 +182,6 @@ public class RentService {
         
         if (rent.getCheckInStatus() == true) {
             rent.setCheckOutDate(LocalDate.now());
-            rentRepository.save(rent);
             
             Long days = ChronoUnit.DAYS.between(rent.getCheckInDate(), rent.getCheckOutDate());
             double total = 0;
@@ -183,8 +192,9 @@ public class RentService {
                 total = rent.getRental().getBasePrice() + (rent.getRental().getPricePerKm() * distance) + (rent.getRental().getPricePerDay() * days);
             }
 
-            Bill bill = new Bill(rent.getUser().getEmail(), rent.getRental().getCar().getBrand(), rent.getRental().getCar().getModel(), rent.getRental().getCar().getLicensePlate(), distance, days, fuelValue, total);
+            Bill bill = new Bill(rent.getUser().getEmail(), rent.getCar().getUser().getEmail(), rent.getRental().getCar().getBrand(), rent.getRental().getCar().getModel(), rent.getRental().getCar().getLicensePlate(), distance, days, fuelValue, total);
 
+            rentRepository.save(rent);
             billRepository.save(bill);
 
         } else {

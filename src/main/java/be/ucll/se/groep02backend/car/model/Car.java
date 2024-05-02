@@ -72,6 +72,10 @@ public class Car {
     }
 
     // Getters
+    public User getUser() {
+        return this.user;
+    }
+
     public String getBrand() {
         return this.brand;
     }

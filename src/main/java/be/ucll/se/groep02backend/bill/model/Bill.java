@@ -19,6 +19,7 @@ public class Bill {
     public long id;
 
     private String renterEmail;
+    private String ownerEmail;
 
     private String carBrand;
     private String carModel;
@@ -36,8 +37,9 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(String renterEmail, String carBrand, String carModel, String carLicensePlate, double distance, Long days, double fuelLevel, double total) {
+    public Bill(String renterEmail, String ownerEmail, String carBrand, String carModel, String carLicensePlate, double distance, Long days, double fuelLevel, double total) {
         this.renterEmail = renterEmail;
+        this.ownerEmail = ownerEmail;
         this.carBrand = carBrand;
         this.carModel = carModel;
         this.carLicensePlate = carLicensePlate;
@@ -57,6 +59,14 @@ public class Bill {
 
     public void setRenterEmail(String renterEmail) {
         this.renterEmail = renterEmail;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
     }
 
     public String getCarBrand() {
