@@ -48,13 +48,13 @@ public class RentRestController {
         return rentService.getRentsByEmail(email, ApplicationConfig.getAuthenticatedUser());
     }
 
-    @PutMapping("/checkIn/{rentId}")
-    public Rent checkInRent(@RequestParam Long rentId) throws RentServiceException {
+    @PutMapping("/checkIn/")
+    public Rent checkInRent(@RequestParam("rentId") Long rentId) throws RentServiceException {
         return rentService.checkIn(rentId, null);
     }
 
-    @PutMapping("/checkOut/{rentId}")
-    public Rent checkOutRent(@RequestParam Long rentId, @RequestBody @Valid RentCheckOutBody body) throws RentServiceException {
+    @PutMapping("/checkOut/")
+    public Rent checkOutRent(@RequestParam("rentId") Long rentId, @RequestBody @Valid RentCheckOutBody body) throws RentServiceException {
         return rentService.checkOut(rentId, null, body.getDistance(), body.getFuelLevel());
     }
     
