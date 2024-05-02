@@ -34,6 +34,8 @@ public class Bill {
     
     private double total;
 
+    private boolean paid;
+
     public Bill() {
     }
 
@@ -47,6 +49,7 @@ public class Bill {
         this.days = days;
         this.fuelLevel = fuelLevel;
         this.total = total;
+        this.paid = false;
     }
 
     public long getId() {
@@ -125,4 +128,12 @@ public class Bill {
         this.total = total;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+    
 }

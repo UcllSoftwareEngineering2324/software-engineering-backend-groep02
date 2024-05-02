@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.bill.model.Bill;
 import be.ucll.se.groep02backend.bill.service.BillService;
+import be.ucll.se.groep02backend.bill.service.BillServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -27,6 +28,11 @@ public class BillRestController {
     @GetMapping
     public List<Bill> getBills() {
         return billService.getAllBills();
+    }
+
+    @GetMapping("/email/")
+    public List<Bill> getBillsByEmail(String email) throws BillServiceException {
+        return billService.getBillsByEmail(email);
     }
     
 }

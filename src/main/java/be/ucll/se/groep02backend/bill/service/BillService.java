@@ -17,4 +17,15 @@ public class BillService {
     public List<Bill> getAllBills() {
         return billRepository.findAll();
     }
+
+    public List<Bill> getBillsByEmail(String email) throws BillServiceException {
+
+        List<Bill> bills = billRepository.findAllBillsByRenterEmailOrOwnerEmail(email);
+
+        if (bills.isEmpty()) {
+            throw new BillServiceException("bill","No bills found for email: " + email);
+        }
+        
+        return bills;
+    }
 }
