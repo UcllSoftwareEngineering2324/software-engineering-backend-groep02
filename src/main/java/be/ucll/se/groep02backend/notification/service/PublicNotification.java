@@ -13,10 +13,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class PublicNotification {
+    private long id;
+
     private PublicRent rent;
 
-    private Car car;    
-
-    private boolean viewed;
+    private boolean viewedByMe;
 
 }
