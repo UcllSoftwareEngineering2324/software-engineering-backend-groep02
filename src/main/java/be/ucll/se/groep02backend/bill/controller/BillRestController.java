@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.bill.model.Bill;
@@ -33,7 +34,7 @@ public class BillRestController {
     }
 
     @GetMapping("/email/")
-    public List<Bill> getBillsByEmail(String email) throws BillServiceException {
+    public List<Bill> getBillsByEmail(@RequestParam("email") String email) throws BillServiceException {
         return billService.getBillsByEmail(email);
     }
     
