@@ -42,7 +42,7 @@ jobs:
           spring.flyway.user=gertje
           spring.flyway.password=${{secrets.AZURE_DB_PASSWORD}}
           spring.flyway.baseline-description="init"
-          spring.flyway.baseline-version=0" > /src/main/resources/application.properties
+          spring.flyway.baseline-version=0" > src/main/resources/application.properties
         
       - name: Delete previous package
         run: |
