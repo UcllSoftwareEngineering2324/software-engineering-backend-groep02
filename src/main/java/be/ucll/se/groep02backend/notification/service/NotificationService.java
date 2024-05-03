@@ -3,9 +3,11 @@ package be.ucll.se.groep02backend.notification.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import be.ucll.se.groep02backend.notification.model.Notification;
 
+import org.apache.commons.lang3.ObjectUtils.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,25 +37,50 @@ public class NotificationService {
         return notificationRepository.findAll();
     }
 
-    public List<PublicNotification> getOwnerNotifications(User user) throws NotificationServiceException {
+    public List<PublicNotification> getAllNotifications(User user) throws NotificationServiceException {
         List<PublicNotification> publicNotifications = new ArrayList<>();
+        if (user.getRoles().contains(Role.RENTER)) {
+            List<Notification> notifications = notificationRepository.findNotificationByRentUser(user);
+            for (Notification notification : notifications) {
+                    PublicNotification publicNotification = new PublicNotification(
+                            notification.getId(),
+                            new PublicRent(notification.getRent(), rentRepository.findByRentalCarUser(notification.getRent()).getEmail()),
+                            null,
+                            Optional.of(notification.getReceiverViewed()));
+                            publicNotifications.add(publicNotification);
+            }
+        }
         if (user.getRoles().contains(Role.OWNER)) {
             List<Notification> notifications = notificationRepository.findNotificationsByRentRentalCarUser(user);
             for (Notification notification : notifications) {
                 PublicNotification publicNotification = new PublicNotification(
                         notification.getId(),
                         new PublicRent(notification.getRent(), user.getEmail()),
-                        notification.getOwnerViewed());
-                if (notification.getRent().getStatus() == RentStatus.PENDING) {
-                    publicNotifications.add(publicNotification);
-                }
+                        Optional.of(notification.getOwnerViewed()),
+                        null
+                        );
+                        publicNotifications.add(publicNotification);
+                
             }
-            return publicNotifications;
-        } else {
-            throw new NotificationServiceException("role",
-                    "User must be an owner to view the notifications in getOwnerNotifications. (renters should use the other endpoint)");
-        }
+        } 
+        if (user.getRoles().contains(Role.ADMIN)) {
+            List<Notification> notifications = notificationRepository.findAll();
+            for (Notification notification : notifications) {
+                PublicNotification publicNotification = new PublicNotification(
+                        notification.getId(),
+                        new PublicRent(notification.getRent(), rentRepository.findByRentalCarUser(notification.getRent()).getEmail()),
+                        Optional.of(notification.getOwnerViewed()),
+                        Optional.of(notification.getReceiverViewed())
+                        );
+                        publicNotifications.add(publicNotification);
+                
+            }
+        } 
+        
+        return publicNotifications;
     }
+
+    
 
     // public List<PublicNotification> getAdminNotifications(User user) throws NotificationServiceException {
     //     List<PublicNotification> publicNotifications = new ArrayList<>();

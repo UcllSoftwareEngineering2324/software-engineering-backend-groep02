@@ -36,10 +36,12 @@ public class NotificationRestController {
 
     
     
-    @GetMapping("/owner")
+    @GetMapping()
     public List<PublicNotification> getMethodName() throws NotificationServiceException, UserServiceException{
-        return notificationService.getOwnerNotifications(ApplicationConfig.getAuthenticatedUser());
+        return notificationService.getAllNotifications(ApplicationConfig.getAuthenticatedUser());
     }
+
+    
 
 
     
