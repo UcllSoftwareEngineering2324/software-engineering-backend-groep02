@@ -16,6 +16,7 @@ import be.ucll.se.groep02backend.config.ApplicationConfig;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 
 
@@ -33,9 +34,19 @@ public class BillRestController {
         return billService.getAllBills(ApplicationConfig.getAuthenticatedUser());
     }
 
-    @GetMapping("/email/")
-    public List<Bill> getBillsByEmail(@RequestParam("email") String email) throws BillServiceException {
-        return billService.getBillsByEmail(email);
+    @PutMapping("/paid/")
+    public Bill setBillPaid(@RequestParam("id") Long id) throws UserServiceException, BillServiceException {
+        return billService.setBillPaid(id, ApplicationConfig.getAuthenticatedUser());
+    }
+
+    @GetMapping("/total/paid/")
+    public double getTotalEarnings() throws UserServiceException, BillServiceException {
+        return billService.getTotalEarningsPaid(ApplicationConfig.getAuthenticatedUser());
+    }
+
+    @GetMapping("/total/unpaid/")
+    public double getTotalUnpaidEarnings() throws UserServiceException, BillServiceException {
+        return billService.getTotalEarningsUnPaid(ApplicationConfig.getAuthenticatedUser());
     }
     
 }

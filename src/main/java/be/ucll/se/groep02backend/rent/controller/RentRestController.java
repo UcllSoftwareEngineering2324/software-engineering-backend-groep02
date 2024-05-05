@@ -49,8 +49,8 @@ public class RentRestController {
     }
 
     @PutMapping("/checkIn/")
-    public Rent checkInRent(@RequestParam("rentId") Long rentId) throws RentServiceException {
-        return rentService.checkIn(rentId, null);
+    public Rent checkInRent(@RequestParam("rentId") Long rentId) throws RentServiceException, UserServiceException {
+        return rentService.checkIn(rentId, ApplicationConfig.getAuthenticatedUser());
     }
 
     @PutMapping("/checkOut/")
