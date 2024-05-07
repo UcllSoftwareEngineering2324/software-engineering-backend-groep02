@@ -24,6 +24,7 @@ import jakarta.validation.constraints.NotNull;
 // import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -55,6 +56,7 @@ public class Rental {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     
+    @NotBlank(message = "Street is required")
     private String street;
 
     private int streetNumber;
@@ -64,23 +66,23 @@ public class Rental {
     @NotBlank(message = "City is required")
     private String city;
 
-    @NotNull(message = "Base price is required")
-    private float basePrice;
+    @Min(value = 0, message = "Base price is required")
+    private Float basePrice;
 
-    @NotNull(message = "Price per Kilometer is required")
-    private float pricePerKm;
+    @Min(value = 0, message = "Price per Kilometer is required")
+    private Float pricePerKm;
 
-    @NotNull(message = "Fuel penalty price is required")
-    private float fuelPenaltyPrice;
+    @Min(value = 0, message = "Fuel penalty price is required")
+    private Float fuelPenaltyPrice;
 
-    @NotNull(message = "Price per day is required")
-    private float pricePerDay;
+    @Min(value = 0, message = "Price per day is required")
+    private Float pricePerDay;
 
 
     public Rental() {
     }
 
-    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, float basePrice, float pricePerKm, float fuelPenaltyPrice, float pricePerDay) {
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, Float basePrice, Float pricePerKm, Float fuelPenaltyPrice, Float pricePerDay) {
         setStartDate(startDate);
         setEndDate(endDate);
         setStreet(street);
@@ -118,19 +120,19 @@ public class Rental {
         return this.city;
     }
 
-    public float getBasePrice() {
+    public Float getBasePrice() {
         return this.basePrice;
     }
 
-    public float getPricePerKm() {
+    public Float getPricePerKm() {
         return this.pricePerKm;
     }
 
-    public float getFuelPenaltyPrice() {
+    public Float getFuelPenaltyPrice() {
         return this.fuelPenaltyPrice;
     }
 
-    public float getPricePerDay() {
+    public Float getPricePerDay() {
         return this.pricePerDay;
     }
 

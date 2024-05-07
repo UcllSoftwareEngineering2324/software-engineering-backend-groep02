@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.user.model.PublicUser;
-import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.service.UserService;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.Operation;
