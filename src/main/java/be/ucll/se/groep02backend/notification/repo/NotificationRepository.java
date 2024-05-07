@@ -14,5 +14,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
         public Notification findNotificationById(Long id);
         public Notification findNotificationByRent(Rent rent);
         public List<Notification> findNotificationsByRentUserAndRenterViewedAndRentStatusNot(User user, boolean renterViewed, RentStatus Status);
-        public List<Notification> findNotificationsByRentRentalCarUserAndOwnerViewed(User owner, boolean ownerViewed);
+        public List<Notification> findNotificationsByRentRentalCarUser(User owner);
+        public List<Notification> findNotificationByRentUser(User user);
+
 }

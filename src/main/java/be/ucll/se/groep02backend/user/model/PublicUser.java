@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.Builder;
+
+
+
 public class PublicUser {
     private String email;
 

@@ -3,136 +3,167 @@ package be.ucll.se.groep02backend.notification.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import java.util.Optional;
 
 import be.ucll.se.groep02backend.notification.model.Notification;
 
+import org.apache.commons.lang3.ObjectUtils.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.notification.repo.NotificationRepository;
+import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.model.domain.RentStatus;
+import be.ucll.se.groep02backend.rent.repo.RentRepository;
+import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
+import be.ucll.se.groep02backend.user.repo.UserRepository;
 
 @Service
 public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
+    private RentRepository rentRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    
-
-    public NotificationService() {}
+    public NotificationService() {
+    }
 
     public List<Notification> findAll() {
         return notificationRepository.findAll();
     }
 
-    public List<Notification> getMyNotifications(User user) {
-        List<Notification> notifications = new ArrayList<>();
-        if (user.getRoles().contains(Role.OWNER)) {
-            // // Retrieve cars owned by the owner
-            // List<Car> cars = carRepository.findByOwner(user);
-            // for (Car car : cars) {
-            //     // Retrieve the rental associated with the car
-            //     Rental rental = rentalRepository.findByCar(car);
-            //     if (rental != null) {
-            //         // Retrieve the rent associated with the rental
-            //         Rent rent = rental.getRent();
-            //         if (rent != null) {
-            //             // Retrieve the notification associated with the rent
-            //             Notification notification = rent.getNotification();
-            //             if (notification != null && !notification.isRenterViewed()) {
-            //                 notifications.add(notification);
-            //             }
-            //         }
-            //     }
-            // }
-            notifications.addAll(notificationRepository.findNotificationsByRentRentalCarUserAndOwnerViewed(user, false));
-            return notifications;
-        }
+    public List<PublicNotification> getAllNotifications(User user) throws NotificationServiceException {
+        List<PublicNotification> publicNotifications = new ArrayList<>();
         if (user.getRoles().contains(Role.RENTER)) {
-            // Logic to retrieve notifications for renter role
-            notifications.addAll(notificationRepository.findNotificationsByRentUserAndRenterViewedAndRentStatusNot(user, false, RentStatus.PENDING));
-            
+            List<Notification> notifications = notificationRepository.findNotificationByRentUser(user);
+            for (Notification notification : notifications) {
+                    PublicNotification publicNotification = new PublicNotification(
+                            notification.getId(),
+                            new PublicRent(notification.getRent(), rentRepository.findByRentalCarUser(notification.getRent()).getEmail()),
+                            null,
+                            Optional.of(notification.getReceiverViewed()));
+                            publicNotifications.add(publicNotification);
+            }
         }
-        return notifications;
+        if (user.getRoles().contains(Role.OWNER)) {
+            List<Notification> notifications = notificationRepository.findNotificationsByRentRentalCarUser(user);
+            for (Notification notification : notifications) {
+                PublicNotification publicNotification = new PublicNotification(
+                        notification.getId(),
+                        new PublicRent(notification.getRent(), user.getEmail()),
+                        Optional.of(notification.getOwnerViewed()),
+                        null
+                        );
+                        publicNotifications.add(publicNotification);
+                
+            }
+        } 
+        if (user.getRoles().contains(Role.ADMIN)) {
+            List<Notification> notifications = notificationRepository.findAll();
+            for (Notification notification : notifications) {
+                PublicNotification publicNotification = new PublicNotification(
+                        notification.getId(),
+                        new PublicRent(notification.getRent(), rentRepository.findByRentalCarUser(notification.getRent()).getEmail()),
+                        Optional.of(notification.getOwnerViewed()),
+                        Optional.of(notification.getReceiverViewed())
+                        );
+                        publicNotifications.add(publicNotification);
+                
+            }
+        } 
+        
+        return publicNotifications;
     }
+
     
+
+    // public List<PublicNotification> getAdminNotifications(User user) throws NotificationServiceException {
+    //     List<PublicNotification> publicNotifications = new ArrayList<>();
+    //     if (user.getRoles().contains(Role.OWNER)) {
+    //         List<Notification> notifications = notificationRepository.findNotificationsByRentRentalCarUser(user);
+    //         for (Notification notification : notifications) {
+    //             PublicNotification publicNotification = new PublicNotification(
+    //                     notification.getId(),
+    //                     new PublicRent(notification.getRent(), user.getEmail()),
+    //                     notification.getOwnerViewed());
+    //             publicNotifications.add(publicNotification);
+    //         }
+    //         return publicNotifications;
+    //     } else {
+    //         throw new NotificationServiceException("role",
+    //                 "User must be an owner to view the notifications in getOwnerNotifications. (renters should use the other endpoint)");
+    //     }
+    // }
 
     public Notification addNotification(Rent rent) {
         Notification notification = new Notification(
-            false,
-            false,
-            rent
-        );
+                false,
+                false,
+                rent);
         return notificationRepository.save(notification);
     }
 
-    public Notification findNotificationById(Long id) throws NotificationServiceException {
-        Notification notification = notificationRepository.findNotificationById(id);
-        if(Objects.isNull(notification)){
-            throw new NotificationServiceException("id", "Notification with given id does not exist.");
-        }
-        return notification;
-    }
-
-    public Notification deleteNotification(Long id) throws NotificationServiceException{
-        Notification notification = notificationRepository.findNotificationById(id);
-        if(Objects.isNull(notification)){
-            throw new NotificationServiceException("id", "Notification with given id does not exist.");
-        }
-        notificationRepository.delete(notification);
-        return notification;
-    }
-    public Notification deleteNotification(Rent rent) throws NotificationServiceException{
+    public Notification deleteNotification(Rent rent) throws NotificationServiceException {
         Notification notification = notificationRepository.findNotificationByRent(rent);
-        if(Objects.isNull(notification)){
+        if (Objects.isNull(notification)) {
             throw new NotificationServiceException("id", "Notification with given id does not exist.");
         }
         notificationRepository.delete(notification);
         return notification;
-    }
-
-    
-
-    public Notification viewedNotification(Long id) throws NotificationServiceException {
-        Notification notification = notificationRepository.findNotificationById(id);
-        if(Objects.isNull(notification)){
-            throw new NotificationServiceException("id", "Notification with given id does not exist.");
-        }
-        if (notification.getReceiverViewed() == false && notification.getOwnerViewed() == true){
-            notification.setReceiverViewed(true);
-        }
-        else{
-            throw new NotificationServiceException("id", "Notification can't be viewed by receiver if owner hasn't viewed it yet.");
-        }
-        if (notification.getOwnerViewed() == false){
-            notification.setOwnerViewed(true);
-        }
-        return notificationRepository.save(notification);
     }
 
     // not yet in use ---------> use when user impelmentation is done
-    public Notification ownerViewed(Long id) throws NotificationServiceException {
+    public String ownerViewed(Long id, User user) throws NotificationServiceException {
+        if (!user.getRoles().contains(Role.OWNER)) {
+            throw new NotificationServiceException("role",
+                    "User must be an owner to view the notification in ownerViewed.");
+        }
         Notification notification = notificationRepository.findNotificationById(id);
-        if(Objects.isNull(notification)){
+        if (Objects.isNull(notification)) {
             throw new NotificationServiceException("id", "Notification with given id does not exist.");
+        }
+        User owner = rentRepository.findByRentalCarUser(notification.getRent());
+        if (!user.getEmail().equals(owner.getEmail())) {
+            throw new NotificationServiceException("role",
+                    "User must be the owner of the car to view the notification in onwnerviewed.");
+        }
+        if (notification.getOwnerViewed() == true) {
+            throw new NotificationServiceException("viewed", "Notification has already been viewed by owner.");
         }
         notification.setOwnerViewed(true);
-        return notificationRepository.save(notification);
+        notificationRepository.save(notification);
+        return "Rent viewed by owner";
     }
-    public Notification receiverViewed (Long id) throws NotificationServiceException {
+
+    public String renterViewed(Long id, User user) throws NotificationServiceException {
+        if (!user.getRoles().contains(Role.RENTER)) {
+            throw new NotificationServiceException("role",
+                    "User must be a renter to view the notification in receiverViewed.");
+        }
         Notification notification = notificationRepository.findNotificationById(id);
-        if(Objects.isNull(notification)){
+        if (Objects.isNull(notification)) {
             throw new NotificationServiceException("id", "Notification with given id does not exist.");
         }
-        if(notification.getOwnerViewed() == false){
-            throw new NotificationServiceException("id", "Notification can't be viewed by receiver if owner hasn't viewed it yet.");
+        User renter = userRepository.findByRents(notification.getRent());
+        if (!user.getEmail().equals(renter.getEmail())) {
+            throw new NotificationServiceException("role",
+                    "User must be the renter to view the renterViewed in notification.");
+        }
+        if (notification.getRent().getStatus() == RentStatus.PENDING) {
+            throw new NotificationServiceException("rentstatus",
+                    "rent status is still pending, you can't view the notification yet.");
+        }
+        if (notification.getReceiverViewed() == true) {
+            throw new NotificationServiceException("viewed", "Notification has already been viewed by renter.");
         }
         notification.setReceiverViewed(true);
-        return notificationRepository.save(notification);
+        notificationRepository.save(notification);
+        return "Rent viewed by renter";
     }
 
 }

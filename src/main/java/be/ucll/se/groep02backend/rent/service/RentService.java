@@ -2,9 +2,12 @@ package be.ucll.se.groep02backend.rent.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
@@ -28,6 +31,58 @@ public class RentService {
     @Autowired
     private NotificationService notificationService;
 
+    public String updateRentStatus(RentStatus rentStatus,Long rentId, User user) throws RentServiceException {
+        if(user.getRoles().contains(Role.ADMIN)){
+            Rent rentToUpdate = rentRepository.findRentById(rentId);
+            if (rentToUpdate != null){
+                if (rentStatus == RentStatus.PENDING){
+                    throw new RentServiceException("status", "Rent status can't be updated to PENDING.");
+                }
+                if (rentToUpdate.getStatus() != RentStatus.PENDING){
+                    throw new RentServiceException("status", "Rent status is already set.");
+
+                }
+                else{
+                    rentToUpdate.setStatus(rentStatus);
+                    rentRepository.save(rentToUpdate);
+                    return "Rent status updated successfully";
+                }
+            }
+            else{
+                throw new RentServiceException("rent", "Rent with given id does not exist.");
+            }
+        }
+        if (user.getRoles().contains(Role.OWNER)){
+            Rent rentToUpdate = rentRepository.findRentById(rentId);
+            if (rentToUpdate != null){
+                if (rentStatus == RentStatus.PENDING){
+                    throw new RentServiceException("status", "Rent status can't be updated to PENDING.");
+                }
+                if (rentToUpdate.getStatus() != RentStatus.PENDING){
+                    throw new RentServiceException("status", "Rent status is already set.");
+
+                }
+                else{
+                    User rentUser = rentRepository.findByRentalCarUser(rentToUpdate);
+                    if (rentUser.getEmail().equals(user.getEmail())) {
+                        rentToUpdate.setStatus(rentStatus);
+                        rentRepository.save(rentToUpdate);
+                        return "Rent status updated successfully";
+                    }
+                    else{
+                        throw new RentServiceException("rent", "You are not the owner of this rent.");
+                    }
+                }
+            }
+            else{
+                throw new RentServiceException("rent", "Rent with given id does not exist.");
+            }
+        }
+        else{
+            throw new RentServiceException("role", "User must be an admin or owner to update a rent status.");
+        }
+    } 
+
     public List<PublicRent> getAllRents() throws RentServiceException {
         List<PublicRent> foundRents = new ArrayList<>();
         List<Rent> rents = rentRepository.findAll();  
@@ -35,7 +90,7 @@ public class RentService {
             throw new RentServiceException("rent", "There are no rents");
         }
         for (Rent rent : rents) {
-            String ownerEmail = rentRepository.findEmailByRentalCarUser(rent).getEmail();
+            String ownerEmail = rentRepository.findByRentalCarUser(rent).getEmail();
             if (ownerEmail == null) {
                 throw new RentServiceException("email", "Owner email not found");
             }

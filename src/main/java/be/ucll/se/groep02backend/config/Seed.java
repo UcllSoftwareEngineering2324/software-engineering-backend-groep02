@@ -2,7 +2,6 @@ package be.ucll.se.groep02backend.config;
 
 import java.time.LocalDate;
 
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,7 +16,6 @@ import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import be.ucll.se.groep02backend.rental.service.RentalService;
 import be.ucll.se.groep02backend.user.model.PublicUser;
-import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.model.UserInput;
 import be.ucll.se.groep02backend.user.service.UserService;
