@@ -40,51 +40,51 @@ public class BillService {
         }
     }
 
-    // Get total earnings paid
-    public double getTotalEarningsPaid(User user) throws BillServiceException {
-        double totalAmount = 0;
-        if (user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.ACCOUNTANT)) {
-            List<Bill> bills = billRepository.findAll();
-            for (Bill bill : bills) {
-                if (bill.isPaid()) {
-                    totalAmount += bill.getTotal();
-                }
-            }
-            return totalAmount;
-        } if (user.getRoles().contains(Role.OWNER)) {
-            List<Bill> bills = billRepository.findAllBillsByRenterEmailOrOwnerEmail(user.getEmail());
-            for (Bill bill : bills) {
-                if (bill.isPaid()) {
-                    totalAmount += bill.getTotal();
-                }
-            }
-            return totalAmount;
-        } else {
-            throw new BillServiceException("role", "User is not authorized to view total earnings");
-        }
-    }
+    // // Get total earnings paid
+    // public double getTotalEarningsPaid(User user) throws BillServiceException {
+    //     double totalAmount = 0;
+    //     if (user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.ACCOUNTANT)) {
+    //         List<Bill> bills = billRepository.findAll();
+    //         for (Bill bill : bills) {
+    //             if (bill.isPaid()) {
+    //                 totalAmount += bill.getTotal();
+    //             }
+    //         }
+    //         return totalAmount;
+    //     } if (user.getRoles().contains(Role.OWNER)) {
+    //         List<Bill> bills = billRepository.findAllBillsByRenterEmailOrOwnerEmail(user.getEmail());
+    //         for (Bill bill : bills) {
+    //             if (bill.isPaid()) {
+    //                 totalAmount += bill.getTotal();
+    //             }
+    //         }
+    //         return totalAmount;
+    //     } else {
+    //         throw new BillServiceException("role", "User is not authorized to view total earnings");
+    //     }
+    // }
 
-    // Get total earnings unpaid
-    public double getTotalEarningsUnPaid(User user) throws BillServiceException {
-        double totalAmount = 0;
-        if (user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.ACCOUNTANT)) {
-            List<Bill> bills = billRepository.findAll();
-            for (Bill bill : bills) {
-                if (!bill.isPaid()) {
-                    totalAmount += bill.getTotal();
-                }
-            }
-            return totalAmount;
-        } if (user.getRoles().contains(Role.OWNER)) {
-            List<Bill> bills = billRepository.findAllBillsByRenterEmailOrOwnerEmail(user.getEmail());
-            for (Bill bill : bills) {
-                if (!bill.isPaid()) {
-                    totalAmount += bill.getTotal();
-                }
-            }
-            return totalAmount;
-        } else {
-            throw new BillServiceException("role", "User is not authorized to view total unpaid earnings");
-        }
-    }
+    // // Get total earnings unpaid
+    // public double getTotalEarningsUnPaid(User user) throws BillServiceException {
+    //     double totalAmount = 0;
+    //     if (user.getRoles().contains(Role.ADMIN) || user.getRoles().contains(Role.ACCOUNTANT)) {
+    //         List<Bill> bills = billRepository.findAll();
+    //         for (Bill bill : bills) {
+    //             if (!bill.isPaid()) {
+    //                 totalAmount += bill.getTotal();
+    //             }
+    //         }
+    //         return totalAmount;
+    //     } if (user.getRoles().contains(Role.OWNER)) {
+    //         List<Bill> bills = billRepository.findAllBillsByRenterEmailOrOwnerEmail(user.getEmail());
+    //         for (Bill bill : bills) {
+    //             if (!bill.isPaid()) {
+    //                 totalAmount += bill.getTotal();
+    //             }
+    //         }
+    //         return totalAmount;
+    //     } else {
+    //         throw new BillServiceException("role", "User is not authorized to view total unpaid earnings");
+    //     }
+    // }
 }
