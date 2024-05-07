@@ -22,8 +22,4 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
 
     @Query("SELECT u FROM User u JOIN u.cars c JOIN c.rentals r  JOIN r.rents re WHERE re = :rent")
     public User findByRentalCarUser(Rent rent);
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 }
