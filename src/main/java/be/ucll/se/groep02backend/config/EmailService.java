@@ -1,29 +1,39 @@
 package be.ucll.se.groep02backend.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+
+import java.io.IOException;
+import java.util.List;
 
 @Service
 public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendEmail(String to, String subject, String body) throws MessagingException {
-    MimeMessage message = javaMailSender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+    public void sendEmailWithEmbeddedImages(String to, String subject, String htmlContent, List<String> imagePaths) throws MessagingException, IOException {
+        jakarta.mail.internet.MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-    helper.setFrom("carrentalucll@gmail.com");
-    helper.setTo(to);
-    helper.setSubject(subject);
-    helper.setText(body, true); // Set the second parameter to true to indicate HTML content
+        helper.setFrom("carrentalucll@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(subject);
 
-    javaMailSender.send(message);
-}
-    
+        // Set HTML content with embedded images
+        helper.setText(htmlContent, true);
+
+        // Add each image as an embedded resource
+        for (String imagePath : imagePaths) {
+            FileSystemResource imageResource = new FileSystemResource(imagePath);
+            helper.addInline(imageResource.getFilename(), imageResource);
+        }
+
+        // Send the email
+        javaMailSender.send(message);
+    }
 }
