@@ -312,8 +312,5 @@ public class Seed implements ApplicationRunner {
 
 
         // -------------------> Email <-------------------
-        List<String> imagePaths = List.of("https://github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/blob/61-mail-notifications/src/main/resources/img/ferr.jpg", "https://github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/blob/61-mail-notifications/src/main/resources/img/ferr.jpg", "https://github.com/UcllSoftwareEngineering2324/software-engineering-backend-groep02/blob/61-mail-notifications/src/main/resources/img/ferr.jpg");
-    emailService.sendEmailWithEmbeddedImages("recipient@example.com", "Subject", "<html><body><h1>Hello</h1><p>These are embedded images:</p><img src=\"cid:image1\"><img src=\"cid:image2\"><img src=\"cid:image3\"></body></html>", imagePaths);
-
     }
 }
