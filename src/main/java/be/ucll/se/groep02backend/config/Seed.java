@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import be.ucll.se.groep02backend.auth.AuthenticationService;
 import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.service.CarService;
+import be.ucll.se.groep02backend.config.email.EmailService;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
@@ -60,7 +61,7 @@ public class Seed implements ApplicationRunner {
         LocalDate today = LocalDate.now();
         // -------------------> Admin <-------------------
         UserInput admin1 = new UserInput();
-        admin1.setEmail("admin@ucll.com");
+        admin1.setEmail("probablyspambin@gmail.com");
         admin1.setPassword("admin1234");
         admin1.setFirstName("admin");
         admin1.setLastName("swennen");
@@ -68,14 +69,13 @@ public class Seed implements ApplicationRunner {
         admin1.setBirthDate(java.time.LocalDate.now().minusWeeks(3248));
         admin1.setNationalRegisterNumber("00.00.00-000.00");
         admin1.setLicenseNumber("0000000000");
-        admin1.setIsAdmin(true);
-        admin1.setIsAccountant(false);
         admin1.setIsOwner(false);
         admin1.setIsRenter(false);
 
         PublicUser admin1Response = authenticationService.register(admin1);
         String admin1Token = admin1Response.getToken();
         User admin_1 = userService.getUserByEmail(admin1.getEmail());
+        userService.addRole("admin", admin_1);
 
         Car car1 = new Car("Ferrari", "488 GTB", "Supercar", "IT123", (short) 2, (short) 0, false, false);
         Car car2 = new Car("Volkswagen", "Golf", "Hatchback", "DE123", (short) 5, (short) 2, true, false);
@@ -100,8 +100,6 @@ public class Seed implements ApplicationRunner {
         owner1.setNationalRegisterNumber("12.53.48-811.32");
         owner1.setLicenseNumber("4584883362");
         owner1.setIsOwner(true);
-        owner1.setIsAccountant(false);
-        owner1.setIsAdmin(false);
         owner1.setIsRenter(false);
 
         PublicUser owner1Response = authenticationService.register(owner1);
@@ -140,8 +138,6 @@ public class Seed implements ApplicationRunner {
         owner2.setNationalRegisterNumber("12.34.56-789.01"); // Assuming a fictional national register number
         owner2.setLicenseNumber("4584883362"); // Assuming a fictional license number
         owner2.setIsOwner(true);
-        owner2.setIsAccountant(false);
-        owner2.setIsAdmin(false);
         owner2.setIsRenter(false);
 
         PublicUser owner2Response = authenticationService.register(owner2);
@@ -179,7 +175,7 @@ public class Seed implements ApplicationRunner {
         
         // -------------------> Renter 1 <-------------------
         UserInput renter1 = new UserInput();
-        renter1.setEmail("renter1@ucll.com");
+        renter1.setEmail("ward.vangool@student.ucll.be");
         renter1.setPassword("admin1234");
         renter1.setFirstName("robin");
         renter1.setLastName("swennen");
@@ -188,9 +184,7 @@ public class Seed implements ApplicationRunner {
         renter1.setNationalRegisterNumber("12.53.48-811.32");
         renter1.setLicenseNumber("4584883362");
         renter1.setIsRenter(true); // Ensure isRenter is explicitly set to true
-        renter1.setIsAccountant(false);
         renter1.setIsOwner(false);
-        renter1.setIsAdmin(false);
         
         PublicUser renter1Response = authenticationService.register(renter1);
         String renter1Token = renter1Response.getToken();
@@ -216,9 +210,7 @@ public class Seed implements ApplicationRunner {
         renter2.setNationalRegisterNumber("23.45.67-890.12");
         renter2.setLicenseNumber("4584883362");
         renter2.setIsRenter(true); // Ensure isRenter is explicitly set to true
-        renter2.setIsAccountant(false);
         renter2.setIsOwner(false);
-        renter2.setIsAdmin(false);
 
         PublicUser renter2Response = authenticationService.register(renter2);
         String renter2Token = renter2Response.getToken();
@@ -235,9 +227,7 @@ public class Seed implements ApplicationRunner {
         renter3.setNationalRegisterNumber("34.56.78-901.23");
         renter3.setLicenseNumber("4584883362");
         renter3.setIsRenter(true); // Ensure isRenter is explicitly set to true
-        renter3.setIsAccountant(false);
         renter3.setIsOwner(false);
-        renter3.setIsAdmin(false);
 
         PublicUser renter3Response = authenticationService.register(renter3);
         String renter3Token = renter3Response.getToken();
@@ -254,9 +244,7 @@ public class Seed implements ApplicationRunner {
         renter4.setNationalRegisterNumber("45.67.89-012.34");
         renter4.setLicenseNumber("4584883362");
         renter4.setIsRenter(true);
-        renter4.setIsAccountant(false);
         renter4.setIsOwner(false);
-        renter4.setIsAdmin(false);
 
         PublicUser renter4Response = authenticationService.register(renter4);
         String renter4Token = renter4Response.getToken();
@@ -272,10 +260,8 @@ public class Seed implements ApplicationRunner {
         accountant1.setBirthDate(java.time.LocalDate.now().minusDays(5000));
         accountant1.setNationalRegisterNumber("56.78.90-123.45");
         accountant1.setLicenseNumber("4584883362");
-        accountant1.setIsAccountant(true);
         accountant1.setIsRenter(false);
         accountant1.setIsOwner(false);
-        accountant1.setIsAdmin(false);
 
         PublicUser accountant1Response = authenticationService.register(accountant1);
         String accountant1Token = accountant1Response.getToken();
@@ -291,10 +277,8 @@ public class Seed implements ApplicationRunner {
         accountant2.setBirthDate(java.time.LocalDate.now().minusDays(6000));
         accountant2.setNationalRegisterNumber("67.89.01-234.56");
         accountant2.setLicenseNumber("4584883362");
-        accountant2.setIsAccountant(true);
         accountant2.setIsRenter(false);
         accountant2.setIsOwner(false);
-        accountant2.setIsAdmin(false);
         
 
         PublicUser accountant2Response = authenticationService.register(accountant2);
@@ -311,6 +295,6 @@ public class Seed implements ApplicationRunner {
         System.out.println(accountant1.getEmail() + ": " + accountant1Token);
 
 
-        // -------------------> Email <-------------------
+        // -------------------> Email <-------------------        
     }
 }

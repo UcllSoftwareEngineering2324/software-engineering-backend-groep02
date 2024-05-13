@@ -1,11 +1,14 @@
 package be.ucll.se.groep02backend.auth;
 
+import java.io.IOException;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.user.service.UserService;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
+import jakarta.mail.MessagingException;
 import be.ucll.se.groep02backend.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import be.ucll.se.groep02backend.user.model.PublicUser;
@@ -20,7 +23,7 @@ public class AuthenticationService {
     private final UserService userService;
     
 
-    public PublicUser register(UserInput user) throws UserServiceException{
+    public PublicUser register(UserInput user) throws UserServiceException, MessagingException, IOException{
         User createdUser = userService.createUser(user);
         
         var jwtToken = jwtService.generateToken(createdUser);

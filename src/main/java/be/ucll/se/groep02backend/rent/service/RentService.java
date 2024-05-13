@@ -1,5 +1,6 @@
 package be.ucll.se.groep02backend.rent.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
+import be.ucll.se.groep02backend.config.email.EmailService;
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
 import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
@@ -20,6 +20,7 @@ import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
+import jakarta.mail.MessagingException;
 
 @Service
 public class RentService {
@@ -30,8 +31,10 @@ public class RentService {
     private RentalRepository rentalRepository;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private EmailService emailService;
 
-    public String updateRentStatus(RentStatus rentStatus,Long rentId, User user) throws RentServiceException {
+    public String updateRentStatus(RentStatus rentStatus,Long rentId, User user) throws RentServiceException, MessagingException, IOException {
         if(user.getRoles().contains(Role.ADMIN)){
             Rent rentToUpdate = rentRepository.findRentById(rentId);
             if (rentToUpdate != null){
@@ -44,6 +47,7 @@ public class RentService {
                 }
                 else{
                     rentToUpdate.setStatus(rentStatus);
+                    emailService.sendRenterStatusUpdateEmail(rentToUpdate.getUser(), rentStatus, rentToUpdate.getRental().getCar(), rentToUpdate.getStartDate(), rentToUpdate.getEndDate());
                     rentRepository.save(rentToUpdate);
                     return "Rent status updated successfully";
                 }
@@ -67,6 +71,7 @@ public class RentService {
                     if (rentUser.getEmail().equals(user.getEmail())) {
                         rentToUpdate.setStatus(rentStatus);
                         rentRepository.save(rentToUpdate);
+                        emailService.sendRenterStatusUpdateEmail(rentToUpdate.getUser(), rentStatus, rentToUpdate.getRental().getCar(), rentToUpdate.getStartDate(), rentToUpdate.getEndDate());
                         return "Rent status updated successfully";
                     }
                     else{
@@ -115,11 +120,6 @@ public class RentService {
         }
     }
 
-    // public void test() {
-    // rentRepository.getAllRentsByUserEmail()
-    // rentRepository.getAllRentsByRentalByCarByUserEmail()
-
-    // }
 
     public Rent checkinRent(Rent rent, Long rentalId, User user) throws RentServiceException, RentalServiceException {
         if (!user.getRoles().contains(Role.RENTER) && !user.getRoles().contains(Role.ADMIN)) {
@@ -169,25 +169,6 @@ public class RentService {
         rental.removeRent(rent);
         rentalRepository.save(rental);
         rentRepository.delete(rent);
-        return rent;
-    }
-
-    public Rent updateRentStatus(Long id, String status, User user) throws RentServiceException {
-        if (!user.getRoles().contains(Role.OWNER) && !user.getRoles().contains(Role.ADMIN)) {
-            throw new RentServiceException("role", "User must be an owner or admin to update a rent");
-        }
-        Rent rent = rentRepository.findRentById(id);
-        if (rent == null) {
-            throw new RentServiceException("id", "Rent with given id does not exist");
-        }
-        if (status.equals("confirm")) {
-            rent.setStatus(RentStatus.CONFIRMED);
-        } else if (status.equals("reject")) {
-            rent.setStatus(RentStatus.REJECTED);
-        } else {
-            throw new RentServiceException("status", "Status is not valid");
-        }
-        rentRepository.save(rent);
         return rent;
     }
 }

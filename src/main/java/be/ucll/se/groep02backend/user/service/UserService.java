@@ -1,16 +1,20 @@
 package be.ucll.se.groep02backend.user.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import be.ucll.se.groep02backend.config.email.EmailService;
 import be.ucll.se.groep02backend.user.model.PublicUser;
 import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.model.UserInput;
 import be.ucll.se.groep02backend.user.repo.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final EmailService emailService;
 
     // user objects mapped to the PUBLICUser object
     public PublicUser toPublicData(User user) {
@@ -52,7 +58,7 @@ public class UserService {
         return toPublicData(user);
     }
 
-    public User createUser(UserInput userInput) throws UserServiceException {
+    public User createUser(UserInput userInput) throws UserServiceException, MessagingException, IOException {
         Optional<User> foundOtherUser = repository.findByEmail(userInput.getEmail());
         if (foundOtherUser.isPresent()) {
             throw new UserServiceException("User", "User already exists");
@@ -67,19 +73,15 @@ public class UserService {
                 .nationalRegisterNumber(userInput.getNationalRegisterNumber())
                 .licenseNumber(userInput.getLicenseNumber())
                 .build();
-        if (userInput.getIsAdmin()) {
-            newUser.addAuthority(Role.ADMIN);
-        }
+        
         if (userInput.getIsRenter()) {
             newUser.addAuthority(Role.RENTER);
         }
         if (userInput.getIsOwner()) {
             newUser.addAuthority(Role.OWNER);
         }
-        if (userInput.getIsAccountant()) {
-            newUser.addAuthority(Role.ACCOUNTANT);
-        }
-        System.out.println("User: " + newUser);
+        
+        emailService.sendWelcomeEmail(newUser);
         return repository.save(newUser);
 
     }
