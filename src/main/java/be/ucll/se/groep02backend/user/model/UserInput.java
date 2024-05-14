@@ -31,14 +31,12 @@ public class UserInput {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @NotNull(message = "role admin is required")
-    private Boolean isAdmin;
+    
     @NotNull(message = "role renter is required")
     private Boolean isRenter;
     @NotNull(message = "role owner is required")
     private Boolean isOwner;
-    @NotNull(message = "role accountant is required")
-    private Boolean isAccountant;
+    
 
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "^(\\+\\d{1,3})?[-.\\s]?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$", message = "Invalid phone number format")
@@ -52,7 +50,7 @@ public class UserInput {
     @Pattern(regexp = "\\d{2}\\.\\d{2}\\.\\d{2}-\\d{3}\\.\\d{2}", message = "Identification number is not in the right format!")
     private String nationalRegisterNumber;
 
-    @NotBlank(message = "Driving license number is required")
+    @NotBlank(message = "license number is required")
     @Pattern(regexp = "\\d{10}", message = "Driving license number is not in the right format!")
     private String licenseNumber;
 
@@ -89,13 +87,7 @@ public class UserInput {
         this.lastName = lastName;
     }
 
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
+   
 
     public Boolean getIsRenter() {
         return isRenter;
@@ -113,15 +105,7 @@ public class UserInput {
         this.isOwner = isOwner;
     }
 
-    public Boolean getIsAccountant() {
-        return isAccountant;
-    }
-
-    public void setIsAccountant(Boolean isAccountant) {
-        this.isAccountant = isAccountant;
-    }
-
-    
+   
     
 
     public String getPhoneNumber() {

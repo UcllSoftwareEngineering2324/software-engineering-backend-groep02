@@ -1,5 +1,6 @@
 package be.ucll.se.groep02backend.rent.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,13 @@ import be.ucll.se.groep02backend.config.ApplicationConfig;
 import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.model.domain.RentCheckOutBody;
+import be.ucll.se.groep02backend.rent.model.domain.RentStatus;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -70,8 +73,8 @@ public class RentRestController {
     }
 
     @PutMapping("/status/{status}/{id}")
-    public Rent updateRentStatus(@PathVariable Long id, @PathVariable String status) throws RentServiceException, UserServiceException{
-        return rentService.updateRentStatus(id, status, ApplicationConfig.getAuthenticatedUser());
+    public String updateRentStatus(@PathVariable Long id, @PathVariable @Valid RentStatus status) throws RentServiceException, UserServiceException, MessagingException, IOException{
+        return rentService.updateRentStatus(status, id, ApplicationConfig.getAuthenticatedUser());
     }
     
 }

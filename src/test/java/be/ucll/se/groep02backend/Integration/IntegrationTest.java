@@ -27,6 +27,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -54,6 +55,14 @@ import java.util.List;
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@TestPropertySource(properties = {
+    "spring.datasource.url = jdbc:h2:file:./data/DB",
+    "spring.datasource.driverClassName=org.h2.Driver",
+    "spring.datasource.username=test",
+    "spring.datasource.password=",
+    "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect",
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+})
 public class IntegrationTest {
 
     private MockMvc mockMvc;
