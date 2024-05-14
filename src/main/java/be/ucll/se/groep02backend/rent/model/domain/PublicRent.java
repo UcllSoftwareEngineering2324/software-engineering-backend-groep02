@@ -2,9 +2,7 @@ package be.ucll.se.groep02backend.rent.model.domain;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import be.ucll.se.groep02backend.rental.model.domain.Rental;
 import lombok.AllArgsConstructor;
@@ -31,6 +29,10 @@ public class PublicRent {
 
     private RentStatus status;
 
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+    private boolean checkInStatus;
+
     private String ownerEmail;
 
     public PublicRent(Rent rent, String ownerEmail) {
@@ -40,6 +42,9 @@ public class PublicRent {
         this.startDate = rent.getStartDate();
         this.endDate = rent.getEndDate();
         this.status = rent.getStatus();
+        this.checkInDate = rent.getCheckInDate();
+        this.checkOutDate = rent.getCheckOutDate();
+        this.checkInStatus = rent.getCheckInStatus();
         this.ownerEmail = ownerEmail;
     }
 

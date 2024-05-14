@@ -52,6 +52,12 @@ public class Rent {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
+    private LocalDate checkInDate;
+
+    private LocalDate checkOutDate;
+
+    private boolean checkInStatus;
+
     private RentStatus status;
 
     public Rent() {
@@ -69,6 +75,7 @@ public class Rent {
         this.status = status;
         this.user = user;
         this.rental = rental;
+        this.checkInStatus = false;
     }
 
     // Getters
@@ -84,6 +91,18 @@ public class Rent {
         return this.status;
     }
 
+    public LocalDate getCheckInDate() {
+        return this.checkInDate;
+    }
+
+    public LocalDate getCheckOutDate() {
+        return this.checkOutDate;
+    }
+
+    public boolean getCheckInStatus() {
+        return this.checkInStatus;
+    }
+
     // Setters
     public void setStartDate(LocalDate starDate) {
         this.startDate = starDate;
@@ -95,6 +114,18 @@ public class Rent {
 
     public void setStatus(RentStatus status) {
         this.status = status;
+    }
+
+    public void setCheckInDate(LocalDate date) {
+        this.checkInDate = date;
+    }
+
+    public void setCheckOutDate(LocalDate date) {
+        this.checkOutDate = date;
+    }
+
+    public void setCheckInStatus(boolean status) {
+        this.checkInStatus = status;
     }
 
     public Rental getRental() {

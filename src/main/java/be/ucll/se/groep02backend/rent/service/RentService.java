@@ -1,14 +1,17 @@
 package be.ucll.se.groep02backend.rent.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.config.email.EmailService;
+import be.ucll.se.groep02backend.bill.model.Bill;
+import be.ucll.se.groep02backend.bill.repo.BillRepository;
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
 import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
@@ -33,6 +36,9 @@ public class RentService {
     private NotificationService notificationService;
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private BillRepository billRepository;
 
     public String updateRentStatus(RentStatus rentStatus,Long rentId, User user) throws RentServiceException, MessagingException, IOException {
         if(user.getRoles().contains(Role.ADMIN)){
@@ -169,6 +175,76 @@ public class RentService {
         rental.removeRent(rent);
         rentalRepository.save(rental);
         rentRepository.delete(rent);
+        return rent;
+    }
+
+    public Rent updateRentStatus(Long id, String status, User user) throws RentServiceException {
+        if (!user.getRoles().contains(Role.OWNER) && !user.getRoles().contains(Role.ADMIN)) {
+            throw new RentServiceException("role", "User must be an owner or admin to update a rent");
+        }
+        Rent rent = rentRepository.findRentById(id);
+        if (rent == null) {
+            throw new RentServiceException("id", "Rent with given id does not exist");
+        }
+        if (status.equals("confirm")) {
+            rent.setStatus(RentStatus.CONFIRMED);
+        } else if (status.equals("reject")) {
+            rent.setStatus(RentStatus.REJECTED);
+        } else {
+            throw new RentServiceException("status", "Status is not valid");
+        }
+        rentRepository.save(rent);
+        return rent;
+    }
+
+    // Check in rent
+    public Rent checkIn(Long id, User user) throws RentServiceException {
+        Rent rent = rentRepository.findRentById(id);
+
+        if (rent == null) {
+            throw new RentServiceException("rent", "Rent with given id does not exist");
+        } else {
+            if (rent.getStatus().equals(RentStatus.PENDING)) {
+                rent.setCheckInDate(LocalDate.now());
+                rent.setCheckInStatus(true);
+                rentRepository.save(rent);
+            } else {
+                throw new RentServiceException("rent", "Cannot check in rent");
+            }
+    
+            return rent;
+        }
+    }
+
+    // Check out rent
+    public Rent checkOut(Long id, User user, double distance, int fuelValue) throws RentServiceException {
+        Rent rent = rentRepository.findRentById(id);
+
+        if (rent == null) {
+            throw new RentServiceException("rent", "Rent with given id does not exist");
+        } 
+        
+        if (rent.getCheckInStatus() == true) {
+            rent.setCheckOutDate(LocalDate.now());
+            
+            Long days = ChronoUnit.DAYS.between(rent.getCheckInDate(), rent.getCheckOutDate());
+            double total = 0;
+
+            if (fuelValue < 90) {
+                total = rent.getRental().getBasePrice() + (rent.getRental().getPricePerKm() * distance) + (rent.getRental().getPricePerDay() * days) + rent.getRental().getFuelPenaltyPrice();
+            } else {
+                total = rent.getRental().getBasePrice() + (rent.getRental().getPricePerKm() * distance) + (rent.getRental().getPricePerDay() * days);
+            }
+
+            Bill bill = new Bill(rent.getUser().getEmail(), rent.getCar().getUser().getEmail(), rent.getRental().getCar().getBrand(), rent.getRental().getCar().getModel(), rent.getRental().getCar().getLicensePlate(), distance, days, fuelValue, total);
+
+            rentRepository.save(rent);
+            billRepository.save(bill);
+
+        } else {
+            throw new RentServiceException("rent", "Cannot check out rent");
+        }
+
         return rent;
     }
 }

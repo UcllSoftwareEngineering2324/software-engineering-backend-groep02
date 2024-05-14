@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.se.groep02backend.config.ApplicationConfig;
-import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
+import be.ucll.se.groep02backend.rent.model.domain.RentCheckOutBody;
 import be.ucll.se.groep02backend.rent.model.domain.RentStatus;
 import be.ucll.se.groep02backend.rent.service.RentService;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
@@ -50,7 +50,16 @@ public class RentRestController {
     public List<Rent> getRentsByEmail(@RequestParam String email) throws RentServiceException, UserServiceException{
         return rentService.getRentsByEmail(email, ApplicationConfig.getAuthenticatedUser());
     }
-    
+
+    @PutMapping("/checkIn/")
+    public Rent checkInRent(@RequestParam("rentId") Long rentId) throws RentServiceException, UserServiceException {
+        return rentService.checkIn(rentId, ApplicationConfig.getAuthenticatedUser());
+    }
+
+    @PutMapping("/checkOut/")
+    public Rent checkOutRent(@RequestParam("rentId") Long rentId, @RequestBody @Valid RentCheckOutBody body) throws RentServiceException {
+        return rentService.checkOut(rentId, null, body.getDistance(), body.getFuelLevel());
+    }
     
     @PostMapping("/add/{rentalId}")
     public Rent checkInRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)
