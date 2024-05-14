@@ -38,15 +38,5 @@ public class BillRestController {
     public Bill setBillPaid(@RequestParam("id") Long id) throws UserServiceException, BillServiceException {
         return billService.setBillPaid(id, ApplicationConfig.getAuthenticatedUser());
     }
-
-    // @GetMapping("/total/paid/")
-    // public double getTotalEarnings() throws UserServiceException, BillServiceException {
-    //     return billService.getTotalEarningsPaid(ApplicationConfig.getAuthenticatedUser());
-    // }
-
-    // @GetMapping("/total/unpaid/")
-    // public double getTotalUnpaidEarnings() throws UserServiceException, BillServiceException {
-    //     return billService.getTotalEarningsUnPaid(ApplicationConfig.getAuthenticatedUser());
-    // }
     
 }
