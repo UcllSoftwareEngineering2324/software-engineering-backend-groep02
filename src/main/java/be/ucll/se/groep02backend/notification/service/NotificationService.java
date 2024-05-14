@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import be.ucll.se.groep02backend.notification.model.Notification;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import be.ucll.se.groep02backend.rent.model.domain.PublicRent;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
 import be.ucll.se.groep02backend.rent.model.domain.RentStatus;
 import be.ucll.se.groep02backend.rent.repo.RentRepository;
-import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.user.model.Role;
 import be.ucll.se.groep02backend.user.model.User;
 import be.ucll.se.groep02backend.user.repo.UserRepository;
@@ -79,26 +77,6 @@ public class NotificationService {
         
         return publicNotifications;
     }
-
-    
-
-    // public List<PublicNotification> getAdminNotifications(User user) throws NotificationServiceException {
-    //     List<PublicNotification> publicNotifications = new ArrayList<>();
-    //     if (user.getRoles().contains(Role.OWNER)) {
-    //         List<Notification> notifications = notificationRepository.findNotificationsByRentRentalCarUser(user);
-    //         for (Notification notification : notifications) {
-    //             PublicNotification publicNotification = new PublicNotification(
-    //                     notification.getId(),
-    //                     new PublicRent(notification.getRent(), user.getEmail()),
-    //                     notification.getOwnerViewed());
-    //             publicNotifications.add(publicNotification);
-    //         }
-    //         return publicNotifications;
-    //     } else {
-    //         throw new NotificationServiceException("role",
-    //                 "User must be an owner to view the notifications in getOwnerNotifications. (renters should use the other endpoint)");
-    //     }
-    // }
 
     public Notification addNotification(Rent rent) {
         Notification notification = new Notification(
