@@ -125,7 +125,7 @@ public class EmailService {
     }
 
     
-    public void sendOwnerEmailWhenNewRent(User user, Car car, String renterName)
+    public void sendOwnerEmailWhenNewRent(User owner, Car car, User renter)
             throws MessagingException, IOException {
         MimeMessage message = javaMailSender.createMimeMessage();
 
@@ -136,13 +136,13 @@ public class EmailService {
         String greyContend = "";
 
         message.setFrom("carrentalucll@gmail.com");
-        message.setRecipients(RecipientType.TO, user.getEmail());
+        message.setRecipients(RecipientType.TO, owner.getEmail());
 
         message.setSubject("New rent request for your car!");
 
         buttonLink = baseURL;
         welcome = "New rent request for your car!";
-        content = "You have received a new rent request for your car: " + car.getBrand() + " " +  car.getModel() + " from: " + renterName + ". Please check the platform to approve or decline the request.";
+        content = "You have received a new rent request for your car: " + car.getBrand() + " " +  car.getModel() + " from: " + renter.getFirstName() + ". Please check the platform to confirm or reject the request.";
         buttonText = "View rent request";
         greyContend = "If you have any questions, feel free to contact us.";
 

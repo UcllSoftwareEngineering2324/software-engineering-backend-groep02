@@ -127,7 +127,7 @@ public class RentService {
     }
 
 
-    public Rent checkinRent(Rent rent, Long rentalId, User user) throws RentServiceException, RentalServiceException {
+    public Rent addRent(Rent rent, Long rentalId, User user) throws RentServiceException, RentalServiceException, MessagingException, IOException {
         if (!user.getRoles().contains(Role.RENTER) && !user.getRoles().contains(Role.ADMIN)) {
             throw new RentServiceException("role", "User must be a renter or admin to rent a car");
         }
@@ -158,14 +158,18 @@ public class RentService {
         rent.setRental(rental);
         rentRepository.save(rent);
         notificationService.addNotification(rent);
+        emailService.sendOwnerEmailWhenNewRent(rent.getCar().getUser(), rent.getCar(), user);
         return rent;
     }
 
-    public Rent checkoutRent(Long id, User user) throws RentServiceException, NotificationServiceException {
+    public Rent deleteRent(Long id, User user) throws RentServiceException, NotificationServiceException {
         if (!user.getRoles().contains(Role.RENTER) && !user.getRoles().contains(Role.ADMIN)) {
             throw new RentServiceException("role", "User must be a renter or admin to delete a rent");
         }
         Rent rent = rentRepository.findRentByIdAndUserEmail(id, user.getEmail());
+        if (user.getRoles().contains(Role.ADMIN)) {
+            rent = rentRepository.findRentById(id);
+        }
         if (rent == null) {
             throw new RentServiceException("id",
             "Rent with given id does not exist or insufficient rights to delete given rent");
@@ -204,7 +208,7 @@ public class RentService {
         if (rent == null) {
             throw new RentServiceException("rent", "Rent with given id does not exist");
         } else {
-            if (rent.getStatus().equals(RentStatus.PENDING)) {
+            if (rent.getStatus().equals(RentStatus.CONFIRMED)) {
                 rent.setCheckInDate(LocalDate.now());
                 rent.setCheckInStatus(true);
                 rentRepository.save(rent);

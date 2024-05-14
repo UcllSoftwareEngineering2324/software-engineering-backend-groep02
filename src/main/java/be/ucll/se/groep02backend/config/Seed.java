@@ -33,7 +33,6 @@ public class Seed implements ApplicationRunner {
     private RentService rentService;
     private EmailService emailService;
 
-
     @Override
     public void run(ApplicationArguments args) {
         // Add your startup logic here
@@ -48,7 +47,8 @@ public class Seed implements ApplicationRunner {
     }
 
     @Autowired
-    public void seed(AuthenticationService authenticationService, UserService userService, CarService carService, RentalService rentalService, RentService rentService, EmailService emailService) {
+    public void seed(AuthenticationService authenticationService, UserService userService, CarService carService,
+            RentalService rentalService, RentService rentService, EmailService emailService) {
         this.authenticationService = authenticationService;
         this.userService = userService;
         this.carService = carService;
@@ -61,7 +61,7 @@ public class Seed implements ApplicationRunner {
         LocalDate today = LocalDate.now();
         // -------------------> Admin <-------------------
         UserInput admin1 = new UserInput();
-        admin1.setEmail("probablyspambin@gmail.com");
+        admin1.setEmail("admin1@ucll.com");
         admin1.setPassword("admin1234");
         admin1.setFirstName("admin");
         admin1.setLastName("swennen");
@@ -82,12 +82,13 @@ public class Seed implements ApplicationRunner {
         carService.addCar(car1, admin_1);
         carService.addCar(car2, admin_1);
 
-        Rental rental1 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Misery street", 13, 3000, "Leuven",(float) 100,(float) 1,(float) 20,(float) 80);
-        Rental rental2 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Misery street", 14, 3000, "Leuven",(float)100, (float)1, (float)21, (float)80);
+        Rental rental1 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Misery street", 13, 3000,
+                "Leuven", (float) 100, (float) 1, (float) 20, (float) 80);
+        Rental rental2 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Misery street", 14, 3000,
+                "Leuven", (float) 100, (float) 1, (float) 21, (float) 80);
 
         rentalService.addRental(rental1, car1.id, admin_1);
         rentalService.addRental(rental2, car2.id, admin_1);
-
 
         // -------------------> Owner 1 <-------------------
         UserInput owner1 = new UserInput();
@@ -116,11 +117,16 @@ public class Seed implements ApplicationRunner {
         carService.addCar(car16, owner_1);
         carService.addCar(car17, owner_1);
 
-        Rental rental3 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000, "Brussels", (float) 120, (float) 8, (float) 25, (float) 100);
-        Rental rental4 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000, "Antwerp", (float) 90, (float) 7, (float) 22, (float)90);
-        Rental rental5 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500, "Ghent", (float) 80, (float) 5, (float) 20, (float) 80);
-        Rental rental6 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800, "Bruges", (float) 100, (float) 6, (float) 23, (float) 90);
-        Rental rental7 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(5), "Snowy street", 15, 1200, "Hasselt", (float) 110, (float) 9, (float) 24, (float) 100);
+        Rental rental3 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000,
+                "Brussels", (float) 120, (float) 8, (float) 25, (float) 100);
+        Rental rental4 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000,
+                "Antwerp", (float) 90, (float) 7, (float) 22, (float) 90);
+        Rental rental5 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500,
+                "Ghent", (float) 80, (float) 5, (float) 20, (float) 80);
+        Rental rental6 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800,
+                "Bruges", (float) 100, (float) 6, (float) 23, (float) 90);
+        Rental rental7 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(5), "Snowy street", 15, 1200,
+                "Hasselt", (float) 110, (float) 9, (float) 24, (float) 100);
         rentalService.addRental(rental3, car3.id, owner_1);
         rentalService.addRental(rental4, car4.id, owner_1);
         rentalService.addRental(rental5, car5.id, owner_1);
@@ -164,15 +170,19 @@ public class Seed implements ApplicationRunner {
         carService.addCar(car14, owner_2);
         carService.addCar(car15, owner_2);
 
-        Rental rental8 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000, "Brussels", (float) 120, (float) 8, (float) 25, (float) 100);
-        Rental rental9 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000, "Antwerp", (float) 90, (float) 7, (float) 22, (float) 90);
-        Rental rental10 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500, "Ghent", (float) 80, (float) 5, (float) 20, (float) 80);
-        Rental rental11 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800, "Bruges", (float) 100, (float) 6, (float) 23, (float) 90);
+        Rental rental8 = new Rental(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5), "Happy street", 22, 2000,
+                "Brussels", (float) 120, (float) 8, (float) 25, (float) 100);
+        Rental rental9 = new Rental(LocalDate.now().plusDays(2), LocalDate.now().plusDays(7), "Sunny street", 8, 1000,
+                "Antwerp", (float) 90, (float) 7, (float) 22, (float) 90);
+        Rental rental10 = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Rainy street", 5, 500,
+                "Ghent", (float) 80, (float) 5, (float) 20, (float) 80);
+        Rental rental11 = new Rental(LocalDate.now().plusDays(4), LocalDate.now().plusDays(9), "Cloudy street", 10, 800,
+                "Bruges", (float) 100, (float) 6, (float) 23, (float) 90);
         rentalService.addRental(rental8, car6.id, owner_2);
         rentalService.addRental(rental9, car7.id, owner_2);
         rentalService.addRental(rental10, car8.id, owner_2);
         rentalService.addRental(rental11, car9.id, owner_2);
-        
+
         // -------------------> Renter 1 <-------------------
         UserInput renter1 = new UserInput();
         renter1.setEmail("ward.vangool@student.ucll.be");
@@ -185,7 +195,7 @@ public class Seed implements ApplicationRunner {
         renter1.setLicenseNumber("4584883362");
         renter1.setIsRenter(true); // Ensure isRenter is explicitly set to true
         renter1.setIsOwner(false);
-        
+
         PublicUser renter1Response = authenticationService.register(renter1);
         String renter1Token = renter1Response.getToken();
         User renter_1 = userService.getUserByEmail(renter1.getEmail());
@@ -193,11 +203,10 @@ public class Seed implements ApplicationRunner {
         Rent rent2 = new Rent(LocalDate.now().plusDays(2), LocalDate.now().plusDays(4));
         Rent rent3 = new Rent(LocalDate.now().plusDays(1), LocalDate.now().plusDays(2));
         Rent rent4 = new Rent(LocalDate.now().plusDays(3), LocalDate.now().plusDays(5));
-        rentService.checkinRent(rent1, rental1.id, renter_1);
-        rentService.checkinRent(rent2, rental9.id, renter_1);
-        rentService.checkinRent(rent3, rental10.id, renter_1);
-        rentService.checkinRent(rent4, rental3.id, renter_1);
-
+        rentService.addRent(rent1, rental1.id, renter_1);
+        rentService.addRent(rent2, rental9.id, renter_1);
+        rentService.addRent(rent3, rental10.id, renter_1);
+        rentService.addRent(rent4, rental3.id, renter_1);
 
         // -------------------> Renter 2 <-------------------
         UserInput renter2 = new UserInput();
@@ -279,7 +288,6 @@ public class Seed implements ApplicationRunner {
         accountant2.setLicenseNumber("4584883362");
         accountant2.setIsRenter(false);
         accountant2.setIsOwner(false);
-        
 
         PublicUser accountant2Response = authenticationService.register(accountant2);
         String accountant2Token = accountant2Response.getToken();
@@ -294,7 +302,6 @@ public class Seed implements ApplicationRunner {
         System.out.println("<------------------------------------>");
         System.out.println(accountant1.getEmail() + ": " + accountant1Token);
 
-
-        // -------------------> Email <-------------------        
+        // -------------------> Email <-------------------
     }
 }

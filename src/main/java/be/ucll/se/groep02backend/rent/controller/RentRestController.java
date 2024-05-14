@@ -62,14 +62,14 @@ public class RentRestController {
     }
     
     @PostMapping("/add/{rentalId}")
-    public Rent checkInRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)
-            throws RentServiceException, RentalServiceException, UserServiceException {
-        return rentService.checkinRent(rent, rentalId, ApplicationConfig.getAuthenticatedUser());
+    public Rent addRent(@RequestBody @Valid Rent rent, @PathVariable("rentalId") Long rentalId)
+            throws RentServiceException, RentalServiceException, UserServiceException, MessagingException, IOException {
+        return rentService.addRent(rent, rentalId, ApplicationConfig.getAuthenticatedUser());
     }
 
     @DeleteMapping("/delete/")
     public Rent deleteRent(@RequestParam("rentId") Long rentId) throws RentServiceException, UserServiceException, NotificationServiceException {
-        return rentService.checkoutRent(rentId, ApplicationConfig.getAuthenticatedUser());
+        return rentService.deleteRent(rentId, ApplicationConfig.getAuthenticatedUser());
     }
 
     @PutMapping("/status/{status}/{id}")

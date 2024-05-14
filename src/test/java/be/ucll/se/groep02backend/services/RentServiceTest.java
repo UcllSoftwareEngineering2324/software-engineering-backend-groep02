@@ -144,12 +144,12 @@ public class RentServiceTest {
     }
 
     @Test
-    public void givenUserNotRenterOrAdmin_whenCheckinRent_ThenErrorIsThrown() {
+    public void givenUserNotRenterOrAdmin_whenaddRent_ThenErrorIsThrown() {
         // given
         userOne.addAuthority(Role.ACCOUNTANT); 
 
         // when
-        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.checkinRent(rentOne, 1L, userOne));
+        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.addRent(rentOne, 1L, userOne));
 
         // then
         assertEquals("role", ex.getField());  
@@ -157,9 +157,9 @@ public class RentServiceTest {
     }
 
     @Test
-    public void givenRentalNotExist_whenCheckinRent_ThenErrorIsThrown() {
+    public void givenRentalNotExist_whenaddRent_ThenErrorIsThrown() {
         // when
-        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.checkinRent(rentOne, 1L, userOne));
+        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.addRent(rentOne, 1L, userOne));
 
         // then
         assertEquals("role", ex.getField());  
@@ -167,14 +167,14 @@ public class RentServiceTest {
     }
 
     @Test
-    public void givenRentStartDateBeforeRentalStartDate_whenCheckinRent_ThenErrorIsThrown() {
+    public void givenRentStartDateBeforeRentalStartDate_whenaddRent_ThenErrorIsThrown() {
         // given
         Rental rental = new Rental(LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), "Main Street", 123, 1234, "Cityville", 100.0f, 0.5f, 10.0f, 50.0f);
         lenient().when(rentalRepository.findRentalById(1L)).thenReturn(rental);
         userOne.addAuthority(Role.ADMIN);
 
         // when
-        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.checkinRent(rentOne, 1L, userOne));
+        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.addRent(rentOne, 1L, userOne));
 
         // then
         assertEquals("startDate", ex.getField());  
@@ -182,7 +182,7 @@ public class RentServiceTest {
     }
 
     @Test
-    public void givenRentOverlapsWithExistingRents_whenCheckinRent_ThenErrorIsThrown() {
+    public void givenRentOverlapsWithExistingRents_whenaddRent_ThenErrorIsThrown() {
         // given
         Rental rental = new Rental(LocalDate.now(), LocalDate.now().plusDays(10), "Main Street", 123, 1234, "Cityville", 100.0f, 0.5f, 10.0f, 50.0f);
         rental.addRent(new Rent(2, carOne, rentalOne, LocalDate.now().plusDays(3), LocalDate.now().plusDays(6), RentStatus.PENDING, userOne));
@@ -190,7 +190,7 @@ public class RentServiceTest {
         userOne.addAuthority(Role.ADMIN);
 
         // when
-        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.checkinRent(rentOne, 1L, userOne));
+        RentServiceException ex = Assertions.assertThrows(RentServiceException.class, () -> rentService.addRent(rentOne, 1L, userOne));
 
         // then
         assertEquals("rent", ex.getField());  
@@ -203,7 +203,7 @@ public class RentServiceTest {
         Long rentId = 1L;
 
         // when
-        RentServiceException ex = assertThrows(RentServiceException.class, () -> rentService.checkoutRent(rentId, userOne));
+        RentServiceException ex = assertThrows(RentServiceException.class, () -> rentService.deleteRent(rentId, userOne));
 
         // then
         assertEquals("role", ex.getField());  
@@ -217,7 +217,7 @@ public class RentServiceTest {
         when(rentRepository.findRentByIdAndUserEmail(rentId, userOne.getEmail())).thenReturn(null);
         userOne.addAuthority(Role.ADMIN);
         // when
-        RentServiceException ex = assertThrows(RentServiceException.class, () -> rentService.checkoutRent(rentId, userOne));
+        RentServiceException ex = assertThrows(RentServiceException.class, () -> rentService.deleteRent(rentId, userOne));
 
         // then
         assertEquals("id", ex.getField());  
