@@ -135,6 +135,11 @@
         <version>7.14.0</version> 
         <scope>test</scope>
     </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
 </dependencies>
 
 <build>
@@ -151,7 +156,37 @@
 					</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+            <configuration>
+                <testSourceDirectory>src/test/java/bdd</testSourceDirectory>
+                <trimStackTrace>false</trimStackTrace>
+                <testFailureIgnore>true</testFailureIgnore>
+            </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.trivago.rta</groupId>
+                <artifactId>cluecumber-report-plugin</artifactId>
+                <version>2.7.0</version>
+                <executions>
+                <execution>
+                <id>report</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                <goal>reporting</goal>
+                </goals>
+                </execution>
+                </executions>
+                <configuration>
+                <sourceJsonReportDirectory>${project.build.directory}/cucumber-report</sourceJsonReportDirectory>
+                <generatedHtmlReportDirectory>${project.build.directory}/test-report</generatedHtmlReportDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 
     <distributionManagement>
