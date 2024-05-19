@@ -66,11 +66,11 @@ public class RentalServiceTest {
                 .licenseNumber("1234567890")
                 .build();
 
-    private Car carOne = new Car("Ferrari", "488 GTB", "Super Car", "IT123", (short) 2, (short) 0, false, false);
-    private Car carTwo = new Car("Audi", "A4", "Brake", "IT123", (short) 2, (short) 0, false, false);
+    private Car carOne = new Car("Ferrari", "488 GTB", "Super Car", "IT123", (short) 2, (short) 0, false, false, userOne);
+    private Car carTwo = new Car("Audi", "A4", "Brake", "IT123", (short) 2, (short) 0, false, false, userOne);
 
-    Rental rentalOne = new Rental(LocalDate.now(), LocalDate.now().plusDays(5), "Main Street", 123, 1234, "Cityville", 100.0f, 0.5f, 10.0f, 50.0f);
-    Rental rentalTwo = new Rental(LocalDate.now(), LocalDate.now().plusDays(7), "Park Avenue", 456, 5678, "Townsville", 150.0f, 0.7f, 15.0f, 60.0f);
+    Rental rentalOne = new Rental(LocalDate.now(), LocalDate.now().plusDays(5), "Main Street", 123, 1234, "Cityville", 100.0f, 0.5f, 10.0f, 50.0f, carOne);
+    Rental rentalTwo = new Rental(LocalDate.now(), LocalDate.now().plusDays(7), "Park Avenue", 456, 5678, "Townsville", 150.0f, 0.7f, 15.0f, 60.0f, carTwo);
 
     Rent rentOne = new Rent(1, carTwo, rentalOne, LocalDate.now(), LocalDate.now().plusDays(5), RentStatus.PENDING, userOne);
     Rent rentTwo = new Rent(2, carOne, rentalTwo, LocalDate.now(), LocalDate.now().plusDays(7), RentStatus.PENDING, userOne);
@@ -191,10 +191,10 @@ public class RentalServiceTest {
     @Test
     public void givenEmailFilter_whenSearchingRentals_thenReturnsRentalsForUser() throws RentalServiceException, CarServiceException {
         // given
-        String userEmail = "user@example.com";
+        String userEmail = "johndoe@example.com";
         SearchRentals search = new SearchRentals();
         search.SetEmail(userEmail);
-        when(carRepository.findAllCarsByUserEmail(userEmail)).thenReturn(List.of(carOne));
+        lenient().when(carRepository.findAllCarsByUserEmail(userEmail)).thenReturn(List.of(carOne));
         when(rentalRepository.findRentalsByCriteria(null, null, null)).thenReturn(List.of(rentalOne));
         carOne.addRental(rentalOne);
 
@@ -209,11 +209,11 @@ public class RentalServiceTest {
     @Test
     public void givenBrandFilter_whenSearchingRentals_thenReturnsRentalsForBrand() throws RentalServiceException, CarServiceException {
         // given
-        String brand = "Toyota";
+        String brand = "Ferrari";
         SearchRentals search = new SearchRentals();
         search.setBrand(brand);
-        when(carRepository.existsByBrand(brand)).thenReturn(true);
-        when(carRepository.findAllCarsByBrand(brand)).thenReturn(List.of(carOne));
+        lenient().when(carRepository.existsByBrand(brand)).thenReturn(true);
+        lenient().when(carRepository.findAllCarsByBrand(brand)).thenReturn(List.of(carOne));
         when(rentalRepository.findRentalsByCriteria(null, null, null)).thenReturn(List.of(rentalOne, rentalTwo));
         carOne.addRental(rentalOne);
 

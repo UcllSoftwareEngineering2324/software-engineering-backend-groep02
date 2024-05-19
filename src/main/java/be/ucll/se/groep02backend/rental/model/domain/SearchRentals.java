@@ -9,6 +9,11 @@ public class SearchRentals {
     private LocalDate endDate;
     private String brand;
     private String city;
+    private boolean foldingRearSeat = false;
+    private short numberOfChildSeats;
+    private short numberOfSeats;
+    private boolean towBar = false;
+    private String type;
 
     public String getEmail() {
         return this.email;
@@ -30,6 +35,26 @@ public class SearchRentals {
         return this.city;
     }
 
+    public boolean getFoldingRearSeat() {
+        return this.foldingRearSeat;
+    }
+
+    public short getNumberOfChildSeats() {
+        return this.numberOfChildSeats;
+    }
+
+    public short getNumberOfSeats() {
+        return this.numberOfSeats;
+    }
+
+    public boolean getTowBar() {
+        return this.towBar;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
     public void SetEmail(String email) {
         this.email = email;
     }
@@ -48,5 +73,25 @@ public class SearchRentals {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public void setFoldingRearSeat(boolean foldingRearSeat) {
+        this.foldingRearSeat = foldingRearSeat;
+    }
+
+    public void setNumberOfChildSeats(short numberOfChildSeats) {
+        this.numberOfChildSeats = numberOfChildSeats;
+    }
+
+    public void setNumberOfSeats(short numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
+
+    public void setTowBar(boolean towBar) {
+        this.towBar = towBar;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

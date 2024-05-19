@@ -95,6 +95,20 @@ public class Rental {
         setPricePerDay(pricePerDay);
     }
 
+    public Rental(LocalDate startDate, LocalDate endDate, String street, int streetNumber, int postal, String city, Float basePrice, Float pricePerKm, Float fuelPenaltyPrice, Float pricePerDay, Car car) {
+        setStartDate(startDate);
+        setEndDate(endDate);
+        setStreet(street);
+        setStreetNumber(streetNumber);
+        setPostal(postal);
+        setCity(city);
+        setBasePrice(basePrice);
+        setPricePerKm(pricePerKm);
+        setFuelPenaltyPrice(fuelPenaltyPrice);
+        setPricePerDay(pricePerDay);
+        setCar(car);
+    }
+
     // Getters 
     public LocalDate getStartDate() {
         return this.startDate;

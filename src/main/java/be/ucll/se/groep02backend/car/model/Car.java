@@ -71,6 +71,19 @@ public class Car {
         setTowBar(towBar);
     }
 
+    public Car(String brand, String model, String type, String licensePlate, short numberOfSeats,
+            short numberOfChildSeats, boolean foldingRearSeat, boolean towBar, User user) {
+        setBrand(brand);
+        setModel(model);
+        setType(type);
+        setLicensePlate(licensePlate);
+        setNumberOfSeats(numberOfSeats);
+        setNumberOfChildSeats(numberOfChildSeats);
+        setFoldingRearSeat(foldingRearSeat);
+        setTowBar(towBar);
+        setUser(user);
+    }
+
     // Getters
     public User getUser() {
         return this.user;

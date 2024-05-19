@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,45 +80,53 @@ public class RentalService {
 
     public List<Rental> searchRentals(SearchRentals search) throws RentalServiceException, CarServiceException {
         List<Rental> foundRentals = rentalRepository.findRentalsByCriteria(search.getStartDate(), search.getEnddate(), search.getCity());
-        List<Rental> betweenfinalRentals = new ArrayList<>();
+        // List<Rental> betweenfinalRentals = new ArrayList<>();
         List<Rental> finalRentals = new ArrayList<>();
 
-        if (search.getEmail() != null) {
-            List<Car> cars = carRepository.findAllCarsByUserEmail(search.getEmail());
-
-            for (Rental rental: foundRentals) {
-                for (Car car: cars) {
-                    if (car.getRentals().contains(rental)) {
-                        betweenfinalRentals.add(rental);
-                    }
-                }
-            }
-        } else {
-            betweenfinalRentals.addAll(foundRentals);
-        }
- 
-        if (search.getBrand() != null) {
-            if (!carRepository.existsByBrand(search.getBrand())) {
-                return finalRentals;
-            }
-            List<Car> cars = carRepository.findAllCarsByBrand(search.getBrand());
-
-            for (Rental rental: betweenfinalRentals) {
-                for (Car car: cars) {
-                    if (car.getRentals().contains(rental)) {
-                        finalRentals.add(rental);
-                    }
-                }
-            }
-        } else {
-            finalRentals.addAll(foundRentals);
-        }
+        finalRentals = foundRentals.stream().filter(rental -> search.getEmail() == null || rental.getCar().getUser().getEmail().equals(search.getEmail())).filter(rental -> search.getBrand() == null || rental.getCar().getBrand().equals(search.getBrand())).filter(rental -> search.getFoldingRearSeat() == false || rental.getCar().getFoldingRearSeat() == search.getFoldingRearSeat()).filter(rental -> search.getNumberOfChildSeats() == 0 || rental.getCar().getNumberOfChildSeats() == search.getNumberOfChildSeats()).filter(rental -> search.getNumberOfSeats() == 0 || rental.getCar().getNumberOfSeats() == search.getNumberOfSeats()).filter(rental -> search.getTowBar() == false || rental.getCar().getTowBar() == search.getTowBar()).filter(rental -> search.getType() == null || rental.getCar().getType().equals(search.getType())).collect(Collectors.toList());
 
         if (finalRentals.isEmpty()) {
             throw new RentalServiceException("rental", "There are no rentals for given specifications!");
-        } 
+        }
 
         return finalRentals;
+
+        // if (search.getEmail() != null) {
+        //     List<Car> cars = carRepository.findAllCarsByUserEmail(search.getEmail());
+
+        //     for (Rental rental: foundRentals) {
+        //         for (Car car: cars) {
+        //             if (car.getRentals().contains(rental)) {
+        //                 betweenfinalRentals.add(rental);
+        //             }
+        //         }
+        //     }
+        // } else {
+        //     betweenfinalRentals.addAll(foundRentals);
+        // }
+ 
+        // if (search.getBrand() != null) {
+        //     if (!carRepository.existsByBrand(search.getBrand())) {
+        //         return finalRentals;
+        //     }
+        //     List<Car> cars = carRepository.findAllCarsByBrand(search.getBrand());
+
+        //     for (Rental rental: betweenfinalRentals) {
+        //         for (Car car: cars) {
+        //             if (car.getRentals().contains(rental)) {
+        //                 finalRentals.add(rental);
+        //             }
+        //         }
+        //     }
+        // } else {
+        //     finalRentals.addAll(foundRentals);
+        // }
+
+        // if (finalRentals.isEmpty()) {
+        //     throw new RentalServiceException("rental", "There are no rentals for given specifications!");
+        // } 
+
+        // return finalRentals;
         
     }
 
