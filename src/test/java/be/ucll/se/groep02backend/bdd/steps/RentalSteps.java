@@ -51,23 +51,23 @@ public class RentalSteps {
 
     @When("I want to get all cars")
     public void i_want_to_get_all_cars() {
-        // response = client.post()
-        // .uri("/register")
-        // .bodyValue("""
-        // {
-        //     "email": "example@matteo.com",
-        //     "password": "securePassword123",
-        //     "firstName": "John",
-        //     "lastName": "Doe",
-        //     "isRenter": true,
-        //     "isOwner": false,
-        //     "phoneNumber": "1234567890",
-        //     "birthDate": "1990-01-01",
-        //     "nationalRegisterNumber": "90.01.01-123.45",
-        //     "licenseNumber": "1234567890"
-        // }
-        // """)
-        // .exchange();
+        response = client.post()
+        .uri("/register")
+        .bodyValue("""
+        {
+            "email": "example@matteo.com",
+            "password": "securePassword123",
+            "firstName": "John",
+            "lastName": "Doe",
+            "isRenter": true,
+            "isOwner": false,
+            "phoneNumber": "1234567890",
+            "birthDate": "1990-01-01",
+            "nationalRegisterNumber": "90.01.01-123.45",
+            "licenseNumber": "1234567890"
+        }
+        """)
+        .exchange();
 
         
         // String responseBody = registerResponse.returnResult(String.class).getResponseBody().blockFirst();
