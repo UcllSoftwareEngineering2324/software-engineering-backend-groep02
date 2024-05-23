@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-public class httpTest {
+public class CarIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -22,45 +22,6 @@ public class httpTest {
 
     private String token;
     private WebTestClient.ResponseSpec response;
-
-    @Test
-    public void rentalTest(){
-        WebTestClient.ResponseSpec registerResponse = client.post()
-        .uri("/register")
-        .header("Content-Type", "application/json")
-        .bodyValue("""
-        {
-            "email": "example@matteo.com",
-            "password": "securePassword123",
-            "firstName": "John",
-            "lastName": "Doe",
-            "isRenter": true,
-            "isOwner": false,
-            "phoneNumber": "1234567890",
-            "birthDate": "1990-01-01",
-            "nationalRegisterNumber": "90.01.01-123.45",
-            "licenseNumber": "1234567890"
-        }
-        """)
-        .exchange()
-        .expectStatus()
-        .isOk();
-
-        String responseBody = registerResponse.returnResult(String.class).getResponseBody().blockFirst();
-        try {
-            JsonNode jsonNode = objectMapper.readTree(responseBody);
-            token = jsonNode.get("token").asText();
-        } catch (Exception e) {
-            System.out.println("Test");
-        }
-
-        response = client.get()
-                .uri("/rental")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .exchange()
-                .expectStatus()
-                .isOk();
-    }
     
     @Test
     public void getAllCarTest(){
@@ -152,4 +113,43 @@ public class httpTest {
                 .expectStatus()
                 .isOk();
     }
+
+    // @Test
+    // public void deleteCarTest(){
+    //     WebTestClient.ResponseSpec registerResponse = client.post()
+    //     .uri("/register")
+    //     .header("Content-Type", "application/json")
+    //     .bodyValue("""
+    //     {
+    //         "email": "stijn@alexander.com",
+    //         "password": "blabla123",
+    //         "firstName": "Stijn",
+    //         "lastName": "Alexander",
+    //         "isRenter": false,
+    //         "isOwner": true,
+    //         "phoneNumber": "7890123456",
+    //         "birthDate": "1997-01-01",
+    //         "nationalRegisterNumber": "80.01.01-123.45",
+    //         "licenseNumber": "7890123456"
+    //     }
+    //     """)
+    //     .exchange()
+    //     .expectStatus()
+    //     .isOk();
+
+    //     String responseBody = registerResponse.returnResult(String.class).getResponseBody().blockFirst();
+    //     try {
+    //         JsonNode jsonNode = objectMapper.readTree(responseBody);
+    //         token = jsonNode.get("token").asText();
+    //     } catch (Exception e) {
+    //         System.out.println("Test");
+    //     }
+
+    //     response = client.delete()
+    //             .uri("/car/delete/1")
+    //             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+    //             .exchange()
+    //             .expectStatus()
+    //             .isOk();
+    // }
 }
