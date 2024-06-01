@@ -175,7 +175,7 @@ public class Seed implements ApplicationRunner {
         
         // -------------------> Renter 1 <-------------------
         UserInput renter1 = new UserInput();
-        renter1.setEmail("ward.vangool@student.ucll.be");
+        renter1.setEmail("renter1@ucll.com");
         renter1.setPassword("admin1234");
         renter1.setFirstName("robin");
         renter1.setLastName("swennen");
