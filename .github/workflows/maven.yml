@@ -57,7 +57,7 @@ jobs:
 
       - name: Build and deploy
         run: |
-          mvn install -DskipTests
+          mvn install -Dmaven.test.skip=true
           mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
