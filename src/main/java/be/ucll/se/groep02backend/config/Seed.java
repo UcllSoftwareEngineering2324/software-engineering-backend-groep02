@@ -275,6 +275,7 @@ public class Seed implements ApplicationRunner {
         PublicUser accountant1Response = authenticationService.register(accountant1);
         String accountant1Token = accountant1Response.getToken();
         User accountant_1 = userService.getUserByEmail(accountant1.getEmail());
+        userService.addRole("accountant", accountant_1);
 
         // -------------------> Accountant 2 <-------------------
         UserInput accountant2 = new UserInput();

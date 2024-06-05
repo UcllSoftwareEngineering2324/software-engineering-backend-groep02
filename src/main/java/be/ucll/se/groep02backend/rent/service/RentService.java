@@ -208,7 +208,7 @@ public class RentService {
         if (rent == null) {
             throw new RentServiceException("rent", "Rent with given id does not exist");
         } else {
-            if (rent.getStatus().equals(RentStatus.CONFIRMED)) {
+            if (rent.getStatus().equals(RentStatus.PENDING)) {
                 rent.setCheckInDate(LocalDate.now());
                 rent.setCheckInStatus(true);
                 rentRepository.save(rent);
