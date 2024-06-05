@@ -20,7 +20,7 @@ import jakarta.validation.ValidatorFactory;
 
 public class RentTest {
 
-    private LocalDate validStartDate = LocalDate.parse("2024-06-01");
+    private LocalDate validStartDate = LocalDate.parse("2024-06-20");
     private LocalDate validEndDate = LocalDate.parse("2024-07-23");
 
     private Rent rentOne;
