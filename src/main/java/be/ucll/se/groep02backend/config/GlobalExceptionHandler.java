@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import be.ucll.se.groep02backend.bill.service.BillServiceException;
 import be.ucll.se.groep02backend.car.service.CarServiceException;
+import be.ucll.se.groep02backend.complaint.service.ComplaintServiceException;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
 import be.ucll.se.groep02backend.rent.service.RentServiceException;
 import be.ucll.se.groep02backend.rental.service.RentalServiceException;
@@ -52,6 +53,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ BillServiceException.class })
     public Map<String, String> handleUserServiceException(BillServiceException ex) {
+        return createErrorResponse(ex.getField(), ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ ComplaintServiceException.class })
+    public Map<String, String> handleUserServiceException(ComplaintServiceException ex) {
         return createErrorResponse(ex.getField(), ex.getMessage());
     }
 
