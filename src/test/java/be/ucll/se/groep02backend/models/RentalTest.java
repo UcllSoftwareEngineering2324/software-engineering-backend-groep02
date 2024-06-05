@@ -20,7 +20,7 @@ import jakarta.validation.ValidatorFactory;
 
 public class RentalTest {
 
-    private LocalDate  validStartDate = LocalDate.parse("2024-05-23");
+    private LocalDate  validStartDate = LocalDate.parse("2024-06-01");
     private LocalDate  validEndDate = LocalDate.parse("2024-07-23");
     private String validStreet = "Steenlaan";
     private int validStreetNumber = 10;
@@ -121,7 +121,7 @@ public class RentalTest {
     @Test
     public void givenEndDateNotInFuture_whenRentalIsCreated_thenEndDateViolationMessageIsThrown() {
         // when
-        LocalDate inValidEndDate = LocalDate.parse("2023-05-23");
+        LocalDate inValidEndDate = LocalDate.parse("2024-05-23");
         Rental rent = new Rental(validStartDate, inValidEndDate, validStreet, validStreetNumber, validPostal, validCity, validBasePrice, validPricePerKm, validFuelPenaltyPrice, validPricePerDay);
 
         // then

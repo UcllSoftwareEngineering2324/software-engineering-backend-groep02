@@ -67,7 +67,7 @@ public class RentalServiceTest {
                 .build();
 
     private Car carOne = new Car("Ferrari", "488 GTB", "Super Car", "IT123", (short) 2, (short) 0, false, false, userOne);
-    private Car carTwo = new Car("Audi", "A4", "Brake", "IT123", (short) 2, (short) 0, false, false, userOne);
+    private Car carTwo = new Car("Audi", "A4", "Brake", "IT123",  (short) 2,  (short) 0, false, false, userOne);
 
     Rental rentalOne = new Rental(LocalDate.now(), LocalDate.now().plusDays(5), "Main Street", 123, 1234, "Cityville", 100.0f, 0.5f, 10.0f, 50.0f, carOne);
     Rental rentalTwo = new Rental(LocalDate.now(), LocalDate.now().plusDays(7), "Park Avenue", 456, 5678, "Townsville", 150.0f, 0.7f, 15.0f, 60.0f, carTwo);
