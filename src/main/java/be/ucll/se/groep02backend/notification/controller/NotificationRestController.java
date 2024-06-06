@@ -24,8 +24,6 @@ import be.ucll.se.groep02backend.notification.service.PublicNotification;
 import be.ucll.se.groep02backend.user.service.UserServiceException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
-
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Notification")
 @RestController
@@ -34,31 +32,21 @@ public class NotificationRestController {
     @Autowired
     private NotificationService notificationService;
 
-    
-    
     @GetMapping()
-    public List<PublicNotification> getMethodName() throws NotificationServiceException, UserServiceException{
+    public List<PublicNotification> getMethodName() throws NotificationServiceException, UserServiceException {
         return notificationService.getAllNotifications(ApplicationConfig.getAuthenticatedUser());
     }
 
-    
-
-
-    
-
     @PutMapping("/viewed/owner/{notificationId}")
-    public String viewedNotificationOwner(@PathVariable("notificationId") Long notificationId) throws NotificationServiceException, UserServiceException {
+    public String viewedNotificationOwner(@PathVariable("notificationId") Long notificationId)
+            throws NotificationServiceException, UserServiceException {
         return notificationService.ownerViewed(notificationId, ApplicationConfig.getAuthenticatedUser());
     }
+
     @PutMapping("/viewed/renter/{notificationId}")
-    public String viewedNotificationRenter(@PathVariable("notificationId") Long notificationId) throws NotificationServiceException, UserServiceException {
+    public String viewedNotificationRenter(@PathVariable("notificationId") Long notificationId)
+            throws NotificationServiceException, UserServiceException {
         return notificationService.renterViewed(notificationId, ApplicationConfig.getAuthenticatedUser());
     }
 
-    
-    
-    
-    
-
-    
 }
