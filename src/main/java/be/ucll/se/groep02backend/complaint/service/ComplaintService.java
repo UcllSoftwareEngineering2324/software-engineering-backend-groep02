@@ -27,8 +27,8 @@ public class ComplaintService {
         if (user.getRoles().contains(Role.ADMIN)) {
             return complaintRepository.findAll();
         } else {
-            throw new ComplaintServiceException("complaint", "You are not an admin.");
-        }
+            return complaintRepository.findBySenderEmail(user.getEmail());
+        } 
     }
 
     public Complaint addComplaint(Complaint complaint) throws ComplaintServiceException {

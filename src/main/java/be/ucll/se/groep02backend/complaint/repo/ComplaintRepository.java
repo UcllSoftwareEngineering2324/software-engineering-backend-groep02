@@ -10,4 +10,5 @@ import be.ucll.se.groep02backend.complaint.model.Complaint;
 public interface ComplaintRepository extends JpaRepository<Complaint, Long>{
     public List<Complaint> findAll();
     public Optional<Complaint> findById(Long id);
+    public List<Complaint> findBySenderEmail(String senderEmail);
 } 
