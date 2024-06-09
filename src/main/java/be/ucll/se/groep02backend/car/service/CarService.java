@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import be.ucll.se.groep02backend.car.model.Car;
 import be.ucll.se.groep02backend.car.repo.CarRepository;
-import be.ucll.se.groep02backend.notification.model.Notification;
 import be.ucll.se.groep02backend.notification.service.NotificationService;
 import be.ucll.se.groep02backend.notification.service.NotificationServiceException;
 import be.ucll.se.groep02backend.rent.model.domain.Rent;
