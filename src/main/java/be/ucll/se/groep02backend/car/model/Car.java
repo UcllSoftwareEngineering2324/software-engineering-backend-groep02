@@ -33,7 +33,6 @@ public class Car {
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
-    @JsonManagedReference
     private User user;
 
     @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
