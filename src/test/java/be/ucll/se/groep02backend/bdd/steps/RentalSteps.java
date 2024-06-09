@@ -57,7 +57,7 @@ public class RentalSteps {
             JsonNode jsonNode = objectMapper.readTree(responseBody);
             token = jsonNode.get("token").asText();
         } catch (Exception e) {
-            System.out.println("Something whent wrong in the setup");
+            System.out.println("Somethin whent wrong in the setup");
         }
     }
 
