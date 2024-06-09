@@ -12,6 +12,7 @@ import be.ucll.se.groep02backend.rental.repo.RentalRepository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
 
 import io.cucumber.java.Before;
@@ -20,7 +21,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 
-@CucumberContextConfiguration
 @SpringBootTest(classes = Groep02BackendApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class RentalSteps {
     @Autowired
@@ -38,14 +38,28 @@ public class RentalSteps {
     private Rental rental = new Rental();
 
     @Before
-    public void setup(){
+    public void setup(){}
+
+    @Given("some rentals")
+    public void some_rentals() {       
+    }
+    @When("the user requests all rentals")
+    public void the_user_requests_all_rentals() {
         WebTestClient.ResponseSpec registerResponse = client.post()
-        .uri("/authenticate")
+        .uri("/register")
         .header("Content-Type", "application/json")
         .bodyValue("""
         {
-            "email": "renter1@ucll.com",
-            "password": "Admin1234"
+            "email": "test@matteo.com",
+            "password": "securePassword123",
+            "firstName": "John",
+            "lastName": "Doe",
+            "isRenter": true,
+            "isOwner": false,
+            "phoneNumber": "1234567890",
+            "birthDate": "1990-01-01",
+            "nationalRegisterNumber": "90.01.01-123.45",
+            "licenseNumber": "1234567890"
         }
         """)
         .exchange()
@@ -57,18 +71,11 @@ public class RentalSteps {
             JsonNode jsonNode = objectMapper.readTree(responseBody);
             token = jsonNode.get("token").asText();
         } catch (Exception e) {
-            System.out.println("Somethin whent wrong in the setup");
+            System.out.println("Test");
         }
-    }
 
-    @Given("some rentals")
-    public void some_rentals() {
-        rentalRepository.save(rental);        
-    }
-    @When("the user requests all rentals")
-    public void the_user_requests_all_rentals() {
         response = client.get()
-        .uri("/rentals")
+        .uri("/rental")
         .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
         .exchange();
     }
